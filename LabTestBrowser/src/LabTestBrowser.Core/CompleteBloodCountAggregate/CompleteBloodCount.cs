@@ -1,0 +1,36 @@
+﻿namespace LabTestBrowser.Core.CompleteBloodCountAggregate;
+
+public class CompleteBloodCount : EntityBase, IAggregateRoot
+{
+	public LabTestResult? WhiteBloodCell { get; private set; }
+	public LabTestResult? Lymphocyte { get; private set; }
+	public LabTestResult? MonocytePercent { get; private set; }
+	public LabTestResult? NeutrophilPercent { get; private set; }
+	public LabTestResult? EosinophilPercent { get; private set; }
+	public LabTestResult? BasophilPercent { get; private set; }
+	public LabTestResult? RedBloodCell { get; private set; }
+	public LabTestResult? Hemoglobin { get; private set; }
+	public LabTestResult? Hematocrit { get; private set; }
+	public LabTestResult? MeanCorpuscularVolume { get; private set; }
+	public LabTestResult? MeanCorpuscularHemoglobin { get; private set; }
+	public LabTestResult? MeanCorpuscularHemoglobinConcentration { get; private set; }
+	public LabTestResult? RedBloodCellDistributionWidth { get; private set; }
+	public LabTestResult? Platelet { get; private set; }
+	public LabTestResult? MeanPlateletVolume { get; private set; }
+
+	public void SetWhiteBloodCell(string value) => WhiteBloodCell = new LabTestResult(value);
+	public void SetLymphocyte(string value) => Lymphocyte = new LabTestResult(value);
+	public void SetMonocytePercent(string value) => MonocytePercent = new LabTestResult(value);
+	public void SetNeutrophilPercent(string value) => NeutrophilPercent = new LabTestResult(value);
+	public void SetEosinophilPercent(string value) => EosinophilPercent = new LabTestResult(value);
+	public void SetBasophilPercent(string value) => BasophilPercent = new LabTestResult(value);
+	public void SetRedBloodCell(string value) => RedBloodCell = new LabTestResult(value);
+	public void SetHemoglobin(string value) => Hemoglobin = new LabTestResult(value);
+	public void SetHematocrit(string value) => Hematocrit = new LabTestResult(value);
+	public void SetMeanCorpuscularVolume(string value) => MeanCorpuscularVolume = new LabTestResult(value);
+	public void SetMeanCorpuscularHemoglobin(string value) => MeanCorpuscularHemoglobin = new LabTestResult(value);
+	public void SetMeanCorpuscularHemoglobinConcentration(string value) => MeanCorpuscularHemoglobinConcentration = new LabTestResult(value);
+	public void SetRedBloodCellDistributionWidth(string value) => RedBloodCellDistributionWidth = new LabTestResult(value);
+	public void SetPlatelet(string value) => Platelet = new LabTestResult(value);
+	public void SetMeanPlateletVolume(string value) => MeanPlateletVolume = new LabTestResult(value);
+}
