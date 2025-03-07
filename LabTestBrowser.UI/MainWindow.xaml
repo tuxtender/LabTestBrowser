@@ -1,12 +1,19 @@
 ﻿<Window x:Class="LabTestBrowser.UI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LabTestBrowser.UI"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:ui="http://schemas.modernwpf.com/2019"
+		xmlns:local="clr-namespace:LabTestBrowser.UI"
+		mc:Ignorable="d"
+		SizeToContent="WidthAndHeight"
+		Title="MainWindow">
+	<StackPanel>
+		<local:LabReportCommandBar />
+		<WrapPanel Orientation="Horizontal">
+			<local:LabRequisitionControl Padding="5, 0"
+								  DataContext="{Binding Patient}" />
+			<local:LabTestResultsControl Padding="5, 0" />
+		</WrapPanel>
+	</StackPanel>
 </Window>

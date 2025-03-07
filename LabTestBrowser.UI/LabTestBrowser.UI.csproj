@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="ModernWpfUI" Version="0.9.6" />
 	  <PackageReference Include="Wpf.Extensions.Hosting" Version="1.2.0" />
 	</ItemGroup>
 
