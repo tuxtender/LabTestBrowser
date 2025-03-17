@@ -10,20 +10,14 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Ardalis.Result" />
-	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="9.0.0" />
-	  <PackageReference Include="MediatR" Version="12.4.1" />
+	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" />
+	  <PackageReference Include="MediatR" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="ModernWpfUI" Version="0.9.6" />
-	  <PackageReference Include="Serilog" />
-	  <PackageReference Include="Serilog.Extensions.Hosting" />
-	  <PackageReference Include="Serilog.Extensions.Logging" />
-	  <PackageReference Include="Serilog.Settings.Configuration" />
-	  <PackageReference Include="Serilog.Sinks.Console" />
-	  <PackageReference Include="Serilog.Sinks.File" />
-	  <PackageReference Include="Wpf.Extensions.Hosting" Version="1.2.0" />
+	  <PackageReference Include="ModernWpfUI" />
+	  <PackageReference Include="Wpf.Extensions.Hosting" />
 	</ItemGroup>
 
 	<ItemGroup>

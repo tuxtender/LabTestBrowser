@@ -38,5 +38,8 @@
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageVersion Include="xunit" Version="2.9.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0-pre.49" />
+    <PackageVersion Include="AsyncAwaitBestPractices.MVVM" Version="9.0.0" />
+    <PackageVersion Include="ModernWpfUI" Version="0.9.6" />
+    <PackageVersion Include="Wpf.Extensions.Hosting" Version="1.2.0" />
   </ItemGroup>
 </Project>
