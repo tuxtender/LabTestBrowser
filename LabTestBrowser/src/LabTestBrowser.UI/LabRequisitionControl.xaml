@@ -6,7 +6,9 @@
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 mc:Ignorable="d"
-			 d:DataContext="">
+			 d:DataContext="{d:DesignInstance Type=local:LabRequisitionViewModel, IsDesignTimeCreatable=False}" 
+			 
+			 >
 
 	<GroupBox Header="Образец">
 
@@ -44,12 +46,12 @@
 					  ui:ControlHelper.Header="Животное"
 					  Width="200" />
 
-			<ui:AutoSuggestBox Text="{Binding PetOwnerName, Mode=TwoWay}"
+			<ui:AutoSuggestBox Text="{Binding PetOwner, Mode=TwoWay}"
 							   Width="200"
 							   ui:ControlHelper.Header="Владелец" />
 
 
-			<ui:AutoSuggestBox Text="{Binding PetName, Mode=TwoWay}"
+			<ui:AutoSuggestBox Text="{Binding Nickname, Mode=TwoWay}"
 							   Width="200"
 							   ui:ControlHelper.Header="Имя питомца" />
 
