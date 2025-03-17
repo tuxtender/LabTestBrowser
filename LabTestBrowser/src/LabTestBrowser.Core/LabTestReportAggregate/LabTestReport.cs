@@ -1,14 +1,22 @@
 ﻿namespace LabTestBrowser.Core.LabTestReportAggregate;
 
-public class LabTestReport(Specimen specimen, SpecimenCollectionCenter specimenCollectionCenter, Patient patient)
+public class LabTestReport
 	: EntityBase, IAggregateRoot
 {
-	public Specimen Specimen { get; private set; } = Guard.Against.Null(specimen, nameof(specimen));
+	public LabTestReport(Specimen specimen, SpecimenCollectionCenter specimenCollectionCenter, Patient patient)
+	{
+		Specimen = specimen;
+		SpecimenCollectionCenter = specimenCollectionCenter;
+		Patient = patient;
+	}
+	
+	private LabTestReport() { }
 
-	public SpecimenCollectionCenter SpecimenCollectionCenter { get; private set; } =
-		Guard.Against.Null(specimenCollectionCenter, nameof(specimenCollectionCenter));
+	public Specimen Specimen { get; private set; } = null!;
 
-	public Patient Patient { get; private set; } = Guard.Against.Null(patient, nameof(patient));
+	public SpecimenCollectionCenter SpecimenCollectionCenter { get; private set; } = null!;
+
+	public Patient Patient { get; private set; } = null!;
 
 	public int? CompleteBloodCountId { get; private set; }
 
