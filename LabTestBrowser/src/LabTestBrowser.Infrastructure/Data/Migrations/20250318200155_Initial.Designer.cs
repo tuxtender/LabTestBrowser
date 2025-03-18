@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LabTestBrowser.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250317195100_Initial")]
+    [Migration("20250318200155_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
