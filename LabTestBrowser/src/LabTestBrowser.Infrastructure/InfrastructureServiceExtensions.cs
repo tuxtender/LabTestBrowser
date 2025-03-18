@@ -10,7 +10,9 @@ public static class InfrastructureServiceExtensions
 {
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
 		ConfigurationManager config,
-		ILogger logger)
+		
+		ILogger logger
+		)
 	{
 		string? connectionString = config.GetConnectionString("SqliteConnection");
 		Guard.Against.Null(connectionString);
@@ -22,7 +24,7 @@ public static class InfrastructureServiceExtensions
 			.AddScoped<IListContributorsQueryService, ListContributorsQueryService>()
 			.AddScoped<IDeleteContributorService, DeleteContributorService>();
 
-		logger.LogInformation("{Project} services registered", "Infrastructure");
+		// logger.LogInformation("{Project} services registered", "Infrastructure");
 
 		return services;
 	}
