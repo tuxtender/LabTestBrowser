@@ -11,6 +11,7 @@
 				<ui:XamlControlsResources />
 			</ResourceDictionary.MergedDictionaries>
 			<converters:AgeConverter x:Key="AgeConverter" />
+			<converters:DateConverter x:Key="DateConverter" />
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>
