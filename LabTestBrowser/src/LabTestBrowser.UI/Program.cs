@@ -22,6 +22,7 @@ builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
 
 builder.Services.AddSingleton<LabReportViewModel>();
+builder.Services.AddHostedService<RecoverDatabaseBackgroundService>();
 
 // Build and run the application.
 var app = builder.Build();
