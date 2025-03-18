@@ -1,11 +1,11 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 
-public class GetEmptyLabTestReportHandler(ILabTestReportQueryService query)
+public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 	: IQueryHandler<GetEmptyLabTestReportQuery, Result<LabTestReportDTO>>
 {
 	public async Task<Result<LabTestReportDTO>> Handle(GetEmptyLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var report = await query.FindLastLabTestReportAsync(request.Date);
+		var report = await _query.FindLastLabTestReportAsync(request.Date);
 
 		if (report == null)
 			return new LabTestReportDTO

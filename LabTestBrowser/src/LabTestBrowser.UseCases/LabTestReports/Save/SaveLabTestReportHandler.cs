@@ -3,15 +3,8 @@ using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
 
 namespace LabTestBrowser.UseCases.LabTestReports.Save;
 
-public class SaveLabTestReportHandler : ICommandHandler<SaveLabTestReportCommand, Result<int>>
+public class SaveLabTestReportHandler(IRepository<LabTestReport> _repository) : ICommandHandler<SaveLabTestReportCommand, Result<int>>
 {
-	private readonly IRepository<LabTestReport> _repository;
-
-	public SaveLabTestReportHandler(IRepository<LabTestReport> repository)
-	{
-		_repository = repository;
-	}
-
 	public async Task<Result<int>> Handle(SaveLabTestReportCommand request, CancellationToken cancellationToken)
 	{
 		var specimen = new Specimen(request.Specimen, request.Date);
