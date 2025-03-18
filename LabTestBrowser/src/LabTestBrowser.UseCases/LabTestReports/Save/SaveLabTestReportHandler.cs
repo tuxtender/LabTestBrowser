@@ -14,10 +14,10 @@ public class SaveLabTestReportHandler : ICommandHandler<SaveLabTestReportCommand
 
 	public async Task<Result<int>> Handle(SaveLabTestReportCommand request, CancellationToken cancellationToken)
 	{
-		var specimen = new Specimen(request.SequentialNumber, request.Date);
+		var specimen = new Specimen(request.Specimen, request.Date);
 		var specimenCollectionCenter = new SpecimenCollectionCenter(request.Facility!, request.TradeName!);
 		var age = Age.Create(request.AgeInYears, request.AgeInMonths, request.AgeInDays);
-		var patient = Patient.Create(request.Animal!, age, request.HealthcareProxy, request.Name, request.Category, request.Breed);
+		var patient = Patient.Create(request.Animal!, age, request.PetOwner, request.Nickname, request.Category, request.Breed);
 
 		var labTestReport = new LabTestReport(specimen, specimenCollectionCenter, patient);
 		var spec = new LabTestReportByIdSpec(request.Id);
