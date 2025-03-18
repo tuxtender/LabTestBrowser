@@ -5,6 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
+			 d:DataContext="{d:DesignInstance Type=local:LabReportViewModel, IsDesignTimeCreatable=False}" 
 			 mc:Ignorable="d">
 	<ui:CommandBar>
 		<ui:AppBarButton Icon="Back"
@@ -12,9 +13,10 @@
 		<ui:AppBarButton Icon="Forward"
 						 Label="Вперед" />
 		<ui:AppBarButton Icon="Add"
-						 Command="{Binding ClearCommand}"
+						 Command="{Binding  Path=NewCommand}"
 						 Label="Новый" />
 		<ui:AppBarButton Icon="Save"
+						 Command="{Binding  Path=SaveCommand}"
 						 Label="Сохранить" />
 	</ui:CommandBar>
 </UserControl>

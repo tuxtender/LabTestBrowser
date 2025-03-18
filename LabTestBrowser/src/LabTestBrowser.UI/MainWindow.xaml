@@ -6,13 +6,14 @@
 		xmlns:ui="http://schemas.modernwpf.com/2019"
 		xmlns:local="clr-namespace:LabTestBrowser.UI"
 		mc:Ignorable="d"
+		d:DataContext="{d:DesignInstance Type=local:LabReportViewModel, IsDesignTimeCreatable=False}" 
 		SizeToContent="WidthAndHeight"
 		Title="MainWindow">
 	<StackPanel>
 		<local:LabReportCommandBar />
 		<WrapPanel Orientation="Horizontal">
 			<local:LabRequisitionControl Padding="5, 0"
-								  DataContext="{Binding Patient}" />
+										 DataContext="{Binding Path= LabRequisition }" />
 			<local:LabTestResultsControl Padding="5, 0" />
 		</WrapPanel>
 	</StackPanel>

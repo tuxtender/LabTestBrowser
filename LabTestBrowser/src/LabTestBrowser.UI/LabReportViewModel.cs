@@ -1,5 +1,8 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
-using LabTestBrowser.UseCases.LabTestReports.GetAvailable;
+using LabTestBrowser.UseCases.Contributors.Get;
+using LabTestBrowser.UseCases.LabTestReports;
+using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
+using LabTestBrowser.UseCases.LabTestReports.Save;
 using MediatR;
 
 namespace LabTestBrowser.UI;
@@ -8,18 +11,23 @@ public class LabReportViewModel : BaseViewModel
 {
 	private readonly IMediator _mediator;
 
-	private readonly LabRequisitionViewModel _labRequisitionViewModel;
+	private readonly  LabRequisitionViewModel _labRequisition;
 
 	public LabReportViewModel(IMediator mediator)
 	{
 		_mediator = mediator;
 
 		NewCommand = new AsyncCommand(Create);
-		_labRequisitionViewModel = new LabRequisitionViewModel();
+		SaveCommand = new AsyncCommand(Save);
+		_labRequisition = new LabRequisitionViewModel();
 	}
 
+	public LabRequisitionViewModel LabRequisition { get => _labRequisition;}
+
 	public AsyncCommand NewCommand { get; private set; }
-	// public AsyncCommand SaveCommand { get; private set; }
+
+	public AsyncCommand SaveCommand { get; private set; }
+
 	// public AsyncCommand PreviousCommand { get; private set; }
 	// public AsyncCommand NextCommand { get; private set; }
 
@@ -27,9 +35,31 @@ public class LabReportViewModel : BaseViewModel
 	{
 		var date = DateOnly.FromDateTime(DateTime.Now);
 
-		var getAvailableLabTestReportQuery = new GetAvailableLabTestReportQuery(date);
-		var result = await _mediator.Send(getAvailableLabTestReportQuery);
+		var getEmptyLabTestReportQuery = new GetEmptyLabTestReportQuery(date);
+		var result = await _mediator.Send(getEmptyLabTestReportQuery);
+		_labRequisition.SetLabRequisition(result.Value);
+	}
 
-		_labRequisitionViewModel.SetLabRequisition(result.Value);
+	private async Task Save()
+	{
+		var labRequisition = new LabTestReportDTO();
+		
+		var saveLabTestReportCommand = new SaveLabTestReportCommand
+			{
+				Specimen = _labRequisition.Specimen,
+				Date = _labRequisition.Date,
+				Facility = _labRequisition.Facility,
+				TradeName = _labRequisition.TradeName,
+				PetOwner = _labRequisition.PetOwner,
+				Nickname = _labRequisition.Nickname,
+				Animal = _labRequisition.Animal,
+				Category = _labRequisition.Category,
+				Breed = _labRequisition.Breed,
+				AgeInYears = _labRequisition.AgeInYears,
+				AgeInMonths = _labRequisition.AgeInMonths,
+				AgeInDays = _labRequisition.AgeInDays
+			};
+		
+		var result = await _mediator.Send(saveLabTestReportCommand);
 	}
 }

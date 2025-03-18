@@ -21,6 +21,8 @@ var appLogger = new SerilogLoggerFactory(logger)
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
 
+builder.Services.AddSingleton<LabReportViewModel>();
+
 // Build and run the application.
 var app = builder.Build();
 await app.RunAsync();
