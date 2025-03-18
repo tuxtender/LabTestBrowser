@@ -6,36 +6,34 @@
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 mc:Ignorable="d"
-			 d:DataContext="{d:DesignInstance Type=local:LabRequisitionViewModel, IsDesignTimeCreatable=False}" 
-			 
-			 >
+			 d:DataContext="{d:DesignInstance Type=local:LabRequisitionViewModel, IsDesignTimeCreatable=False}">
 
 	<GroupBox Header="Образец">
 
 		<StackPanel>
 			<DatePicker HorizontalAlignment="Left"
 						Width="200"
-						SelectedDate="{Binding Date, Mode=TwoWay}"
+						SelectedDate="{Binding Date, Converter={StaticResource DateConverter}}"
 						ui:ControlHelper.Header="Дата обследования"
 						ui:ControlHelper.PlaceholderText="Выбрать дату" />
 
 			<ui:NumberBox Header="Номер образца"
 						  Width="200"
-						  Value="1"
+						  Value="{Binding Specimen, Mode=TwoWay}"
 						  Minimum="1"
 						  Maximum="1000" />
 
 			<ComboBox IsEditable="True"
 					  HorizontalAlignment="Left"
-					  ItemsSource="{Binding VeterinaryFacilities}"
-					  Text="{Binding VeterinaryFacility}"
+					  ItemsSource="{Binding Facilities}"
+					  Text="{Binding Facility}"
 					  ui:ControlHelper.Header="Организация"
 					  Width="200" />
 
 			<ComboBox IsEditable="True"
 					  HorizontalAlignment="Left"
-					  ItemsSource="{Binding FacilityTrademarks}"
-					  Text="{Binding FacilityTrademark}"
+					  ItemsSource="{Binding TradeNames}"
+					  Text="{Binding TradeName}"
 					  ui:ControlHelper.Header="Торговое название"
 					  Width="200" />
 
@@ -64,7 +62,7 @@
 			<ComboBox IsEditable="True"
 					  HorizontalAlignment="Left"
 					  ItemsSource="{Binding Сategories, Mode=TwoWay}"
-					  Text="{Binding Сategory}"
+					  Text="{Binding Category}"
 					  ui:ControlHelper.Header="Категория"
 					  Width="200" />
 
