@@ -1,7 +1,6 @@
 ﻿using LabTestBrowser.Core.Interfaces;
 using LabTestBrowser.Infrastructure;
 using LabTestBrowser.Infrastructure.Email;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LabTestBrowser.UI.Configurations;
 
@@ -11,7 +10,7 @@ public static class ServiceConfigs
 		ILogger logger,
 		WpfApplicationBuilder<App, MainWindow> builder)
 	{
-		services.AddInfrastructureServices(builder.Configuration, NullLogger.Instance)
+		services.AddInfrastructureServices(builder.Configuration, logger)
 			.AddMediatrConfigs();
 
 		if (builder.Environment.IsDevelopment())
