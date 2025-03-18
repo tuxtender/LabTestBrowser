@@ -1,7 +1,7 @@
-﻿using LabTestBrowser.UI;
-using LabTestBrowser.UI.Configurations;
-using Serilog;
+﻿using Serilog;
 using Serilog.Extensions.Logging;
+using LabTestBrowser.UI;
+using LabTestBrowser.UI.Configurations;
 
 // Create a builder by specifying the application and main window.
 var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
