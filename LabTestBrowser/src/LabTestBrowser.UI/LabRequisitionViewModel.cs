@@ -4,6 +4,7 @@ namespace LabTestBrowser.UI;
 
 public class LabRequisitionViewModel : BaseViewModel
 {
+	private int _id;
 	private DateOnly _date;
 	private int _specimen;
 
@@ -94,6 +95,7 @@ public class LabRequisitionViewModel : BaseViewModel
 
 	public void SetLabRequisition(LabTestReportDTO report) 
 	{
+		_id = report.Id;
 		Date = report.Date;
 		Specimen = report.SequentialNumber;
 		Facility = report.Facility;

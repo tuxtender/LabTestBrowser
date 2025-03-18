@@ -2,6 +2,7 @@
 
 public record LabTestReportDTO
 {
+	public int Id { get; init; }
 	public int SequentialNumber { get; init; }
 	public DateOnly Date { get; init; }
 	public string? Facility { get; init; }

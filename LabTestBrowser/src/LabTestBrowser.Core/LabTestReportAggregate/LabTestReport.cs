@@ -20,5 +20,8 @@ public class LabTestReport
 
 	public int? CompleteBloodCountId { get; private set; }
 
+	public void SetSpecimenCollectionCenter(SpecimenCollectionCenter collectionCenter) => SpecimenCollectionCenter = collectionCenter;
+
+	public void SetPatient(Patient patient) => Patient = patient;
 	public void SetCompleteBloodCount(int completeBloodCountId) => CompleteBloodCountId = completeBloodCountId;
 }

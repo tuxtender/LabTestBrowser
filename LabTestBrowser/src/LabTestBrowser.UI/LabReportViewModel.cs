@@ -1,6 +1,4 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
-using LabTestBrowser.UseCases.Contributors.Get;
-using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.Save;
 using MediatR;
@@ -20,6 +18,8 @@ public class LabReportViewModel : BaseViewModel
 		NewCommand = new AsyncCommand(Create);
 		SaveCommand = new AsyncCommand(Save);
 		_labRequisition = new LabRequisitionViewModel();
+		
+		_labRequisition.Date = DateOnly.FromDateTime(DateTime.Now);
 	}
 
 	public LabRequisitionViewModel LabRequisition { get => _labRequisition;}
@@ -42,8 +42,6 @@ public class LabReportViewModel : BaseViewModel
 
 	private async Task Save()
 	{
-		var labRequisition = new LabTestReportDTO();
-		
 		var saveLabTestReportCommand = new SaveLabTestReportCommand
 			{
 				Specimen = _labRequisition.Specimen,
