@@ -1,5 +1,4 @@
 using LabTestBrowser.UseCases.LabTestReports;
-using LabTestBrowser.UseCases.LabTestReports.GetLast;
 
 namespace LabTestBrowser.Infrastructure.Data.Queries;
 
@@ -30,26 +29,6 @@ public class LabTestReportQueryService(AppDbContext dbContext) : ILabTestReportQ
 			AgeInMonths = lastLabTestReport.Patient.Age.Months,
 			AgeInDays = lastLabTestReport.Patient.Age.Days,
 			CompleteBloodCountId = lastLabTestReport.CompleteBloodCountId,
-		};
-	}
-
-	public async Task<LabTestReportDTO> GetAvailableLabTestReportAsync(DateOnly date)
-	{
-		var labTestReport = await FindLastLabTestReportAsync(date);
-
-		if (labTestReport == null)
-			return new LabTestReportDTO
-			{
-				Date = date,
-				SequentialNumber = 0
-			};
-
-		var availableNumber = labTestReport.SequentialNumber + 1;
-
-		return new LabTestReportDTO
-		{
-			Date = date,
-			SequentialNumber = availableNumber
 		};
 	}
 }

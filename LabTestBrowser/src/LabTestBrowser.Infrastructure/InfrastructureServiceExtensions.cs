@@ -3,6 +3,7 @@ using LabTestBrowser.Core.Services;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.UseCases.Contributors.List;
+using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.Infrastructure;
 
@@ -10,9 +11,7 @@ public static class InfrastructureServiceExtensions
 {
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
 		ConfigurationManager config,
-		
-		ILogger logger
-		)
+		ILogger logger)
 	{
 		string? connectionString = config.GetConnectionString("SqliteConnection");
 		Guard.Against.Null(connectionString);
@@ -22,9 +21,10 @@ public static class InfrastructureServiceExtensions
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
 			.AddScoped<IListContributorsQueryService, ListContributorsQueryService>()
-			.AddScoped<IDeleteContributorService, DeleteContributorService>();
+			.AddScoped<IDeleteContributorService, DeleteContributorService>()
+			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
 
-		// logger.LogInformation("{Project} services registered", "Infrastructure");
+		logger.LogInformation("{Project} services registered", "Infrastructure");
 
 		return services;
 	}
