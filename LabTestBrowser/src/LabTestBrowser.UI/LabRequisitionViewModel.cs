@@ -4,7 +4,6 @@ namespace LabTestBrowser.UI;
 
 public class LabRequisitionViewModel : BaseViewModel
 {
-	private int _id;
 	private DateOnly _date;
 	private int _specimen;
 
@@ -20,6 +19,8 @@ public class LabRequisitionViewModel : BaseViewModel
 	private int? _ageInYears;
 	private int? _ageInMonths;
 	private int? _ageInDays;
+
+	public int Id { get; internal set; }
 
 	public DateOnly Date
 	{
@@ -95,9 +96,9 @@ public class LabRequisitionViewModel : BaseViewModel
 
 	public void SetLabRequisition(LabTestReportDTO report) 
 	{
-		_id = report.Id;
-		Date = report.Date;
-		Specimen = report.SequentialNumber;
+		Id = report.Id;
+		Date = report.CollectionDate;
+		Specimen = report.SpecimenSequentialNumber;
 		Facility = report.Facility;
 		TradeName = report.TradeName;
 		Animal = report.Animal;
