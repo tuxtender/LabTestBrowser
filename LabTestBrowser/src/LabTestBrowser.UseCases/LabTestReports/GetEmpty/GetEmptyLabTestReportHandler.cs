@@ -10,7 +10,7 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 		if (report == null)
 			return new LabTestReportDTO
 			{
-				CollectionDate = request.Date,
+				Date = request.Date,
 				SpecimenSequentialNumber = 1
 			};
 
@@ -18,7 +18,7 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 
 		return new LabTestReportDTO
 		{
-			CollectionDate = request.Date,
+			Date = request.Date,
 			SpecimenSequentialNumber = availableNumber
 		};
 	}

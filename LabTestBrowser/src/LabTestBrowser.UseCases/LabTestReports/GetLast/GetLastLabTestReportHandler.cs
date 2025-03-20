@@ -10,7 +10,7 @@ public class GetLastLabTestReportHandler(ILabTestReportQueryService _query)
 		if (labTestReport == null)
 			return new LabTestReportDTO
 			{
-				CollectionDate = request.Date,
+				Date = request.Date,
 				SpecimenSequentialNumber = 1
 			};
 

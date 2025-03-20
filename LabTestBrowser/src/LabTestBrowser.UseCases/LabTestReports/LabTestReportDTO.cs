@@ -4,7 +4,7 @@ public record LabTestReportDTO
 {
 	public int Id { get; init; }
 	public int SpecimenSequentialNumber { get; init; }
-	public DateOnly CollectionDate { get; init; }
+	public DateOnly Date { get; init; }
 	public string? Facility { get; init; }
 	public string? TradeName { get; init; }
 	public string? HealthcareProxy { get; init; }

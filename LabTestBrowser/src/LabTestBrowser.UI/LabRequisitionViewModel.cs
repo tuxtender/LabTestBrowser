@@ -97,7 +97,7 @@ public class LabRequisitionViewModel : BaseViewModel
 	public void SetLabRequisition(LabTestReportDTO report) 
 	{
 		Id = report.Id;
-		Date = report.CollectionDate;
+		Date = report.Date;
 		Specimen = report.SpecimenSequentialNumber;
 		Facility = report.Facility;
 		TradeName = report.TradeName;
