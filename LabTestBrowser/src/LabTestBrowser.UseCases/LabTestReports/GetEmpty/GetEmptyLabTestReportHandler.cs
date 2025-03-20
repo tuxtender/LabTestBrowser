@@ -11,7 +11,7 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 			return new LabTestReportDTO
 			{
 				CollectionDate = request.Date,
-				SpecimenSequentialNumber = 0
+				SpecimenSequentialNumber = 1
 			};
 
 		var availableNumber = report.SpecimenSequentialNumber + 1;

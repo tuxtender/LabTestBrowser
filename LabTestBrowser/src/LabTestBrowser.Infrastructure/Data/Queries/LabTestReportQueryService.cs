@@ -8,7 +8,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
 			.Where(report => report.Specimen.Date == date)
-			.OrderByDescending(report => report.Specimen.Date)
+			.OrderByDescending(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();
 
 		return lastLabTestReport?.ConvertToLabTestReportDTO();

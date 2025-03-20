@@ -6,10 +6,14 @@ public class GetLastLabTestReportHandler(ILabTestReportQueryService _query)
 	public async Task<Result<LabTestReportDTO>> Handle(GetLastLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var labTestReport = await _query.FindLastLabTestReportAsync(request.Date);
-		
-		if(labTestReport == null)
-			return Result.NotFound();
-		
+
+		if (labTestReport == null)
+			return new LabTestReportDTO
+			{
+				CollectionDate = request.Date,
+				SpecimenSequentialNumber = 1
+			};
+
 		return labTestReport;
 	}
 }

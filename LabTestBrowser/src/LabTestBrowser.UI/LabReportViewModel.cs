@@ -17,6 +17,7 @@ public class LabReportViewModel : BaseViewModel
 	{
 		_mediator = mediator;
 
+		//TODO: Refactor
 		NewCommand = new AsyncCommand(CreateAsync);
 		SaveCommand = new AsyncCommand(SaveAsync);
 		NextCommand = new AsyncCommand(GetNextAsync);
@@ -25,6 +26,11 @@ public class LabReportViewModel : BaseViewModel
 		_labRequisition = new LabRequisitionViewModel();
 
 		_labRequisition.Date = DateOnly.FromDateTime(DateTime.Now);
+		
+		var getEmptyLabTestReportQuery = new GetEmptyLabTestReportQuery(_labRequisition.Date);
+		
+		var report = _mediator.Send(getEmptyLabTestReportQuery).GetAwaiter().GetResult();
+		_labRequisition.SetLabRequisition(report);
 	}
 
 	public LabRequisitionViewModel LabRequisition
