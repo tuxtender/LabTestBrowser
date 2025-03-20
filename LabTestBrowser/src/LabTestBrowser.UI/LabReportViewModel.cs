@@ -1,5 +1,6 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
+using LabTestBrowser.UseCases.LabTestReports.GetLast;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
 using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 using LabTestBrowser.UseCases.LabTestReports.Save;
@@ -27,9 +28,9 @@ public class LabReportViewModel : BaseViewModel
 
 		_labRequisition.Date = DateOnly.FromDateTime(DateTime.Now);
 		
-		var getEmptyLabTestReportQuery = new GetEmptyLabTestReportQuery(_labRequisition.Date);
+		var getLastLabTestReportQuery = new GetLastLabTestReportQuery(_labRequisition.Date);
 		
-		var report = _mediator.Send(getEmptyLabTestReportQuery).GetAwaiter().GetResult();
+		var report = _mediator.Send(getLastLabTestReportQuery).GetAwaiter().GetResult();
 		_labRequisition.SetLabRequisition(report);
 	}
 
