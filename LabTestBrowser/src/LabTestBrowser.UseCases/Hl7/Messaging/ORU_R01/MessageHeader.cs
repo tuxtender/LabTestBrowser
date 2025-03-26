@@ -1,6 +1,6 @@
-namespace LabTestBrowser.Infrastructure.Hl7.Dto;
+namespace LabTestBrowser.UseCases.Hl7.Messaging.ORU_R01;
 
-public class MSH
+public class MessageHeader
 {
 	public string? FieldSeparator { get; init; }
 	public string? EncodingCharacters { get; init; }
@@ -18,6 +18,7 @@ public class MSH
 	public string? ContinuationPointer { get; init; }
 	public string? AcceptAcknowledgmentType { get; init; }
 	public string? ApplicationAcknowledgmentType { get; init; }
+	public string? CountryCode { get; init; }
 	public string? CharacterSet { get; init; }
 	public string? PrincipalLanguageOfMessage { get; init; }
 	public string? AlternateCharacterSetHandlingScheme { get; init; }

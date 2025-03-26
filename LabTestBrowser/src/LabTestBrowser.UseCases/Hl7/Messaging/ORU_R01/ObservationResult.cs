@@ -1,8 +1,8 @@
-namespace LabTestBrowser.Infrastructure.Hl7.Dto;
+namespace LabTestBrowser.UseCases.Hl7.Messaging.ORU_R01;
 
-public record OBX
+public record ObservationResult
 {
-	public string? Id { get; init; }
+	public int? Id { get; init; }
 	public string? ValueType { get; init; }
 	public string? ObservationIdentifier { get; init; }
 	public string? ObservationSubId { get; init; }
@@ -15,7 +15,7 @@ public record OBX
 	public string? ObservationResultStatus { get; init; }
 	public string? DateLastObsNormalValues { get; init; }
 	public string? UserDefinedAccessChecks { get; init; }
-	public string? DateTimeOfTheObservation { get; init; }
+	public DateTime? DateTimeOfTheObservation { get; init; }
 	public string? ProducerId { get; init; }
 	public string? ResponsibleObserver { get; init; }
 	public string? ObservationMethod { get; init; }

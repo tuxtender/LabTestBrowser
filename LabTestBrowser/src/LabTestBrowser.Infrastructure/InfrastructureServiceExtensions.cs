@@ -2,7 +2,9 @@
 using LabTestBrowser.Core.Services;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
+using LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
 using LabTestBrowser.UseCases.Contributors.List;
+using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.Infrastructure;
@@ -24,6 +26,7 @@ public static class InfrastructureServiceExtensions
 			.AddScoped<IDeleteContributorService, DeleteContributorService>()
 			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
 
+		services.AddSingleton<IHl7Converter,  Hl7Converter>();
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
 		return services;
