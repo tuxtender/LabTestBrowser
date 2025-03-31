@@ -17,7 +17,7 @@ public class Urit5160Hl7Converter(IV231OruR01Converter _converter) : IUrit5160Hl
 			ExternalId = oru.Obr.FillerOrderNumber!,
 			ObservationDateTime = oru.Obr.ObservationDateTime!.Value,
 			WhiteBloodCell = oru.ObxList[Urit5160ObxIndex.WhiteBloodCell].ObservationValue,
-			Lymphocyte = oru.ObxList[Urit5160ObxIndex.Lymphocyte].ObservationValue,
+			LymphocytePercent = oru.ObxList[Urit5160ObxIndex.LymphocytePercent].ObservationValue,
 			MonocytePercent = oru.ObxList[Urit5160ObxIndex.MonocytePercent].ObservationValue,
 			NeutrophilPercent = oru.ObxList[Urit5160ObxIndex.NeutrophilPercent].ObservationValue,
 			EosinophilPercent = oru.ObxList[Urit5160ObxIndex.EosinophilPercent].ObservationValue,

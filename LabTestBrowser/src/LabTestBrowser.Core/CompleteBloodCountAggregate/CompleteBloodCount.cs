@@ -13,7 +13,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 	public string ExternalId { get; private set; } = null!;
 	public DateTime ObservationDateTime { get; private set; }
 	public LabTestResult? WhiteBloodCell { get; private set; }
-	public LabTestResult? Lymphocyte { get; private set; }
+	public LabTestResult? LymphocytePercent { get; private set; }
 	public LabTestResult? MonocytePercent { get; private set; }
 	public LabTestResult? NeutrophilPercent { get; private set; }
 	public LabTestResult? EosinophilPercent { get; private set; }
@@ -29,7 +29,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 	public LabTestResult? MeanPlateletVolume { get; private set; }
 
 	public void SetWhiteBloodCell(string value) => WhiteBloodCell = new LabTestResult(value);
-	public void SetLymphocyte(string value) => Lymphocyte = new LabTestResult(value);
+	public void SetLymphocytePercent(string value) => LymphocytePercent = new LabTestResult(value);
 	public void SetMonocytePercent(string value) => MonocytePercent = new LabTestResult(value);
 	public void SetNeutrophilPercent(string value) => NeutrophilPercent = new LabTestResult(value);
 	public void SetEosinophilPercent(string value) => EosinophilPercent = new LabTestResult(value);

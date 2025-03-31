@@ -10,7 +10,7 @@ public class CompleteBloodCountConfiguration : IEntityTypeConfiguration<Complete
 		// builder.Property(c => c.ObservationDateTime).IsRequired();
 
 		builder.OwnsOne(c => c.WhiteBloodCell);
-		builder.OwnsOne(c => c.Lymphocyte);
+		builder.OwnsOne(c => c.LymphocytePercent);
 		builder.OwnsOne(c => c.MonocytePercent);
 		builder.OwnsOne(c => c.NeutrophilPercent);
 		builder.OwnsOne(c => c.EosinophilPercent);

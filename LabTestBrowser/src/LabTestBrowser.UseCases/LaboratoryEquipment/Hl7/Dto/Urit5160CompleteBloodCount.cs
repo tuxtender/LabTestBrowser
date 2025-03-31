@@ -5,7 +5,7 @@ public record Urit5160CompleteBloodCount
 	public required string ExternalId { get; init; }
 	public DateTime ObservationDateTime { get; init; }
 	public required string WhiteBloodCell { get; init; }
-	public required string Lymphocyte { get; init; }
+	public required string LymphocytePercent { get; init; }
 	public required string MonocytePercent { get; init; }
 	public required string NeutrophilPercent { get; init; }
 	public required string EosinophilPercent { get; init; }

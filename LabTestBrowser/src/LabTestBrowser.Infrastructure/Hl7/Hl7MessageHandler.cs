@@ -24,7 +24,7 @@ public class Hl7MessageHandler : IHl7MessageHandler
 			ExternalId = urit5160CompleteBloodCount.ExternalId,
 			ObservationDateTime = urit5160CompleteBloodCount.ObservationDateTime,
 			WhiteBloodCell = urit5160CompleteBloodCount.WhiteBloodCell,
-			Lymphocyte = urit5160CompleteBloodCount.Lymphocyte,
+			LymphocytePercent = urit5160CompleteBloodCount.LymphocytePercent,
 			MonocytePercent = urit5160CompleteBloodCount.MonocytePercent,
 			NeutrophilPercent = urit5160CompleteBloodCount.NeutrophilPercent,
 			EosinophilPercent = urit5160CompleteBloodCount.EosinophilPercent,

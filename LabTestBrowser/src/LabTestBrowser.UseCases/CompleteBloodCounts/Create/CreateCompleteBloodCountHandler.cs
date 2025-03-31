@@ -9,7 +9,7 @@ public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 		var cbc = new CompleteBloodCount(request.ExternalId, request.ObservationDateTime);
 		
 		cbc.SetWhiteBloodCell(request.WhiteBloodCell);
-		cbc.SetLymphocyte(request.Lymphocyte);
+		cbc.SetLymphocytePercent(request.LymphocytePercent);
 		cbc.SetMonocytePercent(request.MonocytePercent);
 		cbc.SetNeutrophilPercent(request.NeutrophilPercent);
 		cbc.SetEosinophilPercent(request.EosinophilPercent);
@@ -21,7 +21,7 @@ public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 		cbc.SetMeanCorpuscularHemoglobin(request.MeanCorpuscularHemoglobin);
 		cbc.SetMeanCorpuscularHemoglobinConcentration(request.MeanCorpuscularHemoglobinConcentration);
 		cbc.SetRedBloodCellDistributionWidth(request.RedBloodCellDistributionWidth);
-		cbc.SetMeanPlateletVolume(request.Platelet);
+		cbc.SetPlatelet(request.Platelet);
 		cbc.SetMeanPlateletVolume(request.MeanPlateletVolume);
 		
 		var createdCbc = await _repository.AddAsync(cbc, cancellationToken);

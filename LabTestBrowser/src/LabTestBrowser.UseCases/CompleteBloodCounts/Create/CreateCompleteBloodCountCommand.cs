@@ -5,7 +5,7 @@ public record CreateCompleteBloodCountCommand : ICommand<Result<int>>
 	public string ExternalId { get; init; } = null!;
 	public DateTime ObservationDateTime { get; init; }
 	public string WhiteBloodCell { get; init; } = null!;
-	public string Lymphocyte { get; init; } = null!;
+	public string LymphocytePercent { get; init; } = null!;
 	public string MonocytePercent { get; init; } = null!;
 	public string NeutrophilPercent { get; init; } = null!;
 	public string EosinophilPercent { get; init; } = null!;
