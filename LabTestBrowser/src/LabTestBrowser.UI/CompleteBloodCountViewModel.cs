@@ -1,0 +1,39 @@
+﻿using LabTestBrowser.UseCases.CompleteBloodCounts;
+
+namespace LabTestBrowser.UI;
+
+public class CompleteBloodCountViewModel : BaseViewModel
+{
+	public CompleteBloodCountViewModel(CompleteBloodCountDto completeBloodCount)
+	{
+		Id = completeBloodCount.ExternalId!;
+		ObservationTimestamp = completeBloodCount.ObservationDateTime;
+		WhiteBloodCell = completeBloodCount.WhiteBloodCell ?? string.Empty;
+		LymphocytePercent = completeBloodCount.LymphocytePercent ?? string.Empty;
+		MonocytePercent = completeBloodCount.MonocytePercent ?? string.Empty;
+		EosinophilPercent = completeBloodCount.EosinophilPercent ?? string.Empty;
+		RedBloodCell = completeBloodCount.RedBloodCell ?? string.Empty;
+		Hemoglobin = completeBloodCount.Hemoglobin ?? string.Empty;
+		Hematocrit = completeBloodCount.Hematocrit ?? string.Empty;
+		MeanCorpuscularVolume = completeBloodCount.MeanCorpuscularVolume ?? string.Empty;
+		MeanCorpuscularHemoglobin = completeBloodCount.MeanCorpuscularHemoglobin ?? string.Empty;
+		MeanCorpuscularHemoglobinConcentration = completeBloodCount.MeanCorpuscularHemoglobinConcentration ?? string.Empty;
+		RedBloodCellDistributionWidth = completeBloodCount.RedBloodCellDistributionWidth ?? string.Empty;
+		Platelet = completeBloodCount.Platelet ?? string.Empty;
+	}
+
+	public string Id { get; init; }
+	public DateTime ObservationTimestamp { get; init; }
+	public string WhiteBloodCell { get; init; }
+	public string LymphocytePercent { get; init; }
+	public string MonocytePercent { get; init; }
+	public string EosinophilPercent { get; init; }
+	public string RedBloodCell { get; init; }
+	public string Hemoglobin { get; init; }
+	public string Hematocrit { get; init; }
+	public string MeanCorpuscularVolume { get; init; }
+	public string MeanCorpuscularHemoglobin { get; init; }
+	public string MeanCorpuscularHemoglobinConcentration { get; init; }
+	public string RedBloodCellDistributionWidth { get; init; }
+	public string Platelet { get; init; }
+}

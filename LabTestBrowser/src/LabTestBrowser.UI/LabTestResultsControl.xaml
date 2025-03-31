@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
+			 d:DataContext="{d:DesignInstance Type=local:LabReportViewModel, IsDesignTimeCreatable=False}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300">
@@ -170,7 +171,7 @@
 				  BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
 				  VerticalScrollBarVisibility="Visible"
 				  RowDetailsTemplate="{StaticResource CompleteBloodCountTemplate}"
-				  ItemsSource="{Binding CbcTestResults}"
+				  ItemsSource="{Binding CompleteBloodCounts}"
 				  SelectedItem="{Binding SelectedCbcTestResults, Mode=TwoWay}"
 				  VirtualizingPanel.VirtualizationMode="Recycling"
 				  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
@@ -180,7 +181,7 @@
 									Binding="{Binding Id}" />
 				<DataGridTextColumn Header="Дата"
 									Width="130"
-									Binding="{Binding Timestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />
+									Binding="{Binding ObservationTimestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</GroupBox>
