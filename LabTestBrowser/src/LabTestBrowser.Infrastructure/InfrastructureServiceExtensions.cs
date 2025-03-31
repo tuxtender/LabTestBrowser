@@ -26,7 +26,6 @@ public static class InfrastructureServiceExtensions
 			.AddScoped<IDeleteContributorService, DeleteContributorService>()
 			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
 
-		services.AddSingleton<IHl7Converter,  Hl7Converter>();
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
 		return services;

@@ -2,6 +2,16 @@
 
 public class CompleteBloodCount : EntityBase, IAggregateRoot
 {
+	public CompleteBloodCount(string externalId, DateTime observationDatetime)
+	{
+		ExternalId = externalId;
+		ObservationDateTime = observationDatetime;
+	}
+
+	private CompleteBloodCount() { }
+
+	public string ExternalId { get; private set; } = null!;
+	public DateTime ObservationDateTime { get; private set; }
 	public LabTestResult? WhiteBloodCell { get; private set; }
 	public LabTestResult? Lymphocyte { get; private set; }
 	public LabTestResult? MonocytePercent { get; private set; }

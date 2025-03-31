@@ -1,6 +1,6 @@
-﻿namespace LabTestBrowser.Infrastructure.Hl7.LaboratoryEquipment;
+﻿namespace LabTestBrowser.UseCases.Hl7.LaboratoryEquipment.CompleteBloodCount;
 
-public class Urit5160
+public static class Urit5160ObxIndex
 {
 	public const int WhiteBloodCell = 1;
 	public const int Lymphocyte = 2;
@@ -10,7 +10,7 @@ public class Urit5160
 	public const int BasophilPercent = 6;
 	public const int RedBloodCell = 7;
 	public const int Hemoglobin = 8;
-	public const int Hematocrit =9;
+	public const int Hematocrit = 9;
 	public const int MeanCorpuscularVolume = 10;
 	public const int MeanCorpuscularHemoglobin = 11;
 	public const int MeanCorpuscularHemoglobinConcentration = 12;

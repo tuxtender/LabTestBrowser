@@ -1,4 +1,5 @@
-﻿using LabTestBrowser.Core.ContributorAggregate;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using LabTestBrowser.Core.ContributorAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
 
 namespace LabTestBrowser.Infrastructure.Data;
@@ -11,6 +12,7 @@ public class AppDbContext(
 
 	public DbSet<Contributor> Contributors => Set<Contributor>();
 	public DbSet<LabTestReport> LabTestReports => Set<LabTestReport>();
+	public DbSet<CompleteBloodCount> CompleteBloodCounts => Set<CompleteBloodCount>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

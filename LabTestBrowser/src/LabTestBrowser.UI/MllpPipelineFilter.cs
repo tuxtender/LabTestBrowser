@@ -4,18 +4,18 @@ using SuperSocket.ProtoBase;
 
 namespace LabTestBrowser.UI;
 
-public class MllpPipelineFilter() : BeginEndMarkPipelineFilter<TextPackageInfo>(BeginMark, EndMark)
+public class MllpPipelineFilter() : BeginEndMarkPipelineFilter<MllpPackage>(BeginMark, EndMark)
 {
 	private static readonly byte[] BeginMark = [0x0B];
 	private static readonly byte[] EndMark = [0x1C, 0x0D];
 
-	protected override TextPackageInfo DecodePackage(ref ReadOnlySequence<byte> buffer)
+	protected override MllpPackage DecodePackage(ref ReadOnlySequence<byte> buffer)
 	{
-		var message = Encoding.UTF8.GetString(buffer);
+		// var message = Encoding.UTF8.GetString(buffer);
 
-		return new TextPackageInfo
+		return new MllpPackage
 		{
-			Text = message
+			Content = buffer.ToArray()
 		};
 	}
 }

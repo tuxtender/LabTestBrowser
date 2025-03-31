@@ -1,4 +1,9 @@
-﻿using LabTestBrowser.Infrastructure.Email;
+﻿using LabTestBrowser.Core.Interfaces;
+using LabTestBrowser.Core.Services;
+using LabTestBrowser.Infrastructure.Email;
+using LabTestBrowser.Infrastructure.Hl7;
+using LabTestBrowser.Infrastructure.LaboratoryEquipment;
+using LabTestBrowser.UseCases.LaboratoryEquipment;
 
 namespace LabTestBrowser.UI.Configurations;
 
@@ -16,9 +21,12 @@ public static class OptionConfigs
 		{
 		
 		}
+		
+		services.AddSingleton<IV231OruR01Converter, V231OruR01Converter>();
+		services.AddSingleton<IUrit5160Hl7Converter, Urit5160Hl7Converter>();
+		services.AddSingleton<IHl7MessageHandler, Hl7MessageHandler>();
 
 		logger.LogInformation("{Project} were configured", "Options");
-
 		return services;
 	}
 }

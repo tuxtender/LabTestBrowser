@@ -1,9 +1,12 @@
 ﻿using System.Text;
+using LabTestBrowser.Infrastructure.Data;
+using LabTestBrowser.Infrastructure.Hl7;
 using Serilog;
 using Serilog.Extensions.Logging;
 using LabTestBrowser.UI;
 using LabTestBrowser.UI.Configurations;
 using LabTestBrowser.UseCases.Hl7;
+using LabTestBrowser.UseCases.LaboratoryEquipment.Hl7;
 using MediatR;
 using SuperSocket.ProtoBase;
 using SuperSocket.Server.Abstractions;
@@ -34,23 +37,21 @@ builder.Services.AddHostedService<RecoverDatabaseBackgroundService>();
 
 
 
-
 // Build and run the application.
 var app = builder.Build();
 
+//TODO: Shared service collection
 using var serviceScope = app.Services.CreateScope();
 var services = serviceScope.ServiceProvider;
+// var mediator = services.GetRequiredService<IMediator>();
+var hl7Handler = services.GetRequiredService<IHl7MessageHandler>();
 
-var mediator = services.GetRequiredService<IMediator>();
-
-
-var mllpHostBuilder = SuperSocketHostBuilder.Create<TextPackageInfo, MllpPipelineFilter>()
+var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
 	.UsePackageHandler(async (s, p) =>
 	{
-		// handle packages
-		var result = await mediator.Send(new ReceiveHl7MessageCommand(p.Text));
-		logger.Information("HL7 message received");
-		await s.SendAsync(Encoding.UTF8.GetBytes(p.Text + "\r\n"));
+		var hl7Message = Encoding.UTF8.GetString(p.Content);
+		var hl7AckMessage = await hl7Handler.HandleMessageAsync(hl7Message);
+		await s.SendAsync(Encoding.UTF8.GetBytes(hl7AckMessage));
 	})
 	.ConfigureSuperSocket(options =>
 	{

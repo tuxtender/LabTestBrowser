@@ -2,7 +2,7 @@
 
 public class LabTestResult(string value) : ValueObject
 {
-	public string Value { get; } = value;
+	public string Value { get; private set; } = value;
 
 	protected override IEnumerable<object> GetEqualityComponents()
 	{
