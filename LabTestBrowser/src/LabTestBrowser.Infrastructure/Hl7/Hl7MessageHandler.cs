@@ -1,3 +1,5 @@
+using System.Text;
+using Efferent.HL7.V2;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.LaboratoryEquipment;
 using MediatR;
@@ -39,11 +41,33 @@ public class Hl7MessageHandler : IHl7MessageHandler
 			Platelet = urit5160CompleteBloodCount.Platelet,
 			MeanPlateletVolume = urit5160CompleteBloodCount.MeanPlateletVolume,
 		};
+		
+		//TODO: Refactoring
+		var hl7msg = new Message(message);
+		hl7msg.ParseMessage();
+		var controlId = hl7msg.MessageControlID;
+
+		char END_OF_BLOCK = '\u001c';
+		char START_OF_BLOCK = '\u000b';
+		char CARRIAGE_RETURN = (char)13;
+		
+		var ackMessage = new StringBuilder();
+		ackMessage = ackMessage.Append(START_OF_BLOCK)
+			.Append("MSH|^~\\&|||||||ACK||P|2.3.1")
+			.Append(CARRIAGE_RETURN)
+			.Append("MSA|AA|")
+			.Append(controlId)
+			.Append(CARRIAGE_RETURN)
+			.Append(END_OF_BLOCK)
+			.Append(CARRIAGE_RETURN);
+
+		
+		var ackStr = ackMessage.ToString();
 
 		var result = await _mediator.Send(command);
 
 		if (result.IsSuccess)
-			return string.Empty; //TODO: ACK
+			return ackStr; //TODO: ACK
 
 		return string.Empty; //TODO: NACK
 	}
