@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
+			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 			 d:DataContext="{d:DesignInstance Type=local:LabReportViewModel, IsDesignTimeCreatable=False}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
@@ -172,13 +173,24 @@
 				  VerticalScrollBarVisibility="Visible"
 				  RowDetailsTemplate="{StaticResource CompleteBloodCountTemplate}"
 				  ItemsSource="{Binding CompleteBloodCounts}"
-				  SelectedItem="{Binding SelectedCbcTestResults, Mode=TwoWay}"
+				  SelectedItem="{Binding SelectedCompleteBloodCount}"
 				  VirtualizingPanel.VirtualizationMode="Recycling"
 				  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+			<b:Interaction.Triggers>
+				<b:EventTrigger EventName="SelectionChanged">
+					<b:InvokeCommandAction Command="{Binding DoubleCommand}" />
+				</b:EventTrigger>
+			</b:Interaction.Triggers>
 			<DataGrid.Columns>
+				<DataGridTextColumn Header="Образец"
+									Width="110"
+									Binding="{Binding Specimen}" />
+				<DataGridTextColumn Header="Дата отчета"
+									Width="130"
+									Binding="{Binding ReportDate, StringFormat={}{0:dd.MM.yy}}" />
 				<DataGridTextColumn Header="ID"
 									Width="110"
-									Binding="{Binding Id}" />
+									Binding="{Binding ExternalId}" />
 				<DataGridTextColumn Header="Дата"
 									Width="130"
 									Binding="{Binding ObservationTimestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />

@@ -16,6 +16,7 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	  <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
 	  <PackageReference Include="ModernWpfUI" />
 	  <PackageReference Include="Serilog" />
 	  <PackageReference Include="Serilog.Extensions.Hosting" />
