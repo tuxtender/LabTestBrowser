@@ -1,9 +1,13 @@
 ﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
+using MediatR;
 
 namespace LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 
-public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _repository, ICbcTestResultReader _reader) : ICommandHandler<CreateCompleteBloodCountCommand, Result<int>>
+public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _repository, IMediator _mediator, ICbcTestResultReader _reader) : ICommandHandler<CreateCompleteBloodCountCommand, Result<int>>
 {
+	private readonly IMediator _mediator = _mediator;
+
 	public async Task<Result<int>> Handle(CreateCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
 		var cbc = new CompleteBloodCount(request.ExternalId, request.ObservationDateTime);
@@ -24,7 +28,8 @@ public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 		cbc.SetPlatelet(request.Platelet);
 		cbc.SetMeanPlateletVolume(request.MeanPlateletVolume);
 		
-		var createdCbc = await _repository.AddAsync(cbc, cancellationToken);
+		await _repository.AddAsync(cbc, cancellationToken);
+		// await _mediator.Publish(new CompleteBloodCountCreatedEvent(cbc.Id), cancellationToken);
 
 		var cbcDto = new CompleteBloodCountDto
 		{
@@ -46,8 +51,9 @@ public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 			Platelet = request.Platelet,
 			MeanPlateletVolume = request.MeanPlateletVolume,
 		};
-		
+
 		await _reader.WriteAsync(cbcDto);
+
 		
 		return cbc.Id;
 	}

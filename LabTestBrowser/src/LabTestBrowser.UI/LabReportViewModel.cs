@@ -1,8 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using AsyncAwaitBestPractices.MVVM;
+using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
-using LabTestBrowser.UseCases.CompleteBloodCounts;
+using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
+using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
+using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
@@ -15,15 +18,18 @@ namespace LabTestBrowser.UI;
 public class LabReportViewModel : BaseViewModel
 {
 	private readonly IMediator _mediator;
+	private readonly ILogger<LabReportViewModel> _logger;
 
 	private readonly LabRequisitionViewModel _labRequisition;
 
 	
 	private object _itemsLock = new object();
 
-	public LabReportViewModel(IMediator mediator, ICbcTestResultReader reader)
+	public LabReportViewModel(IMediator mediator,
+		ILogger<LabReportViewModel>  logger)
 	{
 		_mediator = mediator;
+		_logger = logger;
 
 		//TODO: Refactor
 		NewCommand = new AsyncCommand(CreateAsync);
@@ -39,23 +45,17 @@ public class LabReportViewModel : BaseViewModel
 		
 		// var report = _mediator.Send(getLastLabTestReportQuery).GetAwaiter().GetResult();
 		// _labRequisition.SetLabRequisition(report);
-		
+
 		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _itemsLock);
-
 		Task.Run(async () =>
-
 		{
 			//get the data from the previous task a continue the execution on the UI thread
 
 			while (true)
 			{
-				var cbc = await reader.ReadAsync();
-				var completeBloodCountViewModel = new CompleteBloodCountViewModel(cbc);
-
-				CompleteBloodCounts.Add(completeBloodCountViewModel);
+				await GetCompleteBloodCountAsync();
 			}
-		});
-		
+		}); //TODO: Refactor using IObservable
 	}
 
 	public LabRequisitionViewModel LabRequisition
@@ -64,7 +64,7 @@ public class LabReportViewModel : BaseViewModel
 	}
 
 	public ObservableCollection<CompleteBloodCountViewModel> CompleteBloodCounts { get; private set; } = [];
-	
+
 	public AsyncCommand NewCommand { get; private set; }
 
 	public AsyncCommand SaveCommand { get; private set; }
@@ -91,6 +91,13 @@ public class LabReportViewModel : BaseViewModel
 		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(_labRequisition.Id);
 		var result = await _mediator.Send(getPreviousLabTestReportQuery);
 		_labRequisition.SetLabRequisition(result.Value);
+	}
+
+	private async Task GetCompleteBloodCountAsync() 
+	{
+		var completeBloodCount = await _mediator.Send(new GetCreatedCompleteBloodCountQuery());
+		var completeBloodCountViewModel = new CompleteBloodCountViewModel(completeBloodCount.Value);
+		CompleteBloodCounts.Add(completeBloodCountViewModel);
 	}
 
 	private async Task SaveAsync()
