@@ -1,0 +1,51 @@
+﻿{
+  "LabReportSettings": {
+    "Facilities": [
+      {
+        "Supervisor": "Clinic0",
+        "Trademarks": [
+          {
+            "Title": "Alias0A",
+            "ReportTemplates": [
+              {
+                "AnimalId": 0,
+                "LabTestTitle": "CBC+BMP",
+                "TemplatePath": "../path/to/template/file0a.xlsx"
+              }
+            ]
+          },
+          {
+            "Title": "Alias0B",
+            "ReportTemplates": [
+              {
+                "AnimalId": 0,
+                "LabTestTitle": "CBC+CMP",
+                "TemplatePath": "../path/to/template/file0b.xlsx"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Supervisor": "Clinic1",
+        "Trademarks": [
+          {
+            "Title": "Alias1A",
+            "ReportTemplates": [
+              {
+                "AnimalId": 0,
+                "LabTestTitle": "CBC",
+                "TemplatePath": "../path/to/template/file1a.xlsx"
+              },
+              {
+                "AnimalId": 0,
+                "LabTestTitle": "BMP",
+                "TemplatePath": "../path/to/template/file1a.docx"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
