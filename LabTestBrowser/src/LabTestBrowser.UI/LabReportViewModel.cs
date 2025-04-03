@@ -10,6 +10,7 @@ using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
 using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
+using LabTestBrowser.UseCases.LabTestReports.RemoveCompleteBloodCount;
 using LabTestBrowser.UseCases.LabTestReports.Save;
 using MediatR;
 
@@ -36,6 +37,7 @@ public class LabReportViewModel : BaseViewModel
 		SaveCommand = new AsyncCommand(SaveAsync);
 		NextCommand = new AsyncCommand(GetNextAsync);
 		PreviousCommand = new AsyncCommand(GetPreviousAsync);
+		ClearCommand = new AsyncCommand(ClearAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.Specimen = 1;
@@ -72,6 +74,7 @@ public class LabReportViewModel : BaseViewModel
 
 	public AsyncCommand PreviousCommand { get; private set; }
 	public AsyncCommand NextCommand { get; private set; }
+	public AsyncCommand ClearCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -125,5 +128,11 @@ public class LabReportViewModel : BaseViewModel
 		
 		if(result.IsSuccess)
 			_labRequisition.Id = result.Value;
+	}
+
+	private async Task ClearAsync()
+	{
+		var command = new RemoveCompleteBloodCountCommand(_labRequisition.Id);
+		var result = await _mediator.Send(command);
 	}
 }

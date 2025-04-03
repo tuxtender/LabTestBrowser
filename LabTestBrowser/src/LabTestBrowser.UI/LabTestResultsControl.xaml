@@ -161,6 +161,7 @@
 	</UserControl.Resources>
 	
 	<GroupBox Header="ОАК">
+		<StackPanel>
 		<DataGrid Padding="5"
 				  Height="470"
 				  AutoGenerateColumns="False"
@@ -178,7 +179,7 @@
 				  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
 			<b:Interaction.Triggers>
 				<b:EventTrigger EventName="SelectionChanged">
-					<b:InvokeCommandAction Command="{Binding DoubleCommand}" />
+					<b:InvokeCommandAction Command="{Binding }" />
 				</b:EventTrigger>
 			</b:Interaction.Triggers>
 			<DataGrid.Columns>
@@ -196,5 +197,10 @@
 									Binding="{Binding ObservationTimestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />
 			</DataGrid.Columns>
 		</DataGrid>
+		<Button HorizontalAlignment="Right"
+				Command="{Binding ClearCommand}"
+				Margin="0, 5"
+				Content="Очистить" />
+		</StackPanel>
 	</GroupBox>
 </UserControl>

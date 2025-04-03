@@ -24,4 +24,5 @@ public class LabTestReport
 
 	public void SetPatient(Patient patient) => Patient = patient;
 	public void SetCompleteBloodCount(int? completeBloodCountId) => CompleteBloodCountId = completeBloodCountId;
+	public void RemoveCompleteBloodCount() => CompleteBloodCountId = null;
 }
