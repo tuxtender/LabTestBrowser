@@ -38,7 +38,7 @@ public class LabReportViewModel : BaseViewModel
 		PreviousCommand = new AsyncCommand(GetPreviousAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
-
+		_labRequisition.Specimen = 1;
 		_labRequisition.Date = DateOnly.FromDateTime(DateTime.Now);
 		
 		var getLastLabTestReportQuery = new GetLastLabTestReportQuery(_labRequisition.Date);
@@ -64,6 +64,7 @@ public class LabReportViewModel : BaseViewModel
 	}
 
 	public ObservableCollection<CompleteBloodCountViewModel> CompleteBloodCounts { get; private set; } = [];
+	public CompleteBloodCountViewModel? SelectedCompleteBloodCount { get; set; }
 
 	public AsyncCommand NewCommand { get; private set; }
 
@@ -116,7 +117,8 @@ public class LabReportViewModel : BaseViewModel
 			Breed = _labRequisition.Breed,
 			AgeInYears = _labRequisition.AgeInYears,
 			AgeInMonths = _labRequisition.AgeInMonths,
-			AgeInDays = _labRequisition.AgeInDays
+			AgeInDays = _labRequisition.AgeInDays,
+			CompleteBloodCountId = SelectedCompleteBloodCount?.Id,
 		};
 
 		var result = await _mediator.Send(saveLabTestReportCommand);

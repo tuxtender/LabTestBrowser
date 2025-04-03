@@ -33,6 +33,7 @@ public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 
 		var cbcDto = new CompleteBloodCountDto
 		{
+			Id =  cbc.Id,
 			ExternalId = request.ExternalId,
 			ObservationDateTime = request.ObservationDateTime,
 			WhiteBloodCell = request.WhiteBloodCell,

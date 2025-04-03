@@ -17,6 +17,7 @@ public class GetCompleteBloodCountHandler(IReadRepository<CompleteBloodCount> _r
 
 		return new CompleteBloodCountDto
 		{
+			Id = cbc.Id,
 			ExternalId = cbc!.ExternalId,
 			ObservationDateTime = cbc.ObservationDateTime,
 			WhiteBloodCell = cbc.WhiteBloodCell!.Value,

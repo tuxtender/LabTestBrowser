@@ -2,6 +2,7 @@
 
 public record CompleteBloodCountDto
 {
+	public int? Id { get; init; }
 	public string? ExternalId { get; init; }
 	public DateTime ObservationDateTime { get; init; }
 	public string? WhiteBloodCell { get; init; }

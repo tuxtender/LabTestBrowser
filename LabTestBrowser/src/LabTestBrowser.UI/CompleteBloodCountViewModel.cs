@@ -6,7 +6,8 @@ public class CompleteBloodCountViewModel : BaseViewModel
 {
 	public CompleteBloodCountViewModel(CompleteBloodCountDto completeBloodCount)
 	{
-		Id = completeBloodCount.ExternalId!;
+		Id = completeBloodCount.Id;
+		ExternalId = completeBloodCount.ExternalId!;
 		ObservationTimestamp = completeBloodCount.ObservationDateTime;
 		WhiteBloodCell = completeBloodCount.WhiteBloodCell ?? string.Empty;
 		LymphocytePercent = completeBloodCount.LymphocytePercent ?? string.Empty;
@@ -22,7 +23,8 @@ public class CompleteBloodCountViewModel : BaseViewModel
 		Platelet = completeBloodCount.Platelet ?? string.Empty;
 	}
 
-	public string Id { get; init; }
+	public int? Id { get; set; }
+	public string ExternalId { get; init; }
 	public DateTime ObservationTimestamp { get; init; }
 	public string WhiteBloodCell { get; init; }
 	public string LymphocytePercent { get; init; }

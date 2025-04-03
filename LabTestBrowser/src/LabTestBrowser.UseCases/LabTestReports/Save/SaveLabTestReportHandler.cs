@@ -19,6 +19,7 @@ public class SaveLabTestReportHandler(IRepository<LabTestReport> _repository) : 
 		if (labTestReport == null)
 		{
 			labTestReport = new LabTestReport(specimen, specimenCollectionCenter, patient);
+			labTestReport.SetCompleteBloodCount(request.CompleteBloodCountId);
 			labTestReport = await _repository.AddAsync(labTestReport, cancellationToken);
 			return labTestReport.Id;
 		}
@@ -28,6 +29,7 @@ public class SaveLabTestReportHandler(IRepository<LabTestReport> _repository) : 
 		
 		labTestReport.SetSpecimenCollectionCenter(specimenCollectionCenter);
 		labTestReport.SetPatient(patient);
+		labTestReport.SetCompleteBloodCount(request.CompleteBloodCountId);
 		await _repository.UpdateAsync(labTestReport, cancellationToken);
 
 		return labTestReport.Id;
