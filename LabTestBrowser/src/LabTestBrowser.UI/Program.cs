@@ -40,15 +40,13 @@ builder.Services.AddHostedService<RecoverDatabaseBackgroundService>();
 // Build and run the application.
 var app = builder.Build();
 
-//TODO: Shared service collection
-using var serviceScope = app.Services.CreateScope();
-var services = serviceScope.ServiceProvider;
-// var mediator = services.GetRequiredService<IMediator>();
-var hl7Handler = services.GetRequiredService<IHl7MessageHandler>();
-
 var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
 	.UsePackageHandler(async (s, p) =>
 	{
+		//TODO: Shared service collection
+		using var serviceScope = app.Services.CreateScope();
+		var services = serviceScope.ServiceProvider;
+		var hl7Handler = services.GetRequiredService<IHl7MessageHandler>();
 		var hl7Message = Encoding.UTF8.GetString(p.Content);
 		var hl7AckMessage = await hl7Handler.HandleMessageAsync(hl7Message);
 		await s.SendAsync(Encoding.UTF8.GetBytes(hl7AckMessage));
