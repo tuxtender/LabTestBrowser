@@ -4,9 +4,9 @@ using LabTestBrowser.UseCases.LabTestReports.Export.Format;
 
 namespace LabTestBrowser.UseCases.LabTestReports.Export;
 
-public class LabTestReportTokens(LabTestReport report, CompleteBloodCount cbc)
+public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
 {
-	public required IReadOnlyList<IToken> Tokens { get; init; } = new List<IToken>()
+	public IReadOnlyList<IToken> Tokens { get; init; } = new List<IToken>()
 	{
 		new DateToken("DATE", report.Specimen.Date),
 		new TextToken("CLINIC", report.SpecimenCollectionCenter.Facility),
@@ -20,20 +20,20 @@ public class LabTestReportTokens(LabTestReport report, CompleteBloodCount cbc)
 		new NumberToken("AGE.YEAR", report.Patient.Age.Years),
 		new NumberToken("AGE.MONTH", report.Patient.Age.Months),
 		new NumberToken("AGE.DAY", report.Patient.Age.Days),
-		new TextToken("WBC", cbc.WhiteBloodCell?.Value),
-		new TextToken("LYM%", cbc.LymphocytePercent?.Value),
-		new TextToken("MON%", cbc.MonocytePercent?.Value),
-		new TextToken("NEU%", cbc.NeutrophilPercent?.Value),
-		new TextToken("EOS%", cbc.EosinophilPercent?.Value),
-		new TextToken("BASO%", cbc.BasophilPercent?.Value),
-		new TextToken("RBC", cbc.RedBloodCell?.Value),
-		new TextToken("HGB", cbc.Hemoglobin?.Value),
-		new TextToken("HCT", cbc.Hematocrit?.Value),
-		new TextToken("MCV", cbc.MeanCorpuscularVolume?.Value),
-		new TextToken("MCH", cbc.MeanCorpuscularHemoglobin?.Value),
-		new TextToken("MCHC", cbc.MeanCorpuscularHemoglobinConcentration?.Value),
-		new TextToken("RDW-CV", cbc.RedBloodCellDistributionWidth?.Value),
-		new TextToken("PLT", cbc.Platelet?.Value),
-		new TextToken("MPV", cbc.MeanPlateletVolume?.Value),
+		new TextToken("WBC", cbc?.WhiteBloodCell?.Value),
+		new TextToken("LYM%", cbc?.LymphocytePercent?.Value),
+		new TextToken("MON%", cbc?.MonocytePercent?.Value),
+		new TextToken("NEU%", cbc?.NeutrophilPercent?.Value),
+		new TextToken("EOS%", cbc?.EosinophilPercent?.Value),
+		new TextToken("BASO%", cbc?.BasophilPercent?.Value),
+		new TextToken("RBC", cbc?.RedBloodCell?.Value),
+		new TextToken("HGB", cbc?.Hemoglobin?.Value),
+		new TextToken("HCT", cbc?.Hematocrit?.Value),
+		new TextToken("MCV", cbc?.MeanCorpuscularVolume?.Value),
+		new TextToken("MCH", cbc?.MeanCorpuscularHemoglobin?.Value),
+		new TextToken("MCHC", cbc?.MeanCorpuscularHemoglobinConcentration?.Value),
+		new TextToken("RDW-CV", cbc?.RedBloodCellDistributionWidth?.Value),
+		new TextToken("PLT", cbc?.Platelet?.Value),
+		new TextToken("MPV", cbc?.MeanPlateletVolume?.Value),
 	};
 }
