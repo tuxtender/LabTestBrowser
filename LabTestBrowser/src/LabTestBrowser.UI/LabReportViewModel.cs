@@ -15,6 +15,7 @@ using LabTestBrowser.UseCases.LabTestReports.GetNext;
 using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 using LabTestBrowser.UseCases.LabTestReports.RemoveCompleteBloodCount;
 using LabTestBrowser.UseCases.LabTestReports.Save;
+using LabTestBrowser.UseCases.LabTestReportTemplates;
 using MediatR;
 
 namespace LabTestBrowser.UI;
@@ -23,6 +24,7 @@ public class LabReportViewModel : BaseViewModel
 {
 	private readonly IMediator _mediator;
 	private readonly ILogger<LabReportViewModel> _logger;
+	private readonly ILabTestReportTemplateQueryService _labTestReportTemplateQueryService;
 
 	private readonly LabRequisitionViewModel _labRequisition;
 
@@ -31,10 +33,12 @@ public class LabReportViewModel : BaseViewModel
 
 	public LabReportViewModel(IMediator mediator,
 		ILogger<LabReportViewModel>  logger, 
+		ILabTestReportTemplateQueryService  labTestReportTemplateQueryService,
 		DialogViewModel dialogViewModel)
 	{
 		_mediator = mediator;
 		_logger = logger;
+		_labTestReportTemplateQueryService = labTestReportTemplateQueryService;
 		DialogViewModel = dialogViewModel;
 
 		//TODO: Refactor
@@ -147,21 +151,18 @@ public class LabReportViewModel : BaseViewModel
 
 	private async Task ExportAsync() 
 	{
-	
+		string facility = "ИП Живодеров";
+		string tradeName = "Зооскинхэд";
+		int animalId = 0;
+		
+		var reportTemplates = await _labTestReportTemplateQueryService.GetLabTestReportTemplatesAsync(facility, tradeName, animalId);
+		
 		var vm = new ReportTemplateDialogViewModel();
-		
-		var y =  new List<LabTestReportTemplate>(){
-			new LabTestReportTemplate{Path = "a", Title = "A"},
-			new LabTestReportTemplate{Path = "b", Title = "B"},
-			new LabTestReportTemplate{Path = "c", Title = "C"},
-
-		};
-		
-		var input = new ReportTemplateDialogInput(){
-			ReportTemplates = y
+		var input = new ReportTemplateDialogInput
+		{
+			ReportTemplates = reportTemplates
 		};
 		
 		var dialogOutput = await DialogViewModel.ShowAsync(vm, input);
-
 	}
 }
