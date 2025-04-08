@@ -1,5 +1,6 @@
 ﻿using LabTestBrowser.Core.Interfaces;
 using LabTestBrowser.Core.Services;
+using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Email;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.LaboratoryEquipment;
@@ -14,6 +15,8 @@ public static class OptionConfigs
 		ILogger logger,
 		WpfApplicationBuilder<App, MainWindow> builder)
 	{
+		builder.Configuration.AddJsonFile("labreportsettings.json");
+
 		// builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
 		services.Configure<MailserverConfiguration>(configuration.GetSection("Mailserver"));
 
