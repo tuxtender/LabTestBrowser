@@ -3,9 +3,12 @@ using System.Windows.Data;
 using AsyncAwaitBestPractices.MVVM;
 using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.UI.Dialogs;
+using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
+using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
@@ -27,10 +30,12 @@ public class LabReportViewModel : BaseViewModel
 	private object _itemsLock = new object();
 
 	public LabReportViewModel(IMediator mediator,
-		ILogger<LabReportViewModel>  logger)
+		ILogger<LabReportViewModel>  logger, 
+		DialogViewModel dialogViewModel)
 	{
 		_mediator = mediator;
 		_logger = logger;
+		DialogViewModel = dialogViewModel;
 
 		//TODO: Refactor
 		NewCommand = new AsyncCommand(CreateAsync);
@@ -38,6 +43,7 @@ public class LabReportViewModel : BaseViewModel
 		NextCommand = new AsyncCommand(GetNextAsync);
 		PreviousCommand = new AsyncCommand(GetPreviousAsync);
 		ClearCommand = new AsyncCommand(ClearAsync);
+		ExportCommand = new AsyncCommand(ExportAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.Specimen = 1;
@@ -65,6 +71,8 @@ public class LabReportViewModel : BaseViewModel
 		get => _labRequisition;
 	}
 
+	public Dialogs.DialogViewModel DialogViewModel { get; private set; }
+	
 	public ObservableCollection<CompleteBloodCountViewModel> CompleteBloodCounts { get; private set; } = [];
 	public CompleteBloodCountViewModel? SelectedCompleteBloodCount { get; set; }
 
@@ -75,6 +83,7 @@ public class LabReportViewModel : BaseViewModel
 	public AsyncCommand PreviousCommand { get; private set; }
 	public AsyncCommand NextCommand { get; private set; }
 	public AsyncCommand ClearCommand { get; private set; }
+	public AsyncCommand ExportCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -134,5 +143,25 @@ public class LabReportViewModel : BaseViewModel
 	{
 		var command = new RemoveCompleteBloodCountCommand(_labRequisition.Id);
 		var result = await _mediator.Send(command);
+	}
+
+	private async Task ExportAsync() 
+	{
+	
+		var vm = new ReportTemplateDialogViewModel();
+		
+		var y =  new List<LabTestReportTemplate>(){
+			new LabTestReportTemplate{Path = "a", Title = "A"},
+			new LabTestReportTemplate{Path = "b", Title = "B"},
+			new LabTestReportTemplate{Path = "c", Title = "C"},
+
+		};
+		
+		var input = new ReportTemplateDialogInput(){
+			ReportTemplates = y
+		};
+		
+		var dialogOutput = await DialogViewModel.ShowAsync(vm, input);
+
 	}
 }
