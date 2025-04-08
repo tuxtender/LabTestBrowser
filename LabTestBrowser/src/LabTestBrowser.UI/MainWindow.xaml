@@ -5,16 +5,24 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:ui="http://schemas.modernwpf.com/2019"
 		xmlns:local="clr-namespace:LabTestBrowser.UI"
+		xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
 		mc:Ignorable="d"
-		d:DataContext="{d:DesignInstance Type=local:LabReportViewModel, IsDesignTimeCreatable=False}" 
+		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		SizeToContent="WidthAndHeight"
 		Title="MainWindow">
-	<StackPanel>
+
+	<Grid>
 		<local:LabReportCommandBar />
 		<WrapPanel Orientation="Horizontal">
 			<local:LabRequisitionControl Padding="5, 0"
 										 DataContext="{Binding Path= LabRequisition }" />
 			<local:LabTestResultsControl Padding="5, 0" />
+
+			<Button Content="Export"
+					Command="{Binding ExportCommand}" />
 		</WrapPanel>
-	</StackPanel>
+
+		<dialogs:DialogView DataContext="{Binding DialogViewModel}" />
+	</Grid>
+
 </Window>

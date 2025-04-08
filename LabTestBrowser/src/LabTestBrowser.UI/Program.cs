@@ -5,6 +5,8 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using LabTestBrowser.UI;
 using LabTestBrowser.UI.Configurations;
+using LabTestBrowser.UI.Dialogs;
+using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LaboratoryEquipment.Hl7;
 using MediatR;
@@ -33,6 +35,8 @@ builder.Services.AddServiceConfigs(appLogger, builder);
 // var t = new Hl7Hub(null);
 // builder.Services.AddSingleton<IHl7Hub>(sp => t);
 builder.Services.AddSingleton<LabReportViewModel>();
+builder.Services.AddSingleton<DialogViewModel>();
+builder.Services.AddScoped<ReportTemplateDialogViewModel>();
 builder.Services.AddHostedService<RecoverDatabaseBackgroundService>();
 
 
