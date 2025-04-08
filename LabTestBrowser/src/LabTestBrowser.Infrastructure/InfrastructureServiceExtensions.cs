@@ -2,10 +2,12 @@
 using LabTestBrowser.Core.Services;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
+using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
+using LabTestBrowser.UseCases.LabTestReportTemplates;
 
 namespace LabTestBrowser.Infrastructure;
 
@@ -24,8 +26,15 @@ public static class InfrastructureServiceExtensions
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
 			.AddScoped<IListContributorsQueryService, ListContributorsQueryService>()
 			.AddScoped<IDeleteContributorService, DeleteContributorService>()
-			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
+			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>()
+			.AddSingleton<ILabTestReportTemplateQueryService, LabTestReportTemplateQueryService>();
 
+		
+		var labReportSection = config.GetSection(nameof(LabReportSettings));
+		var labReportSettings = labReportSection.Get<LabReportSettings>();
+		Guard.Against.Null(labReportSettings);
+		services.AddSingleton<ILabTestReportTemplateQueryService>(LabTestReportTemplateQueryService.Create(labReportSettings));
+		
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
 		return services;
