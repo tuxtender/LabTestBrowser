@@ -1,8 +1,8 @@
-﻿using LabTestBrowser.UseCases.LabTestReports;
+﻿using LabTestBrowser.UseCases.LabTestReportTemplates;
 
 namespace LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 
 public class ReportTemplateDialogInput: IDialogContentInput
 {
-	public required IEnumerable<LabTestReportTemplate> ReportTemplates { get; init; }
+	public required IEnumerable<LabTestReportTemplateDto> ReportTemplates { get; init; }
 }
