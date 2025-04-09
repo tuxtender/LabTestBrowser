@@ -6,11 +6,28 @@ namespace LabTestBrowser.Infrastructure.Data.Queries;
 
 public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryService
 {
+	private readonly Dictionary<int, LabTestReportTemplate> _templates;
 	private readonly ILookup<ReportTemplateIndex, LabTestReportTemplate> _reportTemplateLookup;
 
-	private LabTestReportTemplateQueryService(ILookup<ReportTemplateIndex, LabTestReportTemplate> reportTemplateLookup)
+	private LabTestReportTemplateQueryService(Dictionary<int, LabTestReportTemplate> templates, ILookup<ReportTemplateIndex, LabTestReportTemplate> reportTemplateLookup)
 	{
+		_templates = templates;
 		_reportTemplateLookup = reportTemplateLookup;
+	}
+
+	public Task<LabTestReportTemplateDto?> FindById(int labTestReportTemplateId)
+	{
+		if (!_templates.TryGetValue(labTestReportTemplateId, out var template))
+			return Task.FromResult<LabTestReportTemplateDto?>(null);
+
+		var dto = new LabTestReportTemplateDto
+		{
+			Id = template.Id,
+			Title = template.Title,
+			Path = template.Path
+		};
+
+		return Task.FromResult<LabTestReportTemplateDto?>(dto);
 	}
 
 	public Task<IEnumerable<LabTestReportTemplateDto>> ListAsync(string facility, string? tradeName, string animal)
@@ -22,6 +39,7 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 		var dto = reportTemplates
 			.Select(template => new LabTestReportTemplateDto
 			{
+				Id = template.Id,
 				Title = template.Title,
 				Path = template.Path
 			});
@@ -35,6 +53,7 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 			.SelectMany(group => group)
 			.Select(template => new LabTestReportTemplateDto
 			{
+				Id = template.Id,
 				Title = template.Title,
 				Path = template.Path
 			});
@@ -65,10 +84,12 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 			id++;
 		}
 
+		var templates = reportTemplates.ToDictionary(template => template.Id);
+		
 		var reportTemplateLookup = reportTemplates.ToLookup(template => new ReportTemplateIndex(template.Facility, template.TradeName,
 			template.Animal), template => template);
 
-		return new LabTestReportTemplateQueryService(reportTemplateLookup);
+		return new LabTestReportTemplateQueryService(templates, reportTemplateLookup);
 	}
 
 	private record ReportTemplateIndex(string Facility, string TradeName, string Animal);
