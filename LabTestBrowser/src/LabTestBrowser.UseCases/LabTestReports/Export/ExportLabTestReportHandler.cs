@@ -7,8 +7,7 @@ public class ExportLabTestReportHandler(ISpreadSheetExportService _exportService
 		//TODO: Exception handling location
 
 		var exportTasks = request.LabTestReportTemplateIds
-			.Select(templateId => _exportService.Export(templateId, request.LabTestReportId))
-			.ToArray();
+			.Select(templateId => _exportService.Export(templateId, request.LabTestReportId));
 		
 		await Task.WhenAll(exportTasks);
 		
