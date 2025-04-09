@@ -20,5 +20,8 @@
 		<ui:AppBarButton Icon="Save"
 						 Command="{Binding  Path=SaveCommand}"
 						 Label="Сохранить" />
+		<ui:AppBarButton Icon="Download"
+						 Command="{Binding  Path=ExportCommand}"
+						 Label="Экспорт" />
 	</ui:CommandBar>
 </UserControl>

@@ -3,7 +3,6 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:ui="http://schemas.modernwpf.com/2019"
 		xmlns:local="clr-namespace:LabTestBrowser.UI"
 		xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
 		mc:Ignorable="d"
@@ -18,11 +17,9 @@
 				<local:LabRequisitionControl Padding="5, 0"
 											 DataContext="{Binding Path= LabRequisition }" />
 				<local:LabTestResultsControl Padding="5, 0" />
-
-				<Button Content="Export"
-						Command="{Binding ExportCommand}" />
 			</WrapPanel>
 		</StackPanel>
+
 		<dialogs:DialogView DataContext="{Binding DialogViewModel}" />
 	</Grid>
 
