@@ -48,6 +48,10 @@
 	  <Content Include="labreportsettings.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	  <None Remove="animalsettings.json" />
+	  <Content Include="animalsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>

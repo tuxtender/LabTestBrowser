@@ -16,6 +16,7 @@ public static class OptionConfigs
 		WpfApplicationBuilder<App, MainWindow> builder)
 	{
 		builder.Configuration.AddJsonFile("labreportsettings.json");
+		builder.Configuration.AddJsonFile("animalsettings.json");
 
 		// builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
 		services.Configure<MailserverConfiguration>(configuration.GetSection("Mailserver"));
