@@ -13,9 +13,9 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 		_reportTemplateLookup = reportTemplateLookup;
 	}
 
-	public Task<List<LabTestReportTemplateDto>> GetLabTestReportTemplatesAsync(string facility, string tradeName, int animalId)
+	public Task<IEnumerable<LabTestReportTemplateDto>> ListAsync(string facility, string? tradeName, string animal)
 	{
-		var index = new ReportTemplateIndex(facility, tradeName, animalId);
+		var index = new ReportTemplateIndex(facility, tradeName ?? string.Empty, animal);
 
 		var reportTemplates = _reportTemplateLookup[index];
 
@@ -24,41 +24,52 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 			{
 				Title = template.Title,
 				Path = template.Path
-			})
-			.ToList();
-		
+			});
+
 		return Task.FromResult(dto);
 	}
 
-	public static LabTestReportTemplateQueryService Create(LabReportSettings labReportSettings)
+	public Task<IEnumerable<LabTestReportTemplateDto>> ListAsync()
 	{
+		var templates = _reportTemplateLookup
+			.SelectMany(group => group)
+			.Select(template => new LabTestReportTemplateDto
+			{
+				Title = template.Title,
+				Path = template.Path
+			});
+
+		return Task.FromResult(templates);
+	}
+
+	public static LabTestReportTemplateQueryService Create(LabReportSettings labReportSettings, AnimalSettings animalSettings)
+	{
+		var animals = animalSettings.Animals.ToDictionary(animal => animal.Id, animal => animal.Title);
+
 		var id = 0;
 
 		var reportTemplates = new List<LabTestReportTemplate>();
 
 		foreach (var facility in labReportSettings.Facilities)
+		foreach (var facilityTrademark in facility.Trademarks)
+		foreach (var reportTemplate in facilityTrademark.ReportTemplates)
 		{
-			foreach (var facilityTrademark in facility.Trademarks)
-			{
-				foreach (var reportTemplate in facilityTrademark.ReportTemplates)
-				{
-					var entity = new LabTestReportTemplate(facility.Supervisor, facilityTrademark.Title, reportTemplate.AnimalId,
-						reportTemplate.LabTestTitle, reportTemplate.TemplatePath);
+			var animal = animals[reportTemplate.AnimalId];
+			var entity = new LabTestReportTemplate(facility.Supervisor, facilityTrademark.Title, animal,
+				reportTemplate.LabTestTitle, reportTemplate.TemplatePath);
 
-					entity.Id = id;
+			entity.Id = id;
 
-					reportTemplates.Add(entity);
+			reportTemplates.Add(entity);
 
-					id++;
-				}
-			}
+			id++;
 		}
 
 		var reportTemplateLookup = reportTemplates.ToLookup(template => new ReportTemplateIndex(template.Facility, template.TradeName,
-			template.AnimalId), template => template);
-		
+			template.Animal), template => template);
+
 		return new LabTestReportTemplateQueryService(reportTemplateLookup);
 	}
 
-	private record ReportTemplateIndex(string Facility, string TradeName, int AnimalId);
+	private record ReportTemplateIndex(string Facility, string TradeName, string Animal);
 }

@@ -153,9 +153,9 @@ public class LabReportViewModel : BaseViewModel
 	{
 		string facility = "ИП Живодеров";
 		string tradeName = "Зооскинхэд";
-		int animalId = 0;
+		string animal = "Кошка";
 		
-		var reportTemplates = await _labTestReportTemplateQueryService.GetLabTestReportTemplatesAsync(facility, tradeName, animalId);
+		var reportTemplates = await _labTestReportTemplateQueryService.ListAsync(facility, tradeName, animal);
 		
 		var vm = new ReportTemplateDialogViewModel();
 		var input = new ReportTemplateDialogInput
@@ -164,5 +164,14 @@ public class LabReportViewModel : BaseViewModel
 		};
 		
 		var dialogOutput = await DialogViewModel.ShowAsync(vm, input);
+		
+		var allTemplates = await _labTestReportTemplateQueryService.ListAsync();
+		
+		input = new ReportTemplateDialogInput
+		{
+			ReportTemplates = allTemplates
+		};
+		
+		dialogOutput = await DialogViewModel.ShowAsync(vm, input);
 	}
 }

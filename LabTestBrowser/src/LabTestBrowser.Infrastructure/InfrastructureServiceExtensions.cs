@@ -33,7 +33,11 @@ public static class InfrastructureServiceExtensions
 		var labReportSection = config.GetSection(nameof(LabReportSettings));
 		var labReportSettings = labReportSection.Get<LabReportSettings>();
 		Guard.Against.Null(labReportSettings);
-		services.AddSingleton<ILabTestReportTemplateQueryService>(LabTestReportTemplateQueryService.Create(labReportSettings));
+		var section = config.GetSection(nameof(AnimalSettings));
+		var animalSettings = section.Get<AnimalSettings>();
+		Guard.Against.Null(animalSettings);
+		var queryService = LabTestReportTemplateQueryService.Create(labReportSettings, animalSettings);
+		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
 		
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
