@@ -36,6 +36,7 @@ builder.Services.AddServiceConfigs(appLogger, builder);
 // builder.Services.AddSingleton<IHl7Hub>(sp => t);
 builder.Services.AddSingleton<LabReportViewModel>();
 builder.Services.AddSingleton<DialogViewModel>();
+builder.Services.AddSingleton<ReportTemplateDialogViewModel>();
 builder.Services.AddScoped<ReportTemplateDialogViewModel>();
 builder.Services.AddHostedService<RecoverDatabaseBackgroundService>();
 
