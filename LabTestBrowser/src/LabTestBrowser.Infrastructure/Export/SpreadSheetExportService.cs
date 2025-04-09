@@ -3,6 +3,7 @@ using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Export;
+using LabTestBrowser.UseCases.LabTestReportTemplates;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
@@ -11,23 +12,38 @@ namespace LabTestBrowser.Infrastructure.Export;
 public class SpreadSheetExportService : ISpreadSheetExportService
 {
 	private readonly IRepository<LabTestReport> _reportRepository;
+	private readonly ILabTestReportTemplateQueryService _templateQueryService;
 	private readonly IRepository<CompleteBloodCount> _cbcRepository;
 	private readonly ILogger<SpreadSheetExportService> _logger;
 
 	public SpreadSheetExportService(IRepository<LabTestReport> reportRepository,
+		ILabTestReportTemplateQueryService templateQueryService,
 		IRepository<CompleteBloodCount> cbcRepository,
 		ILogger<SpreadSheetExportService> logger)
 	{
 		_reportRepository = reportRepository;
+		_templateQueryService = templateQueryService;
 		_cbcRepository = cbcRepository;
 		_logger = logger;
 	}
 
-	public async Task Export(LabTestReportTemplate reportTemplate, int labTestReportId)
+	public async Task Export(int labTestReportTemplateId, int labTestReportId)
 	{
+		
+		var reportTemplate = await _templateQueryService.FindById(labTestReportTemplateId);
+		
+		if(reportTemplate == null)
+			return;
+		
 		var templatePath = reportTemplate.Path;
+		var pathname = Path.Combine(Directory.GetCurrentDirectory(), templatePath);
 
-		_logger.LogDebug("Template opening: {templatePath}", templatePath);
+		if (!File.Exists(templatePath))
+		{
+			throw new FileNotFoundException($"Template {pathname} doesn't exist");
+		}
+
+		_logger.LogInformation("Exporting lab test report template {templatePath}", templatePath);
 
 		var report = await _reportRepository.GetByIdAsync(labTestReportId);
 		CompleteBloodCount? cbc = null;
@@ -88,7 +104,8 @@ public class SpreadSheetExportService : ISpreadSheetExportService
 		workbook.Close();
 		memoryStream.Position = 0;
 
-		var exportFilenamePath = string.Empty;
+		//TODO: file naming 
+		var exportFilenamePath = $"lab-report-{DateTime.Now:hh-mm-ss}.xlsx";
 		_logger.LogDebug("Template exported: {exportPath}", string.Empty);
 
 		await using var fs = new FileStream(exportFilenamePath, FileMode.Create);

@@ -2,5 +2,5 @@
 
 public interface ISpreadSheetExportService
 {
-	Task Export(LabTestReportTemplate reportTemplate, int labTestReportId);
+	Task Export(int labTestReportTemplateId, int labTestReportId);
 }
