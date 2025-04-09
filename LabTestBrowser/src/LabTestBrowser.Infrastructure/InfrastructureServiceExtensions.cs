@@ -3,6 +3,7 @@ using LabTestBrowser.Core.Services;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Data.Settings;
+using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Hl7;
@@ -26,8 +27,7 @@ public static class InfrastructureServiceExtensions
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
 			.AddScoped<IListContributorsQueryService, ListContributorsQueryService>()
 			.AddScoped<IDeleteContributorService, DeleteContributorService>()
-			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>()
-			.AddSingleton<ILabTestReportTemplateQueryService, LabTestReportTemplateQueryService>();
+			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
 
 		
 		var labReportSection = config.GetSection(nameof(LabReportSettings));
@@ -38,6 +38,8 @@ public static class InfrastructureServiceExtensions
 		Guard.Against.Null(animalSettings);
 		var queryService = LabTestReportTemplateQueryService.Create(labReportSettings, animalSettings);
 		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
+		
+		services.AddSingleton<ISpreadSheetExportService, SpreadSheetExportService>();
 		
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
