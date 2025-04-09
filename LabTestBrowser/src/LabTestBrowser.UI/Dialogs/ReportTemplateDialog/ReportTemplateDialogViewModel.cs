@@ -30,6 +30,7 @@ public class ReportTemplateDialogViewModel : BaseViewModel,
 		LabTestReportTemplates = parameters.ReportTemplates
 			.Select(template => new LabTestReportTemplateViewModel
 			{
+				Id = template.Id,
 				Path = template.Path,
 				Title = template.Title
 			})
@@ -44,6 +45,7 @@ public class ReportTemplateDialogViewModel : BaseViewModel,
 			.Where(template => template.IsSelected)
 			.Select(vm => new LabTestReportTemplate
 			{
+				Id = vm.Id,
 				Path = vm.Path,
 				Title = vm.Title,
 			})
