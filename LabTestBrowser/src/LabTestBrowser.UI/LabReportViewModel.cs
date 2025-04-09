@@ -9,6 +9,7 @@ using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
 using LabTestBrowser.UseCases.LabTestReports;
+using LabTestBrowser.UseCases.LabTestReports.Export;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
@@ -16,6 +17,8 @@ using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 using LabTestBrowser.UseCases.LabTestReports.RemoveCompleteBloodCount;
 using LabTestBrowser.UseCases.LabTestReports.Save;
 using LabTestBrowser.UseCases.LabTestReportTemplates;
+using LabTestBrowser.UseCases.LabTestReportTemplates.List;
+using LabTestBrowser.UseCases.LabTestReportTemplates.ListRegistered;
 using MediatR;
 
 namespace LabTestBrowser.UI;
@@ -24,7 +27,7 @@ public class LabReportViewModel : BaseViewModel
 {
 	private readonly IMediator _mediator;
 	private readonly ILogger<LabReportViewModel> _logger;
-	private readonly ILabTestReportTemplateQueryService _labTestReportTemplateQueryService;
+	private readonly ReportTemplateDialogViewModel _reportTemplateDialog;
 
 	private readonly LabRequisitionViewModel _labRequisition;
 
@@ -33,12 +36,12 @@ public class LabReportViewModel : BaseViewModel
 
 	public LabReportViewModel(IMediator mediator,
 		ILogger<LabReportViewModel>  logger, 
-		ILabTestReportTemplateQueryService  labTestReportTemplateQueryService,
+		ReportTemplateDialogViewModel reportTemplateDialog,
 		DialogViewModel dialogViewModel)
 	{
 		_mediator = mediator;
 		_logger = logger;
-		_labTestReportTemplateQueryService = labTestReportTemplateQueryService;
+		_reportTemplateDialog = reportTemplateDialog;
 		DialogViewModel = dialogViewModel;
 
 		//TODO: Refactor
@@ -149,29 +152,31 @@ public class LabReportViewModel : BaseViewModel
 		var result = await _mediator.Send(command);
 	}
 
-	private async Task ExportAsync() 
+	private async Task ExportAsync()
 	{
-		string facility = "ИП Живодеров";
-		string tradeName = "Зооскинхэд";
-		string animal = "Кошка";
-		
-		var reportTemplates = await _labTestReportTemplateQueryService.ListAsync(facility, tradeName, animal);
-		
-		var vm = new ReportTemplateDialogViewModel();
-		var input = new ReportTemplateDialogInput
+		var query = new ListRegisteredLabTestReportTemplatesQuery(_labRequisition.Id);
+		var result = await _mediator.Send(query);
+
+		if (!result.IsSuccess)
+			return;
+
+		var reportTemplates = result.Value;
+		var dialogInput = new ReportTemplateDialogInput
 		{
 			ReportTemplates = reportTemplates
 		};
+
+		var dialogOutput = await DialogViewModel.ShowAsync(_reportTemplateDialog, dialogInput);
+
+		if (dialogOutput.DialogResult == ReportTemplateDialogResult.Cancel)
+			return;
+
+		if(dialogOutput.ReportTemplates == null)
+			return;
 		
-		var dialogOutput = await DialogViewModel.ShowAsync(vm, input);
+		var templateIds = dialogOutput.ReportTemplates.Select(template => template.Id);
 		
-		var allTemplates = await _labTestReportTemplateQueryService.ListAsync();
-		
-		input = new ReportTemplateDialogInput
-		{
-			ReportTemplates = allTemplates
-		};
-		
-		dialogOutput = await DialogViewModel.ShowAsync(vm, input);
+		var command = new ExportLabTestReportCommand(_labRequisition.Id, templateIds);
+		result = await _mediator.Send(command);
 	}
 }
