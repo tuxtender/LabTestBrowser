@@ -12,16 +12,17 @@
 		Title="MainWindow">
 
 	<Grid>
-		<local:LabReportCommandBar />
-		<WrapPanel Orientation="Horizontal">
-			<local:LabRequisitionControl Padding="5, 0"
-										 DataContext="{Binding Path= LabRequisition }" />
-			<local:LabTestResultsControl Padding="5, 0" />
+		<StackPanel>
+			<local:LabReportCommandBar />
+			<WrapPanel Orientation="Horizontal">
+				<local:LabRequisitionControl Padding="5, 0"
+											 DataContext="{Binding Path= LabRequisition }" />
+				<local:LabTestResultsControl Padding="5, 0" />
 
-			<Button Content="Export"
-					Command="{Binding ExportCommand}" />
-		</WrapPanel>
-
+				<Button Content="Export"
+						Command="{Binding ExportCommand}" />
+			</WrapPanel>
+		</StackPanel>
 		<dialogs:DialogView DataContext="{Binding DialogViewModel}" />
 	</Grid>
 
