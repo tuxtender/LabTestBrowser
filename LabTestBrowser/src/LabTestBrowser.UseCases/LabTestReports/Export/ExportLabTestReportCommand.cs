@@ -1,3 +1,3 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.Export;
 
-public record ExportLabTestReportCommand(int LabTestReportId) :ICommand<Result>;
+public record ExportLabTestReportCommand(int LabTestReportId, IEnumerable<int> LabTestReportTemplateIds) : ICommand<Result>;
