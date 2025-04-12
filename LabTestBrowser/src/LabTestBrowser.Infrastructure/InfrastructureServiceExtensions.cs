@@ -40,6 +40,10 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
 		
 		services.AddSingleton<ISpreadSheetExportService, SpreadSheetExportService>();
+		services.AddTransient<ILabTestReportExportFileNamingService, LabTestReportExportFileNamingService>();
+		services.AddSingleton<IExportService, ExportService>();
+		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
+		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();
 		
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
