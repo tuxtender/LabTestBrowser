@@ -1,0 +1,19 @@
+﻿using LabTestBrowser.Core.LabTestReportAggregate;
+
+namespace LabTestBrowser.UseCases.LabTestReports.Get;
+
+public class GetLastLabTestReportHandler(IReadRepository<LabTestReport> _repository)
+	: IQueryHandler<GetLabTestReportQuery, Result<LabTestReportDTO>>
+{
+	public async Task<Result<LabTestReportDTO>> Handle(GetLabTestReportQuery request, CancellationToken cancellationToken)
+	{
+		var labTestReport = await _repository.GetByIdAsync(request.LabTestReportId, cancellationToken);
+
+		if (labTestReport == null)
+			return Result.NotFound();
+
+		var dto = labTestReport.ConvertToLabTestReportDTO();
+
+		return dto;
+	}
+}
