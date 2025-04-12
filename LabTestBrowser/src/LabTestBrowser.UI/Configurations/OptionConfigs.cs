@@ -2,6 +2,7 @@
 using LabTestBrowser.Core.Services;
 using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Email;
+using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.LaboratoryEquipment;
 using LabTestBrowser.UseCases.LaboratoryEquipment;
@@ -20,6 +21,7 @@ public static class OptionConfigs
 
 		// builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
 		services.Configure<MailserverConfiguration>(configuration.GetSection("Mailserver"));
+		builder.Services.Configure<ExportSettings>(builder.Configuration.GetSection(nameof(ExportSettings)));
 
 		if (builder.Environment.IsDevelopment())
 		{
