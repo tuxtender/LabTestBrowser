@@ -10,6 +10,7 @@ using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Export;
+using LabTestBrowser.UseCases.LabTestReports.Get;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
@@ -56,10 +57,9 @@ public class LabReportViewModel : BaseViewModel
 		_labRequisition.Specimen = 1;
 		_labRequisition.Date = DateOnly.FromDateTime(DateTime.Now);
 		
-		var getLastLabTestReportQuery = new GetLastLabTestReportQuery(_labRequisition.Date);
-		
-		// var report = _mediator.Send(getLastLabTestReportQuery).GetAwaiter().GetResult();
-		// _labRequisition.SetLabRequisition(report);
+		var query = new GetLabTestReportQuery(13);
+		var report = _mediator.Send(query).GetAwaiter().GetResult();
+		_labRequisition.SetLabRequisition(report);
 
 		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _itemsLock);
 		Task.Run(async () =>
