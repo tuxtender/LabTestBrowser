@@ -14,16 +14,19 @@ public class SpreadSheetExportService : ISpreadSheetExportService
 	private readonly IRepository<LabTestReport> _reportRepository;
 	private readonly ILabTestReportTemplateQueryService _templateQueryService;
 	private readonly IRepository<CompleteBloodCount> _cbcRepository;
+	private readonly ILabTestReportExportFileNamingService _exportFileNamingService;
 	private readonly ILogger<SpreadSheetExportService> _logger;
 
 	public SpreadSheetExportService(IRepository<LabTestReport> reportRepository,
 		ILabTestReportTemplateQueryService templateQueryService,
 		IRepository<CompleteBloodCount> cbcRepository,
+		ILabTestReportExportFileNamingService exportFileNamingService,
 		ILogger<SpreadSheetExportService> logger)
 	{
 		_reportRepository = reportRepository;
 		_templateQueryService = templateQueryService;
 		_cbcRepository = cbcRepository;
+		_exportFileNamingService = exportFileNamingService;
 		_logger = logger;
 	}
 
@@ -105,10 +108,13 @@ public class SpreadSheetExportService : ISpreadSheetExportService
 		memoryStream.Position = 0;
 
 		//TODO: file naming 
-		var exportFilenamePath = $"lab-report-{DateTime.Now:hh-mm-ss}.xlsx";
-		_logger.LogDebug("Template exported: {exportPath}", string.Empty);
+		// var exportFilenamePath = $"lab-report-{DateTime.Now:hh-mm-ss}.xlsx";
+		var exportPath = await _exportFileNamingService.GetExportFilenameAsync(labTestReportId, labTestReportTemplateId);
+		var directory = Path.GetDirectoryName(exportPath) ?? string.Empty;
+		Directory.CreateDirectory(directory);
 
-		await using var fs = new FileStream(exportFilenamePath, FileMode.Create);
+		_logger.LogInformation("Template exported: {exportPath}", exportPath);
+		await using var fs = new FileStream(exportPath, FileMode.Create);
 		await memoryStream.CopyToAsync(fs);
 	}
 }
