@@ -9,11 +9,12 @@ public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
 	public IReadOnlyList<IToken> Tokens { get; init; } = new List<IToken>()
 	{
 		new DateToken("DATE", report.Specimen.Date),
+		new NumberToken("SAMPLE", report.Specimen.SequentialNumber),
 		new TextToken("CLINIC", report.SpecimenCollectionCenter.Facility),
 		new TextToken("SUBSIDIARY", report.SpecimenCollectionCenter.TradeName),
 		new TextToken("ANIMAL", report.Patient.Animal),
 		new TextToken("OWNER", report.Patient.HealthcareProxy),
-		new TextToken("OWNER.SECOND_NAME", report.Patient.HealthcareProxy),
+		new TextToken("OWNER.SECOND_NAME", report.Patient.HealthcareProxy?.Split().First()), //TODO
 		new TextToken("NICKNAME", report.Patient.Name),
 		new TextToken("BREED", report.Patient.Breed),
 		new TextToken("SEX", report.Patient.Category),
@@ -21,7 +22,7 @@ public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
 		new NumberToken("AGE.YEAR", report.Patient.Age.Years),
 		new NumberToken("AGE.MONTH", report.Patient.Age.Months),
 		new NumberToken("AGE.DAY", report.Patient.Age.Days),
-		new TextToken("LAB_TEST", report.Patient.HealthcareProxy),
+		new TextToken("LAB_TEST", "CBC"), //TODO
 		new TextToken("WBC", cbc?.WhiteBloodCell?.Value),
 		new TextToken("LYM%", cbc?.LymphocytePercent?.Value),
 		new TextToken("MON%", cbc?.MonocytePercent?.Value),
