@@ -4,7 +4,7 @@ namespace LabTestBrowser.Infrastructure.Export;
 
 public class TextTemplateEngine(ILogger<TextTemplateEngine> _logger) : ITextTemplateEngine
 {
-	private const string TokenPattern = @"{{\s*([a-zA-Z][a-zA-Z0-9_.-]*)\s*}}";
+	private const string TokenPattern = @"{{\s*([a-zA-Z][a-zA-Z0-9_.\-%]*)\s*}}";
 
 	public string Render(string template, Dictionary<string, string> tokens)
 	{
