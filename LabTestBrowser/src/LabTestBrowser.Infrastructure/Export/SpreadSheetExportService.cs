@@ -14,13 +14,13 @@ public class SpreadSheetExportService : ISpreadSheetExportService
 	private readonly IRepository<LabTestReport> _reportRepository;
 	private readonly ILabTestReportTemplateQueryService _templateQueryService;
 	private readonly IRepository<CompleteBloodCount> _cbcRepository;
-	private readonly ILabTestReportExportFileNamingService _exportFileNamingService;
+	private readonly IExportFileNamingService _exportFileNamingService;
 	private readonly ILogger<SpreadSheetExportService> _logger;
 
 	public SpreadSheetExportService(IRepository<LabTestReport> reportRepository,
 		ILabTestReportTemplateQueryService templateQueryService,
 		IRepository<CompleteBloodCount> cbcRepository,
-		ILabTestReportExportFileNamingService exportFileNamingService,
+		IExportFileNamingService exportFileNamingService,
 		ILogger<SpreadSheetExportService> logger)
 	{
 		_reportRepository = reportRepository;
@@ -109,7 +109,7 @@ public class SpreadSheetExportService : ISpreadSheetExportService
 
 		//TODO: file naming 
 		// var exportFilenamePath = $"lab-report-{DateTime.Now:hh-mm-ss}.xlsx";
-		var exportPath = await _exportFileNamingService.GetExportFilenameAsync(labTestReportId, labTestReportTemplateId);
+		var exportPath = await _exportFileNamingService.GetExportPathAsync(tokenToValueMap, ".xlsx");
 		var directory = Path.GetDirectoryName(exportPath) ?? string.Empty;
 		Directory.CreateDirectory(directory);
 

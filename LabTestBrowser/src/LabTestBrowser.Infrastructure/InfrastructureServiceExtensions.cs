@@ -40,7 +40,7 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
 		
 		services.AddSingleton<ISpreadSheetExportService, SpreadSheetExportService>();
-		services.AddTransient<ILabTestReportExportFileNamingService, LabTestReportExportFileNamingService>();
+		services.AddTransient<IExportFileNamingService, ExportFileNamingService>();
 		services.AddSingleton<IExportService, ExportService>();
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();

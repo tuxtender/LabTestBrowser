@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.Core.LabTestReportTemplateAggregate;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Export;
 using LabTestBrowser.UseCases.LabTestReportTemplates;
@@ -12,14 +13,14 @@ public class ExportService : IExportService
 	private readonly IRepository<LabTestReport> _reportRepository;
 	private readonly ILabTestReportTemplateQueryService _templateQueryService;
 	private readonly IRepository<CompleteBloodCount> _cbcRepository;
-	private readonly ILabTestReportExportFileNamingService _exportFileNamingService;
+	private readonly IExportFileNamingService _exportFileNamingService;
 	private readonly IFileTemplateEngine _templateEngine;
 	private readonly ILogger<ExportService> _logger;
 
 	public ExportService(IRepository<LabTestReport> reportRepository,
 		ILabTestReportTemplateQueryService templateQueryService,
 		IRepository<CompleteBloodCount> cbcRepository,
-		ILabTestReportExportFileNamingService exportFileNamingService,
+		IExportFileNamingService exportFileNamingService,
 		IFileTemplateEngine templateEngine,
 		ILogger<ExportService> logger)
 	{
@@ -56,19 +57,17 @@ public class ExportService : IExportService
 
 		await using var fileStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
-		var templateExtension = Path.GetExtension(reportTemplate.Path);
-
 		//TODO: refactor LabTestReportTokens
 		var reportTokens = new LabTestReportTokens(report, cbc);
 		var tokens = reportTokens.Tokens.ToDictionary(token => token.GetName(), token => token.GetValue());
 
 		MemoryStream memoryStream = new MemoryStream();
 
-		if (templateExtension == ".xlsx")
+		if (reportTemplate.FileFormat == TemplateFileFormat.Excel)
 			memoryStream = await _templateEngine.RenderAsync(fileStream, tokens);
 
 		//TODO: Separate filename and directory creation
-		var exportPath = await _exportFileNamingService.GetExportFilenameAsync(labTestReportTemplateId, labTestReportTemplateId);
+		var exportPath = await _exportFileNamingService.GetExportPathAsync(tokens, reportTemplate.FileExtension);
 
 		var directory = Path.GetDirectoryName(exportPath) ?? string.Empty;
 		Directory.CreateDirectory(directory);
