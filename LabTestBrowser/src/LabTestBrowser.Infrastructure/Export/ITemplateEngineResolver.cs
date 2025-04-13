@@ -4,5 +4,5 @@ namespace LabTestBrowser.Infrastructure.Export;
 
 public interface ITemplateEngineResolver
 {
-	IFileTemplateEngine ResolveByFileFormat(TemplateFileFormat templateFileFormat);
+	IFileTemplateEngine ResolveByFileFormat(TemplateFileExtension templateFileFormat);
 }

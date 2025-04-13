@@ -24,7 +24,9 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 		{
 			Id = template.Id,
 			Title = template.Title,
-			Path = template.Path
+			Path = template.Path,
+			FileFormat = template.TemplateFileExtension.FileFormat,
+			FileExtension = template.TemplateFileExtension.FileExtension
 		};
 
 		return Task.FromResult<LabTestReportTemplateDto?>(dto);
@@ -41,7 +43,9 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 			{
 				Id = template.Id,
 				Title = template.Title,
-				Path = template.Path
+				Path = template.Path,
+				FileFormat = template.TemplateFileExtension.FileFormat,
+				FileExtension = template.TemplateFileExtension.FileExtension
 			});
 
 		return Task.FromResult(dto);
@@ -55,7 +59,9 @@ public class LabTestReportTemplateQueryService : ILabTestReportTemplateQueryServ
 			{
 				Id = template.Id,
 				Title = template.Title,
-				Path = template.Path
+				Path = template.Path,
+				FileFormat = template.TemplateFileExtension.FileFormat,
+				FileExtension = template.TemplateFileExtension.FileExtension
 			});
 
 		return Task.FromResult(templates);
