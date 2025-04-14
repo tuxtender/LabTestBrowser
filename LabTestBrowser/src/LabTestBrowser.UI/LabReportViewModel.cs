@@ -154,6 +154,7 @@ public class LabReportViewModel : BaseViewModel
 
 	private async Task ExportAsync()
 	{
+		//TODO: Encapsulate export into ReportTemplateDialogViewModel
 		var query = new ListRegisteredLabTestReportTemplatesQuery(_labRequisition.Id);
 		var result = await _mediator.Send(query);
 
