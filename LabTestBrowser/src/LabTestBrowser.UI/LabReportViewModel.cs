@@ -8,6 +8,7 @@ using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
+using LabTestBrowser.UseCases.CompleteBloodCounts.ListByDate;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Export;
 using LabTestBrowser.UseCases.LabTestReports.Get;
@@ -52,6 +53,7 @@ public class LabReportViewModel : BaseViewModel
 		PreviousCommand = new AsyncCommand(GetPreviousAsync);
 		ClearCommand = new AsyncCommand(ClearAsync);
 		ExportCommand = new AsyncCommand(ExportAsync);
+		UpdateCommand = new AsyncCommand(UpdateAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.Specimen = 1;
@@ -91,6 +93,7 @@ public class LabReportViewModel : BaseViewModel
 	public AsyncCommand NextCommand { get; private set; }
 	public AsyncCommand ClearCommand { get; private set; }
 	public AsyncCommand ExportCommand { get; private set; }
+	public AsyncCommand UpdateCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -150,6 +153,21 @@ public class LabReportViewModel : BaseViewModel
 	{
 		var command = new RemoveCompleteBloodCountCommand(_labRequisition.Id);
 		var result = await _mediator.Send(command);
+	}
+
+	private async Task UpdateAsync()
+	{
+		var reportQuery = new GetLastLabTestReportQuery(_labRequisition.Date);
+		var reportResult = await _mediator.Send(reportQuery);
+		var report = reportResult.Value;
+		_labRequisition.SetLabRequisition(report);
+
+		var completeBloodCountsQuery = new ListCompleteBloodCountsByDateQuery(_labRequisition.Date);
+		var cbcResult = await _mediator.Send(completeBloodCountsQuery);
+		var completeBloodCounts = cbcResult.Value;
+
+		CompleteBloodCounts.Clear();
+		completeBloodCounts.ToList().ForEach(cbc => CompleteBloodCounts.Add(new CompleteBloodCountViewModel(cbc)));
 	}
 
 	private async Task ExportAsync()
