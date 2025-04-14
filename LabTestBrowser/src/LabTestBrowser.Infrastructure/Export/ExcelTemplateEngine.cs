@@ -3,7 +3,7 @@ using NPOI.XSSF.UserModel;
 
 namespace LabTestBrowser.Infrastructure.Export;
 
-public class ExcelTemplateEngine : IFileTemplateEngine
+public class ExcelTemplateEngine : IExcelTemplateEngine
 {
 	private readonly ITextTemplateEngine _templateEngine;
 	private readonly ILogger<ExcelTemplateEngine> _logger;
