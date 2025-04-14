@@ -44,6 +44,9 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IExportService, ExportService>();
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();
+		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
+		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
+		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
 		
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
