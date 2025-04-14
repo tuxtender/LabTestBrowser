@@ -8,25 +8,24 @@ public class GetPreviousLabTestReportHandler(ILabTestReportQueryService _query, 
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetPreviousLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		//TODO: Remove nesting
+		var lastLabTestReportDto = await _query.FindLastLabTestReportAsync(request.Date);
+
+		if (lastLabTestReportDto == null)
+			return new LabTestReportDto
+			{
+				SpecimenSequentialNumber = 1,
+				Date = request.Date
+			};
+
 		var spec = new LabTestReportBySpecimenSpec(request.Specimen, request.Date);
 		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
 
 		if (labTestReport == null)
-		{
-			var defaultReport = new LabTestReportDto
-			{
-				SpecimenSequentialNumber = request.Specimen,
-				Date = request.Date,
-			};
-			var lastLabTestReport = await _query.FindLastLabTestReportAsync(request.Date);
+			return lastLabTestReportDto;
 
-			return lastLabTestReport ?? defaultReport;
-		}
-
-		var previousLabTestReport =
+		var previousLabTestReportDto =
 			await _query.FindPreviousLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.Date);
 
-		return previousLabTestReport ?? labTestReport.ConvertToLabTestReportDto();
+		return previousLabTestReportDto ?? labTestReport.ConvertToLabTestReportDto();
 	}
 }
