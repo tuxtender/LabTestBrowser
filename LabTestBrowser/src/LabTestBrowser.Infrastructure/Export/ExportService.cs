@@ -1,7 +1,6 @@
 ﻿using Ardalis.Result;
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
-using LabTestBrowser.Core.LabTestReportTemplateAggregate;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Export;
 using LabTestBrowser.UseCases.LabTestReportTemplates;
@@ -14,21 +13,21 @@ public class ExportService : IExportService
 	private readonly ILabTestReportTemplateQueryService _templateQueryService;
 	private readonly IRepository<CompleteBloodCount> _cbcRepository;
 	private readonly IExportFileNamingService _exportFileNamingService;
-	private readonly IFileTemplateEngine _templateEngine;
+	private readonly ITemplateEngineResolver _templateEngineResolver;
 	private readonly ILogger<ExportService> _logger;
 
 	public ExportService(IRepository<LabTestReport> reportRepository,
 		ILabTestReportTemplateQueryService templateQueryService,
 		IRepository<CompleteBloodCount> cbcRepository,
 		IExportFileNamingService exportFileNamingService,
-		IFileTemplateEngine templateEngine,
+		ITemplateEngineResolver templateEngineResolver,
 		ILogger<ExportService> logger)
 	{
 		_reportRepository = reportRepository;
 		_templateQueryService = templateQueryService;
 		_cbcRepository = cbcRepository;
 		_exportFileNamingService = exportFileNamingService;
-		_templateEngine = templateEngine;
+		_templateEngineResolver = templateEngineResolver;
 		_logger = logger;
 	}
 
@@ -61,20 +60,18 @@ public class ExportService : IExportService
 		var reportTokens = new LabTestReportTokens(report, cbc);
 		var tokens = reportTokens.Tokens.ToDictionary(token => token.GetName(), token => token.GetValue());
 
-		MemoryStream memoryStream = new MemoryStream();
-
-		if (reportTemplate.FileFormat == TemplateFileFormat.Excel)
-			memoryStream = await _templateEngine.RenderAsync(fileStream, tokens);
+		var templateEngine = _templateEngineResolver.ResolveByFileFormat(reportTemplate.FileFormat);
+		await using var memoryStream = await templateEngine.RenderAsync(fileStream, tokens);
 
 		//TODO: Separate filename and directory creation
 		var exportPath = await _exportFileNamingService.GetExportPathAsync(tokens, reportTemplate.FileExtension);
 
+		//TODO: IOException treatment
 		var directory = Path.GetDirectoryName(exportPath) ?? string.Empty;
 		Directory.CreateDirectory(directory);
 
 		await using var fs = new FileStream(exportPath, FileMode.Create);
 		await memoryStream.CopyToAsync(fs);
-		await memoryStream.DisposeAsync();
 
 		_logger.LogInformation("Report exported: {exportPath}", exportPath);
 
