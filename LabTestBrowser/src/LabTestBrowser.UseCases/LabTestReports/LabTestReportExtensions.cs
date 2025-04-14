@@ -4,7 +4,7 @@ namespace LabTestBrowser.UseCases.LabTestReports;
 
 public static class LabTestReportExtensions
 {
-	public static LabTestReportDto ConvertToLabTestReportDTO(this LabTestReport report)
+	public static LabTestReportDto ConvertToLabTestReportDto(this LabTestReport report)
 	{
 		return new LabTestReportDto
 		{
