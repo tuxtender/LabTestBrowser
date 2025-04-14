@@ -1,6 +1,6 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports;
 
-public record LabTestReportDTO
+public record LabTestReportDto
 {
 	public int Id { get; init; }
 	public int SpecimenSequentialNumber { get; init; }

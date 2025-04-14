@@ -1,3 +1,3 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.GetLast;
 
-public record GetLastLabTestReportQuery(DateOnly Date) : IQuery<Result<LabTestReportDTO>>;
+public record GetLastLabTestReportQuery(DateOnly Date) : IQuery<Result<LabTestReportDto>>;

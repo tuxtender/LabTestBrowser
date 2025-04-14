@@ -94,7 +94,7 @@ public class LabRequisitionViewModel : BaseViewModel
 		set => SetField(ref _ageInDays, value);
 	}
 
-	public void SetLabRequisition(LabTestReportDTO report) 
+	public void SetLabRequisition(LabTestReportDto report) 
 	{
 		Id = report.Id;
 		Date = report.Date;

@@ -4,7 +4,7 @@ namespace LabTestBrowser.Infrastructure.Data.Queries;
 
 public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReportQueryService
 {
-	public async Task<LabTestReportDTO?> FindLastLabTestReportAsync(DateOnly date)
+	public async Task<LabTestReportDto?> FindLastLabTestReportAsync(DateOnly date)
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
 			.Where(report => report.Specimen.Date == date)
@@ -14,7 +14,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 		return lastLabTestReport?.ConvertToLabTestReportDTO();
 	}
 
-	public async Task<LabTestReportDTO?> FindNextLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
+	public async Task<LabTestReportDto?> FindNextLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
 	{
 		//TODO: .AsNoTracking()
 
@@ -27,7 +27,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 		return lastLabTestReport?.ConvertToLabTestReportDTO();
 	}
 
-	public async Task<LabTestReportDTO?> FindPreviousLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
+	public async Task<LabTestReportDto?> FindPreviousLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
 			.Where(report => report.Specimen.Date == date)

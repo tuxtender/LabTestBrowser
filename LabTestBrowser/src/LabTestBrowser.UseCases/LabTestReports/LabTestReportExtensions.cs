@@ -4,9 +4,9 @@ namespace LabTestBrowser.UseCases.LabTestReports;
 
 public static class LabTestReportExtensions
 {
-	public static LabTestReportDTO ConvertToLabTestReportDTO(this LabTestReport report)
+	public static LabTestReportDto ConvertToLabTestReportDTO(this LabTestReport report)
 	{
-		return new LabTestReportDTO
+		return new LabTestReportDto
 		{
 			Id = report.Id,
 			Animal = report.Patient.Animal,

@@ -1,14 +1,14 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 
 public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
-	: IQueryHandler<GetEmptyLabTestReportQuery, Result<LabTestReportDTO>>
+	: IQueryHandler<GetEmptyLabTestReportQuery, Result<LabTestReportDto>>
 {
-	public async Task<Result<LabTestReportDTO>> Handle(GetEmptyLabTestReportQuery request, CancellationToken cancellationToken)
+	public async Task<Result<LabTestReportDto>> Handle(GetEmptyLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var report = await _query.FindLastLabTestReportAsync(request.Date);
 
 		if (report == null)
-			return new LabTestReportDTO
+			return new LabTestReportDto
 			{
 				Date = request.Date,
 				SpecimenSequentialNumber = 1
@@ -16,7 +16,7 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 
 		var availableNumber = report.SpecimenSequentialNumber + 1;
 
-		return new LabTestReportDTO
+		return new LabTestReportDto
 		{
 			Date = request.Date,
 			SpecimenSequentialNumber = availableNumber

@@ -3,9 +3,9 @@
 namespace LabTestBrowser.UseCases.LabTestReports.GetNext;
 
 public class GetNextLabTestReportHandler(ILabTestReportQueryService _query, IReadRepository<LabTestReport> _repository)
-	: IQueryHandler<GetNextLabTestReportQuery, Result<LabTestReportDTO>>
+	: IQueryHandler<GetNextLabTestReportQuery, Result<LabTestReportDto>>
 {
-	public async Task<Result<LabTestReportDTO>> Handle(GetNextLabTestReportQuery request, CancellationToken cancellationToken)
+	public async Task<Result<LabTestReportDto>> Handle(GetNextLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var labTestReport = await _repository.GetByIdAsync(request.LabTestReportId, cancellationToken);
 

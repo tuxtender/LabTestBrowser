@@ -1,14 +1,14 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.GetLast;
 
 public class GetLastLabTestReportHandler(ILabTestReportQueryService _query)
-	: IQueryHandler<GetLastLabTestReportQuery, Result<LabTestReportDTO>>
+	: IQueryHandler<GetLastLabTestReportQuery, Result<LabTestReportDto>>
 {
-	public async Task<Result<LabTestReportDTO>> Handle(GetLastLabTestReportQuery request, CancellationToken cancellationToken)
+	public async Task<Result<LabTestReportDto>> Handle(GetLastLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var labTestReport = await _query.FindLastLabTestReportAsync(request.Date);
 
 		if (labTestReport == null)
-			return new LabTestReportDTO
+			return new LabTestReportDto
 			{
 				Date = request.Date,
 				SpecimenSequentialNumber = 1

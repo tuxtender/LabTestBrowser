@@ -1,3 +1,3 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 
-public record GetPreviousLabTestReportQuery(int LabTestReportId) : IQuery<Result<LabTestReportDTO>>;
+public record GetPreviousLabTestReportQuery(int LabTestReportId) : IQuery<Result<LabTestReportDto>>;

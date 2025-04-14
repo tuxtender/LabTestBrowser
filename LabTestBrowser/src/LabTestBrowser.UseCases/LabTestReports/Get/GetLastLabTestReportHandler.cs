@@ -3,9 +3,9 @@
 namespace LabTestBrowser.UseCases.LabTestReports.Get;
 
 public class GetLastLabTestReportHandler(IReadRepository<LabTestReport> _repository)
-	: IQueryHandler<GetLabTestReportQuery, Result<LabTestReportDTO>>
+	: IQueryHandler<GetLabTestReportQuery, Result<LabTestReportDto>>
 {
-	public async Task<Result<LabTestReportDTO>> Handle(GetLabTestReportQuery request, CancellationToken cancellationToken)
+	public async Task<Result<LabTestReportDto>> Handle(GetLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var labTestReport = await _repository.GetByIdAsync(request.LabTestReportId, cancellationToken);
 
