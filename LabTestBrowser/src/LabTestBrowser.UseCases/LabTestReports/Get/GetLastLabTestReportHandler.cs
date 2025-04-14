@@ -12,7 +12,7 @@ public class GetLastLabTestReportHandler(IReadRepository<LabTestReport> _reposit
 		if (labTestReport == null)
 			return Result.NotFound();
 
-		var dto = labTestReport.ConvertToLabTestReportDTO();
+		var dto = labTestReport.ConvertToLabTestReportDto();
 
 		return dto;
 	}

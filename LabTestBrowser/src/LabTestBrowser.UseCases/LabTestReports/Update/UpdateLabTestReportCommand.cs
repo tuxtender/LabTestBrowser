@@ -1,10 +1,8 @@
-namespace LabTestBrowser.UseCases.LabTestReports.Save;
+﻿namespace LabTestBrowser.UseCases.LabTestReports.Update;
 
-public record SaveLabTestReportCommand : ICommand<Result<LabTestReportDto>>
+public record UpdateLabTestReportCommand : ICommand<Result<LabTestReportDto>>
 {
-	public int? Id { get; init; }
-	public int Specimen { get; init; }
-	public DateOnly Date { get; init; }
+	public int Id { get; init; }
 	public string? Facility { get; init; }
 	public string? TradeName { get; init; }
 	public string? PetOwner { get; init; }

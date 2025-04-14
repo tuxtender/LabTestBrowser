@@ -1,4 +1,5 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
 
 namespace LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 
@@ -7,14 +8,25 @@ public class GetPreviousLabTestReportHandler(ILabTestReportQueryService _query, 
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetPreviousLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var labTestReport = await _repository.GetByIdAsync(request.LabTestReportId, cancellationToken);
+		//TODO: Remove nesting
+		var spec = new LabTestReportBySpecimenSpec(request.Specimen, request.Date);
+		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
 
 		if (labTestReport == null)
-			return Result.Error("LabTestReport not found");
+		{
+			var defaultReport = new LabTestReportDto
+			{
+				SpecimenSequentialNumber = request.Specimen,
+				Date = request.Date,
+			};
+			var lastLabTestReport = await _query.FindLastLabTestReportAsync(request.Date);
+
+			return lastLabTestReport ?? defaultReport;
+		}
 
 		var previousLabTestReport =
 			await _query.FindPreviousLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.Date);
 
-		return previousLabTestReport ?? labTestReport.ConvertToLabTestReportDTO();
+		return previousLabTestReport ?? labTestReport.ConvertToLabTestReportDto();
 	}
 }

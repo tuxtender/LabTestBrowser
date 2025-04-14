@@ -1,4 +1,5 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
 
 namespace LabTestBrowser.UseCases.LabTestReportTemplates.ListRegistered;
 
@@ -10,7 +11,8 @@ public class ListRegisteredLabTestReportTemplatesHandler(
 	public async Task<Result<IEnumerable<LabTestReportTemplateDto>>> Handle(ListRegisteredLabTestReportTemplatesQuery request,
 		CancellationToken cancellationToken)
 	{
-		var report = await _repository.GetByIdAsync(request.LabTestReportId, cancellationToken);
+		var spec = new LabTestReportBySpecimenSpec(request.Specimen, request.Date);
+		var report = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
 
 		if (report == null)
 			return Result.NotFound();

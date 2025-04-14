@@ -59,7 +59,7 @@ public class LabReportViewModel : BaseViewModel
 		_labRequisition.Specimen = 1;
 		_labRequisition.Date = DateOnly.FromDateTime(DateTime.Now);
 		
-		var query = new GetLabTestReportQuery(13);
+		var query = new GetLastLabTestReportQuery(_labRequisition.Date);
 		var report = _mediator.Send(query).GetAwaiter().GetResult();
 		_labRequisition.SetLabRequisition(report);
 
@@ -104,14 +104,14 @@ public class LabReportViewModel : BaseViewModel
 
 	private async Task GetNextAsync()
 	{
-		var getNextLabTestReportQuery = new GetNextLabTestReportQuery(_labRequisition.Id);
+		var getNextLabTestReportQuery = new GetNextLabTestReportQuery(_labRequisition.Specimen, _labRequisition.Date);
 		var result = await _mediator.Send(getNextLabTestReportQuery);
 		_labRequisition.SetLabRequisition(result.Value);
 	}
 
 	private async Task GetPreviousAsync()
 	{
-		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(_labRequisition.Id);
+		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(_labRequisition.Specimen, _labRequisition.Date);
 		var result = await _mediator.Send(getPreviousLabTestReportQuery);
 		_labRequisition.SetLabRequisition(result.Value);
 	}
@@ -146,12 +146,12 @@ public class LabReportViewModel : BaseViewModel
 		var result = await _mediator.Send(saveLabTestReportCommand);
 		
 		if(result.IsSuccess)
-			_labRequisition.Id = result.Value;
+			_labRequisition.SetLabRequisition(result.Value);
 	}
 
 	private async Task ClearAsync()
 	{
-		var command = new RemoveCompleteBloodCountCommand(_labRequisition.Id);
+		var command = new RemoveCompleteBloodCountCommand(_labRequisition.Specimen, _labRequisition.Date);
 		var result = await _mediator.Send(command);
 	}
 
@@ -173,7 +173,7 @@ public class LabReportViewModel : BaseViewModel
 	private async Task ExportAsync()
 	{
 		//TODO: Encapsulate export into ReportTemplateDialogViewModel
-		var query = new ListRegisteredLabTestReportTemplatesQuery(_labRequisition.Id);
+		var query = new ListRegisteredLabTestReportTemplatesQuery(_labRequisition.Specimen, _labRequisition.Date);
 		var result = await _mediator.Send(query);
 
 		if (!result.IsSuccess)
@@ -195,7 +195,7 @@ public class LabReportViewModel : BaseViewModel
 		
 		var templateIds = dialogOutput.ReportTemplates.Select(template => template.Id);
 		
-		var command = new ExportLabTestReportCommand(_labRequisition.Id, templateIds);
+		var command = new ExportLabTestReportCommand(_labRequisition.Specimen, _labRequisition.Date, templateIds);
 		result = await _mediator.Send(command);
 	}
 }

@@ -2,7 +2,7 @@
 
 public record LabTestReportDto
 {
-	public int Id { get; init; }
+	public int? Id { get; init; }
 	public int SpecimenSequentialNumber { get; init; }
 	public DateOnly Date { get; init; }
 	public string? Facility { get; init; }

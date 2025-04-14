@@ -11,7 +11,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 			.OrderByDescending(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();
 
-		return lastLabTestReport?.ConvertToLabTestReportDTO();
+		return lastLabTestReport?.ConvertToLabTestReportDto();
 	}
 
 	public async Task<LabTestReportDto?> FindNextLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
@@ -24,7 +24,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 			.OrderBy(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();
 
-		return lastLabTestReport?.ConvertToLabTestReportDTO();
+		return lastLabTestReport?.ConvertToLabTestReportDto();
 	}
 
 	public async Task<LabTestReportDto?> FindPreviousLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
@@ -35,6 +35,6 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 			.OrderByDescending(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();
 
-		return lastLabTestReport?.ConvertToLabTestReportDTO();
+		return lastLabTestReport?.ConvertToLabTestReportDto();
 	}
 }

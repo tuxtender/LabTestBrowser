@@ -20,7 +20,7 @@ public class LabRequisitionViewModel : BaseViewModel
 	private int? _ageInMonths;
 	private int? _ageInDays;
 
-	public int Id { get; internal set; }
+	public int? Id { get; internal set; }
 
 	public DateOnly Date
 	{

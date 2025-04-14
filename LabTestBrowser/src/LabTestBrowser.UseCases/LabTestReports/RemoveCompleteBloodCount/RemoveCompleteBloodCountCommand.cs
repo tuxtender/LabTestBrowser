@@ -1,3 +1,3 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.RemoveCompleteBloodCount;
 
-public record RemoveCompleteBloodCountCommand(int LabTestReportId) : ICommand<Result>;
+public record RemoveCompleteBloodCountCommand(int Specimen, DateOnly Date) : ICommand<Result>;

@@ -1,4 +1,5 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
 
 namespace LabTestBrowser.UseCases.LabTestReports.RemoveCompleteBloodCount;
 
@@ -7,13 +8,14 @@ public class RemoveCompleteBloodCountHandler(IRepository<LabTestReport> _reposit
 {
 	public async Task<Result> Handle(RemoveCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
-		var report = await _repository.GetByIdAsync(request.LabTestReportId, cancellationToken);
+		var spec = new LabTestReportBySpecimenSpec(request.Specimen, request.Date);
+		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
 
-		if (report == null)
+		if (labTestReport == null)
 			return Result.NotFound();
 
-		report.RemoveCompleteBloodCount();
-		await _repository.UpdateAsync(report, cancellationToken);
+		labTestReport.RemoveCompleteBloodCount();
+		await _repository.UpdateAsync(labTestReport, cancellationToken);
 
 		return Result.Success();
 	}
