@@ -11,7 +11,7 @@ public static class LabTestReportExtensions
 			Id = report.Id,
 			Animal = report.Patient.Animal,
 			SpecimenSequentialNumber = report.Specimen.SequentialNumber,
-			Date = report.Specimen.Date,
+			Date = report.Specimen.ObservationDate,
 			Facility = report.SpecimenCollectionCenter.Facility,
 			TradeName = report.SpecimenCollectionCenter.TradeName,
 			HealthcareProxy = report.Patient.HealthcareProxy,

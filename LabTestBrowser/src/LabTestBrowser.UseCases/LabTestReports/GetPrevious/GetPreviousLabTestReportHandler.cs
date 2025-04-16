@@ -24,7 +24,7 @@ public class GetPreviousLabTestReportHandler(ILabTestReportQueryService _query, 
 			return lastLabTestReportDto;
 
 		var previousLabTestReportDto =
-			await _query.FindPreviousLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.Date);
+			await _query.FindPreviousLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.ObservationDate);
 
 		return previousLabTestReportDto ?? labTestReport.ConvertToLabTestReportDto();
 	}

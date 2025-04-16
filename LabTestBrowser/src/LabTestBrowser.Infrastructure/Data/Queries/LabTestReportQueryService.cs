@@ -7,7 +7,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 	public async Task<LabTestReportDto?> FindLastLabTestReportAsync(DateOnly date)
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
-			.Where(report => report.Specimen.Date == date)
+			.Where(report => report.Specimen.ObservationDate == date)
 			.OrderByDescending(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();
 
@@ -19,7 +19,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 		//TODO: .AsNoTracking()
 
 		var lastLabTestReport = await _dbContext.LabTestReports
-			.Where(report => report.Specimen.Date == date)
+			.Where(report => report.Specimen.ObservationDate == date)
 			.Where(report => report.Specimen.SequentialNumber > specimenSequentialNumber)
 			.OrderBy(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();
@@ -30,7 +30,7 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 	public async Task<LabTestReportDto?> FindPreviousLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
-			.Where(report => report.Specimen.Date == date)
+			.Where(report => report.Specimen.ObservationDate == date)
 			.Where(report => report.Specimen.SequentialNumber < specimenSequentialNumber)
 			.OrderByDescending(report => report.Specimen.SequentialNumber)
 			.FirstOrDefaultAsync();

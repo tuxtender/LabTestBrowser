@@ -8,7 +8,7 @@ public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
 {
 	public IReadOnlyList<IToken> Tokens { get; init; } = new List<IToken>()
 	{
-		new DateToken("DATE", report.Specimen.Date),
+		new DateToken("DATE", report.Specimen.ObservationDate),
 		new NumberToken("SAMPLE", report.Specimen.SequentialNumber),
 		new TextToken("CLINIC", report.SpecimenCollectionCenter.Facility),
 		new TextToken("SUBSIDIARY", report.SpecimenCollectionCenter.TradeName),

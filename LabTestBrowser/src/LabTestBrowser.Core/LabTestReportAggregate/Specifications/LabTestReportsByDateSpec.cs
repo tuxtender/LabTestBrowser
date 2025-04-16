@@ -4,5 +4,5 @@ public class LabTestReportsByDateSpec : Specification<LabTestReport>
 {
 	public LabTestReportsByDateSpec(DateOnly date) =>
 		Query
-			.Where(report => report.Specimen.Date == date);
+			.Where(report => report.Specimen.ObservationDate == date);
 }

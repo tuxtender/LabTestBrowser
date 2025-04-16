@@ -19,7 +19,7 @@ public class GetNextLabTestReportHandler(ILabTestReportQueryService _query, IRea
 			};
 
 		var nextLabTestReport =
-			await _query.FindNextLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.Date);
+			await _query.FindNextLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.ObservationDate);
 
 		return nextLabTestReport ?? labTestReport.ConvertToLabTestReportDto();
 	}
