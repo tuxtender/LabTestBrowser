@@ -38,10 +38,9 @@ public static class InfrastructureServiceExtensions
 		Guard.Against.Null(animalSettings);
 		var queryService = LabTestReportTemplateQueryService.Create(labReportSettings, animalSettings);
 		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
-		
-		services.AddSingleton<ISpreadSheetExportService, SpreadSheetExportService>();
-		services.AddTransient<IExportFileNamingService, ExportFileNamingService>();
+
 		services.AddSingleton<IExportService, ExportService>();
+		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();
 		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
