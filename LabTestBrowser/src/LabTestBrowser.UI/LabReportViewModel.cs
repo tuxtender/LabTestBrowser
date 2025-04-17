@@ -9,6 +9,8 @@ using LabTestBrowser.UseCases.CompleteBloodCounts;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
+using LabTestBrowser.UseCases.CompleteBloodCounts.ListReviewed;
+using LabTestBrowser.UseCases.CompleteBloodCounts.ListUnderReview;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ResetReview;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Review;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Suppress;
@@ -174,11 +176,11 @@ public class LabReportViewModel : BaseViewModel
 		var report = await _mediator.Send(reportQuery);
 		_labRequisition.SetLabRequisition(report);
 
-		//TODO: Get reviewed, not reviewed and suppressed CBC
-		
-		// var completeBloodCountsQuery = new ListCompleteBloodCountsByDateQuery(_labRequisition.Date);
-		// var cbcResult = await _mediator.Send(completeBloodCountsQuery);
-		var completeBloodCounts = new List<CompleteBloodCountDto>();
+		var reviewedCompleteBloodCountsQuery = new ListReviewedCompleteBloodCountsQuery(_labRequisition.LabOrderDate);
+		var reviewedCompleteBloodCounts = await _mediator.Send(reviewedCompleteBloodCountsQuery);
+		var underReviewCompleteBloodCountsQuery = new ListUnderReviewCompleteBloodCountsQuery();
+		var underReviewCompleteBloodCounts = await _mediator.Send(underReviewCompleteBloodCountsQuery);
+		List<CompleteBloodCountDto> completeBloodCounts = [..reviewedCompleteBloodCounts.Value, ..underReviewCompleteBloodCounts.Value];
 
 		CompleteBloodCounts.Clear();
 		completeBloodCounts.ToList().ForEach(cbc => CompleteBloodCounts.Add(new CompleteBloodCountViewModel(cbc)));
