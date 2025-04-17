@@ -186,9 +186,6 @@
 				<DataGridTextColumn Header="Образец"
 									Width="110"
 									Binding="{Binding SequenceNumber}" />
-				<DataGridTextColumn Header="Дата отчета"
-									Width="130"
-									Binding="{Binding ReportDate, StringFormat={}{0:dd.MM.yy}}" />
 				<DataGridTextColumn Header="ID"
 									Width="110"
 									Binding="{Binding ExternalId}" />

@@ -1,10 +1,14 @@
-﻿namespace LabTestBrowser.UseCases.CompleteBloodCounts;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+
+namespace LabTestBrowser.UseCases.CompleteBloodCounts;
 
 public record CompleteBloodCountDto
 {
 	public int? Id { get; init; }
 	public string? ExternalId { get; init; }
 	public DateTime ObservationDateTime { get; init; }
+	public ReviewResult ReviewResult { get; init; }
+	public int? SequenceNumber { get; init; }
 	public string? WhiteBloodCell { get; init; }
 	public string? LymphocytePercent { get; init; }
 	public string? MonocytePercent { get; init; }

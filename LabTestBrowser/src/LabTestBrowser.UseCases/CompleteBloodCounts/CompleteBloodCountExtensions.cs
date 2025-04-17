@@ -11,6 +11,8 @@ public static class CompleteBloodCountExtensions
 			Id = cbc.Id,
 			ExternalId = cbc.ExternalId,
 			ObservationDateTime = cbc.ObservationDateTime,
+			ReviewResult = cbc.ReviewResult,
+			SequenceNumber = cbc.AccessionNumber?.SequenceNumber,
 			WhiteBloodCell = cbc.WhiteBloodCell?.Value,
 			LymphocytePercent = cbc.LymphocytePercent?.Value,
 			MonocytePercent = cbc.MonocytePercent?.Value,
