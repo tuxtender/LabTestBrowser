@@ -12,6 +12,9 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 
 	public string ExternalId { get; private set; } = null!;
 	public DateTime ObservationDateTime { get; private set; }
+	public AccessionNumber? AccessionNumber { get; private set; }
+	public ReviewResult ReviewResult { get; private set; } = ReviewResult.Pending;
+	public DateOnly? ReviewDate { get; private set; }
 	public LabTestResult? WhiteBloodCell { get; private set; }
 	public LabTestResult? LymphocytePercent { get; private set; }
 	public LabTestResult? MonocytePercent { get; private set; }
@@ -27,6 +30,27 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 	public LabTestResult? RedBloodCellDistributionWidth { get; private set; }
 	public LabTestResult? Platelet { get; private set; }
 	public LabTestResult? MeanPlateletVolume { get; private set; }
+
+	public void Review(AccessionNumber accessionNumber)
+	{
+		AccessionNumber = accessionNumber;
+		ReviewResult = ReviewResult.Reported;
+		ReviewDate = accessionNumber.Date;
+	}
+
+	public void Review()
+	{
+		AccessionNumber = null;
+		ReviewResult = ReviewResult.Pending;
+		ReviewDate = null;
+	}
+
+	public void Suppress(DateOnly date)
+	{
+		AccessionNumber = null;
+		ReviewResult = ReviewResult.Suppressed;
+		ReviewDate = date;
+	}
 
 	public void SetWhiteBloodCell(string value) => WhiteBloodCell = new LabTestResult(value);
 	public void SetLymphocytePercent(string value) => LymphocytePercent = new LabTestResult(value);
