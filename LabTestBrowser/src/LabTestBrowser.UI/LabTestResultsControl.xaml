@@ -194,10 +194,16 @@
 									Binding="{Binding ObservationTimestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<Button HorizontalAlignment="Right"
-				Command="{Binding ResetCommand}"
-				Margin="0, 5"
-				Content="Очистить" />
+			<StackPanel Margin="5"
+						Orientation="Horizontal"
+						HorizontalAlignment="Right">
+				<Button Command="{Binding ResetCommand}"
+						Margin="0, 0,2,0"
+						Content="Сброс" />
+				<Button Command="{Binding SuppressCommand}"
+						Margin="2, 0,0,0"
+						Content="Брак" />
+			</StackPanel>
 		</StackPanel>
 	</GroupBox>
 </UserControl>

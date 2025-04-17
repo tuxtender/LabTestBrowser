@@ -59,6 +59,7 @@ public class LabReportViewModel : BaseViewModel
 		ExportCommand = new AsyncCommand(ExportAsync);
 		UpdateCommand = new AsyncCommand(UpdateAsync);
 		UpdateReportCommand = new AsyncCommand(UpdateReportAsync);
+		SuppressCommand = new AsyncCommand(SuppressAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.LabOrderNumber = 1;
@@ -100,6 +101,7 @@ public class LabReportViewModel : BaseViewModel
 	public AsyncCommand ExportCommand { get; private set; }
 	public AsyncCommand UpdateCommand { get; private set; }
 	public AsyncCommand UpdateReportCommand { get; private set; }
+	public AsyncCommand SuppressCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
