@@ -31,31 +31,10 @@ public class CreateCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 		await _repository.AddAsync(cbc, cancellationToken);
 		// await _mediator.Publish(new CompleteBloodCountCreatedEvent(cbc.Id), cancellationToken);
 
-		var cbcDto = new CompleteBloodCountDto
-		{
-			Id =  cbc.Id,
-			ExternalId = request.ExternalId,
-			ObservationDateTime = request.ObservationDateTime,
-			WhiteBloodCell = request.WhiteBloodCell,
-			LymphocytePercent = request.LymphocytePercent,
-			MonocytePercent = request.MonocytePercent,
-			NeutrophilPercent = request.NeutrophilPercent,
-			EosinophilPercent = request.EosinophilPercent,
-			BasophilPercent = request.BasophilPercent,
-			RedBloodCell = request.RedBloodCell,
-			Hemoglobin = request.Hemoglobin,
-			Hematocrit = request.Hematocrit,
-			MeanCorpuscularVolume = request.MeanCorpuscularVolume,
-			MeanCorpuscularHemoglobin = request.MeanCorpuscularHemoglobin,
-			MeanCorpuscularHemoglobinConcentration = request.MeanCorpuscularHemoglobinConcentration,
-			RedBloodCellDistributionWidth = request.RedBloodCellDistributionWidth,
-			Platelet = request.Platelet,
-			MeanPlateletVolume = request.MeanPlateletVolume,
-		};
+		var dto = cbc.ConvertToCompleteBloodCountDto();
 
-		await _reader.WriteAsync(cbcDto);
+		await _reader.WriteAsync(dto);
 
-		
 		return cbc.Id;
 	}
 }

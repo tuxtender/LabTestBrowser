@@ -15,26 +15,8 @@ public class GetCompleteBloodCountHandler(IReadRepository<CompleteBloodCount> _r
 		if (cbc == null)
 			return Result.NotFound();
 
-		return new CompleteBloodCountDto
-		{
-			Id = cbc.Id,
-			ExternalId = cbc!.ExternalId,
-			ObservationDateTime = cbc.ObservationDateTime,
-			WhiteBloodCell = cbc.WhiteBloodCell!.Value,
-			LymphocytePercent = cbc.LymphocytePercent!.Value,
-			MonocytePercent = cbc.MonocytePercent!.Value,
-			NeutrophilPercent = cbc.NeutrophilPercent!.Value,
-			EosinophilPercent = cbc.EosinophilPercent!.Value,
-			BasophilPercent = cbc.BasophilPercent!.Value,
-			RedBloodCell = cbc.RedBloodCell!.Value,
-			Hemoglobin = cbc.Hemoglobin!.Value,
-			Hematocrit = cbc.Hematocrit!.Value,
-			MeanCorpuscularVolume = cbc.MeanCorpuscularVolume!.Value,
-			MeanCorpuscularHemoglobin = cbc.MeanCorpuscularHemoglobin!.Value,
-			MeanCorpuscularHemoglobinConcentration = cbc.MeanCorpuscularHemoglobinConcentration!.Value,
-			RedBloodCellDistributionWidth = cbc.RedBloodCellDistributionWidth!.Value,
-			Platelet = cbc.Platelet!.Value,
-			MeanPlateletVolume = cbc.MeanPlateletVolume!.Value,
-		};
+		var dto = cbc.ConvertToCompleteBloodCountDto();
+
+		return dto;
 	}
 }
