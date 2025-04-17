@@ -6,6 +6,7 @@ using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
+using LabTestBrowser.UseCases.CompleteBloodCounts.Assign;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
@@ -60,6 +61,7 @@ public class LabReportViewModel : BaseViewModel
 		UpdateCommand = new AsyncCommand(UpdateAsync);
 		UpdateReportCommand = new AsyncCommand(UpdateReportAsync);
 		SuppressCommand = new AsyncCommand(SuppressAsync);
+		AssignCommand = new AsyncCommand(AssignAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.LabOrderNumber = 1;
@@ -102,6 +104,7 @@ public class LabReportViewModel : BaseViewModel
 	public AsyncCommand UpdateCommand { get; private set; }
 	public AsyncCommand UpdateReportCommand { get; private set; }
 	public AsyncCommand SuppressCommand { get; private set; }
+	public AsyncCommand AssignCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -169,6 +172,13 @@ public class LabReportViewModel : BaseViewModel
 	private async Task SuppressAsync()
 	{
 		var command = new SuppressCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderDate);
+		var result = await _mediator.Send(command);
+	}
+
+	private async Task AssignAsync()
+	{
+		var command = new AssignCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderNumber,
+			_labRequisition.LabOrderDate);
 		var result = await _mediator.Send(command);
 	}
 
