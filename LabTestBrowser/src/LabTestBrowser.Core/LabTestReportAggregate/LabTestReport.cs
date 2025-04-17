@@ -1,4 +1,6 @@
-﻿namespace LabTestBrowser.Core.LabTestReportAggregate;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+
+namespace LabTestBrowser.Core.LabTestReportAggregate;
 
 public class LabTestReport
 	: EntityBase, IAggregateRoot
@@ -13,6 +15,7 @@ public class LabTestReport
 	private LabTestReport() { }
 
 	public Specimen Specimen { get; private set; } = null!;
+	public AccessionNumber AccessionNumber { get; private set; } = null!;
 
 	public SpecimenCollectionCenter SpecimenCollectionCenter { get; private set; } = null!;
 
