@@ -56,6 +56,7 @@ public class LabReportViewModel : BaseViewModel
 		ResetCommand = new AsyncCommand(ResetAsync);
 		ExportCommand = new AsyncCommand(ExportAsync);
 		UpdateCommand = new AsyncCommand(UpdateAsync);
+		UpdateReportCommand = new AsyncCommand(UpdateReportAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.LabOrderNumber = 1;
@@ -96,6 +97,7 @@ public class LabReportViewModel : BaseViewModel
 	public AsyncCommand ResetCommand { get; private set; }
 	public AsyncCommand ExportCommand { get; private set; }
 	public AsyncCommand UpdateCommand { get; private set; }
+	public AsyncCommand UpdateReportCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -180,6 +182,13 @@ public class LabReportViewModel : BaseViewModel
 
 		CompleteBloodCounts.Clear();
 		completeBloodCounts.ToList().ForEach(cbc => CompleteBloodCounts.Add(new CompleteBloodCountViewModel(cbc)));
+	}
+
+	private async Task UpdateReportAsync() 
+	{
+		var query = new GetLabTestReportQuery(_labRequisition.LabOrderNumber, _labRequisition.LabOrderDate);
+		var report = await _mediator.Send(query);
+		_labRequisition.SetLabRequisition(report);
 	}
 
 	private async Task ExportAsync()
