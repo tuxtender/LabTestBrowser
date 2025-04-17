@@ -16,7 +16,7 @@
 			<WrapPanel Orientation="Horizontal">
 				<local:LabRequisitionControl Padding="5, 0"
 											 DataContext="{Binding Path= LabRequisition }" />
-				<local:LabTestResultsControl Padding="5, 0" />
+				<local:CompleteBloodCountControl Padding="5, 0" />
 			</WrapPanel>
 		</StackPanel>
 

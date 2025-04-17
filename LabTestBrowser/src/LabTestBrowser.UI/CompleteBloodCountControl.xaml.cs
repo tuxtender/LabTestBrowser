@@ -2,9 +2,9 @@
 
 namespace LabTestBrowser.UI;
 
-public partial class LabTestResultsControl : UserControl
+public partial class CompleteBloodCountControl : UserControl
 {
-	public LabTestResultsControl()
+	public CompleteBloodCountControl()
 	{
 		InitializeComponent();
 	}
