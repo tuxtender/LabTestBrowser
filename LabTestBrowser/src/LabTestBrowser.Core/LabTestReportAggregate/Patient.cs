@@ -11,7 +11,7 @@ public class Patient : ValueObject
 	public string? Breed { get; init; }
 	public Age Age { get; private set; } = Age.None;
 
-	public static Result<Patient> Create(string animal, Age age, string? healthcareProxy, string? name, string? category, string? breed)
+	public static Result<Patient> Create(string? animal, Age age, string? healthcareProxy, string? name, string? category, string? breed)
 	{
 		if (string.IsNullOrWhiteSpace(animal))
 			return Result.Error("An animal specification required");

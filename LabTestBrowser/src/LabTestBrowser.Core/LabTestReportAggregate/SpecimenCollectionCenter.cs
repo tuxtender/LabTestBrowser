@@ -1,9 +1,23 @@
 ﻿namespace LabTestBrowser.Core.LabTestReportAggregate;
 
-public class SpecimenCollectionCenter(string facility, string tradeName) : ValueObject
+public class SpecimenCollectionCenter : ValueObject
 {
-	public string Facility { get; private set; } = Guard.Against.NullOrEmpty(facility, nameof(facility));
-	public string? TradeName { get; private set; } = tradeName;
+	private SpecimenCollectionCenter(string facility, string? tradeName)
+	{
+		Facility = facility;
+		TradeName = tradeName;
+	}
+
+	public string Facility { get; private set; }
+	public string? TradeName { get; private set; }
+
+	public static Result<SpecimenCollectionCenter> Create(string? facility, string? tradeName)
+	{
+		if (string.IsNullOrWhiteSpace(facility))
+			return Result.Error();
+
+		return new SpecimenCollectionCenter(facility, tradeName);
+	}
 
 	protected override IEnumerable<object> GetEqualityComponents()
 	{
