@@ -37,13 +37,16 @@ builder.Services.AddServiceConfigs(appLogger, builder);
 builder.Services.AddSingleton<LabReportViewModel>();
 builder.Services.AddSingleton<DialogViewModel>();
 builder.Services.AddSingleton<ReportTemplateDialogViewModel>();
-builder.Services.AddScoped<ReportTemplateDialogViewModel>();
-builder.Services.AddHostedService<RecoverDatabaseBackgroundService>();
-
-
 
 // Build and run the application.
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+	var context = services.GetRequiredService<AppDbContext>();
+	context.Database.EnsureCreated();
+}
 
 var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
 	.UsePackageHandler(async (s, p) =>
