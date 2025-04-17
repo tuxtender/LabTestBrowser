@@ -6,9 +6,13 @@ public class CompleteBloodCountConfiguration : IEntityTypeConfiguration<Complete
 {
 	public void Configure(EntityTypeBuilder<CompleteBloodCount> builder)
 	{
-		// builder.Property(x => x.ExternalId).IsRequired();
-		// builder.Property(c => c.ObservationDateTime).IsRequired();
-		builder.OwnsOne(r => r.AccessionNumber);
+		builder.OwnsOne(c => c.AccessionNumber)
+			.HasIndex(c => new
+			{
+				c.SequenceNumber,
+				c.Date
+			})
+			.IsUnique();
 		builder.OwnsOne(c => c.WhiteBloodCell);
 		builder.OwnsOne(c => c.LymphocytePercent);
 		builder.OwnsOne(c => c.MonocytePercent);
