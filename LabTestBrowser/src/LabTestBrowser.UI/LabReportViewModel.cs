@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
-using AsyncAwaitBestPractices.MVVM;
+using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UI.Dialogs;
@@ -52,16 +52,16 @@ public class LabReportViewModel : BaseViewModel
 		DialogViewModel = dialogViewModel;
 
 		//TODO: Refactor
-		NewCommand = new AsyncCommand(CreateAsync);
-		SaveCommand = new AsyncCommand(SaveAsync);
-		NextCommand = new AsyncCommand(GetNextAsync);
-		PreviousCommand = new AsyncCommand(GetPreviousAsync);
-		ResetCommand = new AsyncCommand(ResetAsync);
-		ExportCommand = new AsyncCommand(ExportAsync);
-		UpdateCommand = new AsyncCommand(UpdateAsync);
-		UpdateReportCommand = new AsyncCommand(UpdateReportAsync);
-		SuppressCommand = new AsyncCommand(SuppressAsync);
-		AssignCommand = new AsyncCommand(AssignAsync);
+		NewCommand = new AsyncRelayCommand(CreateAsync);
+		SaveCommand = new AsyncRelayCommand(SaveAsync);
+		NextCommand = new AsyncRelayCommand(GetNextAsync);
+		PreviousCommand = new AsyncRelayCommand(GetPreviousAsync);
+		ResetCommand = new AsyncRelayCommand(ResetAsync);
+		ExportCommand = new AsyncRelayCommand(ExportAsync);
+		UpdateCommand = new AsyncRelayCommand(UpdateAsync);
+		UpdateReportCommand = new AsyncRelayCommand(UpdateReportAsync);
+		SuppressCommand = new AsyncRelayCommand(SuppressAsync);
+		AssignCommand = new AsyncRelayCommand(AssignAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.LabOrderNumber = 1;
@@ -93,18 +93,16 @@ public class LabReportViewModel : BaseViewModel
 	public ObservableCollection<CompleteBloodCountViewModel> CompleteBloodCounts { get; private set; } = [];
 	public CompleteBloodCountViewModel? SelectedCompleteBloodCount { get; set; }
 
-	public AsyncCommand NewCommand { get; private set; }
-
-	public AsyncCommand SaveCommand { get; private set; }
-
-	public AsyncCommand PreviousCommand { get; private set; }
-	public AsyncCommand NextCommand { get; private set; }
-	public AsyncCommand ResetCommand { get; private set; }
-	public AsyncCommand ExportCommand { get; private set; }
-	public AsyncCommand UpdateCommand { get; private set; }
-	public AsyncCommand UpdateReportCommand { get; private set; }
-	public AsyncCommand SuppressCommand { get; private set; }
-	public AsyncCommand AssignCommand { get; private set; }
+	public IAsyncRelayCommand NewCommand { get; private set; }
+	public IAsyncRelayCommand SaveCommand { get; private set; }
+	public IAsyncRelayCommand PreviousCommand { get; private set; }
+	public IAsyncRelayCommand NextCommand { get; private set; }
+	public IAsyncRelayCommand ResetCommand { get; private set; }
+	public IAsyncRelayCommand ExportCommand { get; private set; }
+	public IAsyncRelayCommand UpdateCommand { get; private set; }
+	public IAsyncRelayCommand UpdateReportCommand { get; private set; }
+	public IAsyncRelayCommand SuppressCommand { get; private set; }
+	public IAsyncRelayCommand AssignCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -198,7 +196,7 @@ public class LabReportViewModel : BaseViewModel
 		completeBloodCounts.ToList().ForEach(cbc => CompleteBloodCounts.Add(new CompleteBloodCountViewModel(cbc)));
 	}
 
-	private async Task UpdateReportAsync() 
+	private async Task UpdateReportAsync()
 	{
 		var query = new GetLabTestReportQuery(_labRequisition.LabOrderNumber, _labRequisition.LabOrderDate);
 		var report = await _mediator.Send(query);

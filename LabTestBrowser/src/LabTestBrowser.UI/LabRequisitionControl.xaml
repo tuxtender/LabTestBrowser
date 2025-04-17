@@ -33,7 +33,7 @@
 						  Minimum="1"
 						  Maximum="1000">
 				<b:Interaction.Triggers>
-					<b:EventTrigger EventName="KeyDown">
+					<b:EventTrigger EventName="ValueChanged">
 						<!-- TODO: Refactor -->
 						<b:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
     AncestorType={x:Type Window}}, Path=DataContext.UpdateReportCommand}" />
