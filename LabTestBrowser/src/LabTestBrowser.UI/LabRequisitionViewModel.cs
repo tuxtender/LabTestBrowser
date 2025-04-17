@@ -1,8 +1,9 @@
-﻿using LabTestBrowser.UseCases.LabTestReports;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.UI;
 
-public class LabRequisitionViewModel : BaseViewModel
+public class LabRequisitionViewModel : ObservableObject
 {
 	private DateOnly _labOrderDate;
 	private int _labOrderNumber;
@@ -25,73 +26,73 @@ public class LabRequisitionViewModel : BaseViewModel
 	public DateOnly LabOrderDate
 	{
 		get => _labOrderDate;
-		set => SetField(ref _labOrderDate, value);
+		set => SetProperty(ref _labOrderDate, value);
 	}
 
 	public int LabOrderNumber
 	{
 		get => _labOrderNumber;
-		set => SetField(ref _labOrderNumber, value);
+		set => SetProperty(ref _labOrderNumber, value);
 	}
 
 	public string? Facility
 	{
 		get => _facility;
-		set => SetField(ref _facility, value);
+		set => SetProperty(ref _facility, value);
 	}
 
 	public string? TradeName
 	{
 		get => _tradeName;
-		set => SetField(ref _tradeName, value);
+		set => SetProperty(ref _tradeName, value);
 	}
 
 	public string? Animal
 	{
 		get => _animal;
-		set => SetField(ref _animal, value);
+		set => SetProperty(ref _animal, value);
 	}
 
 	public string? PetOwner
 	{
 		get => _petOwner;
-		set => SetField(ref _petOwner, value);
+		set => SetProperty(ref _petOwner, value);
 	}
 
 	public string? Nickname
 	{
 		get => _nickname;
-		set => SetField(ref _nickname, value);
+		set => SetProperty(ref _nickname, value);
 	}
 
 	public string? Breed
 	{
 		get => _breed;
-		set => SetField(ref _breed, value);
+		set => SetProperty(ref _breed, value);
 	}
 
 	public string? Category
 	{
 		get => _category;
-		set => SetField(ref _category, value);
+		set => SetProperty(ref _category, value);
 	}
 
 	public int? AgeInYears
 	{
 		get => _ageInYears;
-		set => SetField(ref _ageInYears, value);
+		set => SetProperty(ref _ageInYears, value);
 	}
 
 	public int? AgeInMonths
 	{
 		get => _ageInMonths;
-		set => SetField(ref _ageInMonths, value);
+		set => SetProperty(ref _ageInMonths, value);
 	}
 
 	public int? AgeInDays
 	{
 		get => _ageInDays;
-		set => SetField(ref _ageInDays, value);
+		set => SetProperty(ref _ageInDays, value);
 	}
 
 	public void SetLabRequisition(LabTestReportDto report) 

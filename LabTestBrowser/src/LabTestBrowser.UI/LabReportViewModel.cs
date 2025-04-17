@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
@@ -30,7 +31,7 @@ using MediatR;
 
 namespace LabTestBrowser.UI;
 
-public class LabReportViewModel : BaseViewModel
+public class LabReportViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
 	private readonly ILogger<LabReportViewModel> _logger;

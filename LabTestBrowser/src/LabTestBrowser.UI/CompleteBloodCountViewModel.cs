@@ -1,9 +1,10 @@
-﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 
 namespace LabTestBrowser.UI;
 
-public class CompleteBloodCountViewModel : BaseViewModel
+public class CompleteBloodCountViewModel : ObservableObject
 {
 	public CompleteBloodCountViewModel(CompleteBloodCountDto completeBloodCount)
 	{

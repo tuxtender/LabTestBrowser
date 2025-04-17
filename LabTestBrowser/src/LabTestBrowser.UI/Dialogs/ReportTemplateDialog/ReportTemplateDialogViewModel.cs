@@ -1,10 +1,11 @@
 ﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 
-public class ReportTemplateDialogViewModel : BaseViewModel,
+public class ReportTemplateDialogViewModel : ObservableObject,
 	IDialogContentViewModel<ReportTemplateDialogInput, ReportTemplateDialogOutput>
 {
 	private TaskCompletionSource<ReportTemplateDialogOutput>? _tcs;
@@ -22,7 +23,7 @@ public class ReportTemplateDialogViewModel : BaseViewModel,
 	public List<LabTestReportTemplateViewModel> LabTestReportTemplates
 	{
 		get => _reportTemplates;
-		set => SetField(ref _reportTemplates, value);
+		set => SetProperty(ref _reportTemplates, value);
 	}
 
 	public void Initialize(ReportTemplateDialogInput parameters, TaskCompletionSource<ReportTemplateDialogOutput> taskCompletionSource)
