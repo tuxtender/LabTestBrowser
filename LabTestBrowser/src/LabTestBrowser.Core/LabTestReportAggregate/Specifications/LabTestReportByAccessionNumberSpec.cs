@@ -6,5 +6,6 @@ public class LabTestReportByAccessionNumberSpec : Specification<LabTestReport>
 {
 	public LabTestReportByAccessionNumberSpec(AccessionNumber accessionNumber) =>
 		Query
-			.Where(report => report.AccessionNumber == accessionNumber);
+			.Where(report => report.AccessionNumber.SequenceNumber == accessionNumber.SequenceNumber &&
+				report.AccessionNumber.Date == accessionNumber.Date);
 }

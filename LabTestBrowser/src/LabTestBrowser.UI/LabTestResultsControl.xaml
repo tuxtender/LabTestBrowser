@@ -185,7 +185,7 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Образец"
 									Width="110"
-									Binding="{Binding Specimen}" />
+									Binding="{Binding SequenceNumber}" />
 				<DataGridTextColumn Header="Дата отчета"
 									Width="130"
 									Binding="{Binding ReportDate, StringFormat={}{0:dd.MM.yy}}" />
@@ -198,7 +198,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<Button HorizontalAlignment="Right"
-				Command="{Binding ClearCommand}"
+				Command="{Binding ResetCommand}"
 				Margin="0, 5"
 				Content="Очистить" />
 		</StackPanel>

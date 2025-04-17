@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using LabTestBrowser.Core.CompleteBloodCountAggregate.Specifications;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Export;
@@ -47,10 +48,12 @@ public class ExportService : IExportService
 			throw new FileNotFoundException($"Template {templatePath} doesn't exist");
 
 		var report = await _reportRepository.GetByIdAsync(labTestReportId);
-		CompleteBloodCount? cbc = null;
 
-		if (report!.CompleteBloodCountId.HasValue)
-			cbc = await _cbcRepository.GetByIdAsync(report.CompleteBloodCountId.Value);
+		if (report == null)
+			return Result.NotFound();
+
+		var spec = new CompleteBloodCountByAccessionNumberSpec(report.AccessionNumber);
+		var cbc = await _cbcRepository.FirstOrDefaultAsync(spec);
 
 		_logger.LogInformation("Exporting report id: {report.Id} to template: {templatePath}", templatePath, report.Id);
 

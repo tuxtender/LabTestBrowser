@@ -1,4 +1,5 @@
-﻿using LabTestBrowser.Core.LabTestReportAggregate;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
 
 namespace LabTestBrowser.UseCases.LabTestReports.GetNext;
@@ -8,18 +9,23 @@ public class GetNextLabTestReportHandler(ILabTestReportQueryService _query, IRea
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetNextLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var spec = new LabTestReportBySpecimenSpec(request.Specimen, request.Date);
+		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+
+		if (!accessionNumber.IsSuccess)
+			return Result.Error();
+
+		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);
 		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
 
 		if (labTestReport == null)
 			return new LabTestReportDto
 			{
-				SpecimenSequentialNumber = request.Specimen,
+				SequenceNumber = request.SequenceNumber,
 				Date = request.Date,
 			};
 
 		var nextLabTestReport =
-			await _query.FindNextLabTestReportAsync(labTestReport.Specimen.SequentialNumber, labTestReport.Specimen.ObservationDate);
+			await _query.FindNextLabTestReportAsync(labTestReport.AccessionNumber.SequenceNumber, labTestReport.AccessionNumber.Date);
 
 		return nextLabTestReport ?? labTestReport.ConvertToLabTestReportDto();
 	}

@@ -4,8 +4,8 @@ namespace LabTestBrowser.UI;
 
 public class LabRequisitionViewModel : BaseViewModel
 {
-	private DateOnly _date;
-	private int _specimen;
+	private DateOnly _labOrderDate;
+	private int _labOrderNumber;
 
 	private string? _facility;
 	private string? _tradeName;
@@ -22,16 +22,16 @@ public class LabRequisitionViewModel : BaseViewModel
 
 	public int? Id { get; internal set; }
 
-	public DateOnly Date
+	public DateOnly LabOrderDate
 	{
-		get => _date;
-		set => SetField(ref _date, value);
+		get => _labOrderDate;
+		set => SetField(ref _labOrderDate, value);
 	}
 
-	public int Specimen
+	public int LabOrderNumber
 	{
-		get => _specimen;
-		set => SetField(ref _specimen, value);
+		get => _labOrderNumber;
+		set => SetField(ref _labOrderNumber, value);
 	}
 
 	public string? Facility
@@ -97,8 +97,8 @@ public class LabRequisitionViewModel : BaseViewModel
 	public void SetLabRequisition(LabTestReportDto report) 
 	{
 		Id = report.Id;
-		Date = report.Date;
-		Specimen = report.SpecimenSequentialNumber;
+		LabOrderDate = report.Date;
+		LabOrderNumber = report.SequenceNumber;
 		Facility = report.Facility;
 		TradeName = report.TradeName;
 		Animal = report.Animal;

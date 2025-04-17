@@ -7,7 +7,7 @@ public class LabTestReportConfiguration : IEntityTypeConfiguration<LabTestReport
 	public void Configure(EntityTypeBuilder<LabTestReport> builder)
 	{
 
-		builder.OwnsOne(r => r.Specimen);
+		builder.OwnsOne(r => r.AccessionNumber);
 		builder.OwnsOne(r => r.SpecimenCollectionCenter);
 		builder.OwnsOne(r => r.Patient, patient => 
 			{

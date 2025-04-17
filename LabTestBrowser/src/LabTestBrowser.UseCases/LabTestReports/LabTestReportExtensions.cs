@@ -10,8 +10,8 @@ public static class LabTestReportExtensions
 		{
 			Id = report.Id,
 			Animal = report.Patient.Animal,
-			SpecimenSequentialNumber = report.Specimen.SequentialNumber,
-			Date = report.Specimen.ObservationDate,
+			SequenceNumber = report.AccessionNumber.SequenceNumber,
+			Date = report.AccessionNumber.Date,
 			Facility = report.SpecimenCollectionCenter.Facility,
 			TradeName = report.SpecimenCollectionCenter.TradeName,
 			HealthcareProxy = report.Patient.HealthcareProxy,
@@ -20,8 +20,7 @@ public static class LabTestReportExtensions
 			Breed = report.Patient.Breed,
 			AgeInYears = report.Patient.Age.Years,
 			AgeInMonths = report.Patient.Age.Months,
-			AgeInDays = report.Patient.Age.Days,
-			CompleteBloodCountId = report.CompleteBloodCountId,
+			AgeInDays = report.Patient.Age.Days
 		};
 	}
 }

@@ -11,15 +11,15 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 			return new LabTestReportDto
 			{
 				Date = request.Date,
-				SpecimenSequentialNumber = 1
+				SequenceNumber = 1
 			};
 
-		var availableNumber = report.SpecimenSequentialNumber + 1;
+		var availableNumber = report.SequenceNumber + 1;
 
 		return new LabTestReportDto
 		{
 			Date = request.Date,
-			SpecimenSequentialNumber = availableNumber
+			SequenceNumber = availableNumber
 		};
 	}
 }

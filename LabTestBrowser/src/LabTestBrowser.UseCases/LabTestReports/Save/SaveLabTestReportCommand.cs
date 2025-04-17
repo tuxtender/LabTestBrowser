@@ -3,7 +3,7 @@ namespace LabTestBrowser.UseCases.LabTestReports.Save;
 public record SaveLabTestReportCommand : ICommand<Result<LabTestReportDto>>
 {
 	public int? Id { get; init; }
-	public int Specimen { get; init; }
+	public int SequenceNumber { get; init; }
 	public DateOnly Date { get; init; }
 	public string? Facility { get; init; }
 	public string? TradeName { get; init; }
@@ -15,5 +15,4 @@ public record SaveLabTestReportCommand : ICommand<Result<LabTestReportDto>>
 	public int? AgeInYears { get; init; }
 	public int? AgeInMonths { get; init; }
 	public int? AgeInDays { get; init; }
-	public int? CompleteBloodCountId { get; init; }
 }

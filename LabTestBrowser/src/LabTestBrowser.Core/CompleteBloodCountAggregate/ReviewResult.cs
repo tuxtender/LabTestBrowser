@@ -2,7 +2,7 @@
 
 public enum ReviewResult
 {
-	Pending = 0,
+	UnderReview = 0,
 	Reported,
 	Suppressed
 }

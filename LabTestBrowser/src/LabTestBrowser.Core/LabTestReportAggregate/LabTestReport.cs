@@ -2,30 +2,21 @@
 
 namespace LabTestBrowser.Core.LabTestReportAggregate;
 
-public class LabTestReport
-	: EntityBase, IAggregateRoot
+public class LabTestReport : EntityBase, IAggregateRoot
 {
-	public LabTestReport(Specimen specimen, SpecimenCollectionCenter specimenCollectionCenter, Patient patient)
+	public LabTestReport(AccessionNumber accessionNumber, SpecimenCollectionCenter specimenCollectionCenter, Patient patient)
 	{
-		Specimen = specimen;
+		AccessionNumber = accessionNumber;
 		SpecimenCollectionCenter = specimenCollectionCenter;
 		Patient = patient;
 	}
-	
+
 	private LabTestReport() { }
 
-	public Specimen Specimen { get; private set; } = null!;
 	public AccessionNumber AccessionNumber { get; private set; } = null!;
-
 	public SpecimenCollectionCenter SpecimenCollectionCenter { get; private set; } = null!;
-
 	public Patient Patient { get; private set; } = null!;
 
-	public int? CompleteBloodCountId { get; private set; }
-
-	public void SetSpecimenCollectionCenter(SpecimenCollectionCenter collectionCenter) => SpecimenCollectionCenter = collectionCenter;
-
-	public void SetPatient(Patient patient) => Patient = patient;
-	public void SetCompleteBloodCount(int? completeBloodCountId) => CompleteBloodCountId = completeBloodCountId;
-	public void RemoveCompleteBloodCount() => CompleteBloodCountId = null;
+	public void UpdateSpecimenCollectionCenter(SpecimenCollectionCenter collectionCenter) => SpecimenCollectionCenter = collectionCenter;
+	public void UpdatePatient(Patient patient) => Patient = patient;
 }

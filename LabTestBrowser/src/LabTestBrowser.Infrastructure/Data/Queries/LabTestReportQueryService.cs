@@ -7,32 +7,32 @@ public class LabTestReportQueryService(AppDbContext _dbContext) : ILabTestReport
 	public async Task<LabTestReportDto?> FindLastLabTestReportAsync(DateOnly date)
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
-			.Where(report => report.Specimen.ObservationDate == date)
-			.OrderByDescending(report => report.Specimen.SequentialNumber)
+			.Where(report => report.AccessionNumber.Date == date)
+			.OrderByDescending(report => report.AccessionNumber.SequenceNumber)
 			.FirstOrDefaultAsync();
 
 		return lastLabTestReport?.ConvertToLabTestReportDto();
 	}
 
-	public async Task<LabTestReportDto?> FindNextLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
+	public async Task<LabTestReportDto?> FindNextLabTestReportAsync(int sequenceNumber, DateOnly date)
 	{
 		//TODO: .AsNoTracking()
 
 		var lastLabTestReport = await _dbContext.LabTestReports
-			.Where(report => report.Specimen.ObservationDate == date)
-			.Where(report => report.Specimen.SequentialNumber > specimenSequentialNumber)
-			.OrderBy(report => report.Specimen.SequentialNumber)
+			.Where(report => report.AccessionNumber.Date == date)
+			.Where(report => report.AccessionNumber.SequenceNumber > sequenceNumber)
+			.OrderBy(report => report.AccessionNumber.SequenceNumber)
 			.FirstOrDefaultAsync();
 
 		return lastLabTestReport?.ConvertToLabTestReportDto();
 	}
 
-	public async Task<LabTestReportDto?> FindPreviousLabTestReportAsync(int specimenSequentialNumber, DateOnly date)
+	public async Task<LabTestReportDto?> FindPreviousLabTestReportAsync(int sequenceNumber, DateOnly date)
 	{
 		var lastLabTestReport = await _dbContext.LabTestReports
-			.Where(report => report.Specimen.ObservationDate == date)
-			.Where(report => report.Specimen.SequentialNumber < specimenSequentialNumber)
-			.OrderByDescending(report => report.Specimen.SequentialNumber)
+			.Where(report => report.AccessionNumber.Date == date)
+			.Where(report => report.AccessionNumber.SequenceNumber < sequenceNumber)
+			.OrderByDescending(report => report.AccessionNumber.SequenceNumber)
 			.FirstOrDefaultAsync();
 
 		return lastLabTestReport?.ConvertToLabTestReportDto();

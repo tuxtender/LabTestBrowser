@@ -1,4 +1,5 @@
-﻿using LabTestBrowser.Core.LabTestReportAggregate;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UseCases.LabTestReports.Update;
 using MediatR;
 
@@ -12,16 +13,23 @@ public class SaveLabTestReportHandler(IRepository<LabTestReport> _repository, IM
 		if (request.Id.HasValue)
 			return await UpdateLabTestReportAsync(request);
 
-		var specimen = new Specimen(request.Specimen, request.Date);
+		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+
+		if (!accessionNumber.IsSuccess)
+			return Result.Error();
+
 		var specimenCollectionCenter = new SpecimenCollectionCenter(request.Facility!, request.TradeName!);
 		var age = Age.Create(request.AgeInYears, request.AgeInMonths, request.AgeInDays);
+
+		if (!age.IsSuccess)
+			return Result.Error();
+
 		var patient = Patient.Create(request.Animal!, age, request.PetOwner, request.Nickname, request.Category, request.Breed);
 
 		if (!patient.IsSuccess)
 			return Result.Error();
 
-		var labTestReport = new LabTestReport(specimen, specimenCollectionCenter, patient);
-		labTestReport.SetCompleteBloodCount(request.CompleteBloodCountId);
+		var labTestReport = new LabTestReport(accessionNumber, specimenCollectionCenter, patient);
 		labTestReport = await _repository.AddAsync(labTestReport, cancellationToken);
 
 		return labTestReport.ConvertToLabTestReportDto();
@@ -41,8 +49,7 @@ public class SaveLabTestReportHandler(IRepository<LabTestReport> _repository, IM
 			Breed = request.Breed,
 			AgeInYears = request.AgeInYears,
 			AgeInMonths = request.AgeInMonths,
-			AgeInDays = request.AgeInDays,
-			CompleteBloodCountId = request.CompleteBloodCountId,
+			AgeInDays = request.AgeInDays
 		};
 
 		var report = await _mediator.Send(command);

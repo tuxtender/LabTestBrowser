@@ -11,7 +11,7 @@ public class GetLastLabTestReportHandler(ILabTestReportQueryService _query)
 			return new LabTestReportDto
 			{
 				Date = request.Date,
-				SpecimenSequentialNumber = 1
+				SequenceNumber = 1
 			};
 
 		return labTestReport;

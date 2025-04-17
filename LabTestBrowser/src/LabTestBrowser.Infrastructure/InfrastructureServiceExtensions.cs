@@ -39,7 +39,7 @@ public static class InfrastructureServiceExtensions
 		var queryService = LabTestReportTemplateQueryService.Create(labReportSettings, animalSettings);
 		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
 
-		services.AddSingleton<IExportService, ExportService>();
+		services.AddScoped<IExportService, ExportService>();
 		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();

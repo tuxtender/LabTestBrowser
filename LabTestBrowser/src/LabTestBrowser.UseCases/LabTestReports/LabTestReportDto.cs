@@ -3,7 +3,7 @@
 public record LabTestReportDto
 {
 	public int? Id { get; init; }
-	public int SpecimenSequentialNumber { get; init; }
+	public int SequenceNumber { get; init; }
 	public DateOnly Date { get; init; }
 	public string? Facility { get; init; }
 	public string? TradeName { get; init; }
@@ -15,5 +15,4 @@ public record LabTestReportDto
 	public int? AgeInYears { get; init; }
 	public int? AgeInMonths { get; init; }
 	public int? AgeInDays { get; init; }
-	public int? CompleteBloodCountId { get; init; }
 }

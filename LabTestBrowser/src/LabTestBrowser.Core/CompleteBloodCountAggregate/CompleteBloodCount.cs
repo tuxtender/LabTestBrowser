@@ -13,7 +13,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 	public string ExternalId { get; private set; } = null!;
 	public DateTime ObservationDateTime { get; private set; }
 	public AccessionNumber? AccessionNumber { get; private set; }
-	public ReviewResult ReviewResult { get; private set; } = ReviewResult.Pending;
+	public ReviewResult ReviewResult { get; private set; } = ReviewResult.UnderReview;
 	public DateOnly? ReviewDate { get; private set; }
 	public LabTestResult? WhiteBloodCell { get; private set; }
 	public LabTestResult? LymphocytePercent { get; private set; }
@@ -41,7 +41,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 	public void Review()
 	{
 		AccessionNumber = null;
-		ReviewResult = ReviewResult.Pending;
+		ReviewResult = ReviewResult.UnderReview;
 		ReviewDate = null;
 	}
 

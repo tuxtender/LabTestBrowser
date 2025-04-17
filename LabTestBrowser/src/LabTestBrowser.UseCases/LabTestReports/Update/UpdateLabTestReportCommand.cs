@@ -13,5 +13,4 @@ public record UpdateLabTestReportCommand : ICommand<Result<LabTestReportDto>>
 	public int? AgeInYears { get; init; }
 	public int? AgeInMonths { get; init; }
 	public int? AgeInDays { get; init; }
-	public int? CompleteBloodCountId { get; init; }
 }

@@ -14,7 +14,7 @@
 		<StackPanel>
 			<DatePicker HorizontalAlignment="Left"
 						Width="200"
-						SelectedDate="{Binding Date, Converter={StaticResource DateConverter}}"
+						SelectedDate="{Binding LabOrderDate, Converter={StaticResource DateConverter}}"
 						ui:ControlHelper.Header="Дата обследования"
 						ui:ControlHelper.PlaceholderText="Выбрать дату">
 				<b:Interaction.Triggers>
@@ -22,14 +22,14 @@
 						<!-- TODO: Refactor -->
 						<b:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
     AncestorType={x:Type Window}}, Path=DataContext.UpdateCommand}"
-											   CommandParameter="{Binding Date}" />
+											   CommandParameter="{Binding LabOrderDate}" />
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 			</DatePicker>
 
 			<ui:NumberBox Header="Номер образца"
 						  Width="200"
-						  Value="{Binding Specimen, Mode=TwoWay}"
+						  Value="{Binding LabOrderNumber, Mode=TwoWay}"
 						  Minimum="1"
 						  Maximum="1000" />
 

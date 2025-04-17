@@ -1,5 +1,4 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
-using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
 
 namespace LabTestBrowser.UseCases.LabTestReports.Export;
 
@@ -10,8 +9,10 @@ public class ExportLabTestReportHandler(IExportService _exportService, IReadRepo
 	{
 		//TODO: Exception handling location
 
-		var spec = new LabTestReportBySpecimenSpec(request.Specimen, request.Date);
-		var report = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
+		if (!request.LabTestReportId.HasValue)
+			return Result.Error();
+
+		var report = await _repository.GetByIdAsync(request.LabTestReportId.Value, cancellationToken);
 
 		if (report == null)
 			return Result.NotFound();
