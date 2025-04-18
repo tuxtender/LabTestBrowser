@@ -8,7 +8,8 @@ public record CompleteBloodCountDto
 	public string? ExternalId { get; init; }
 	public DateTime ObservationDateTime { get; init; }
 	public ReviewResult ReviewResult { get; init; }
-	public int? SequenceNumber { get; init; }
+	public int? LabOrderNumber { get; init; }
+	public DateOnly? LabOrderDate { get; init; }
 	public string? WhiteBloodCell { get; init; }
 	public string? LymphocytePercent { get; init; }
 	public string? MonocytePercent { get; init; }

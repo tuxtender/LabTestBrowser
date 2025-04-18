@@ -41,6 +41,7 @@ public class LabReportViewModel : ObservableObject
 
 	
 	private object _itemsLock = new object();
+	private CompleteBloodCountViewModel? _selectedCompleteBloodCount;
 
 	public LabReportViewModel(IMediator mediator,
 		ILogger<LabReportViewModel>  logger, 
@@ -63,6 +64,8 @@ public class LabReportViewModel : ObservableObject
 		UpdateReportCommand = new AsyncRelayCommand(UpdateReportAsync);
 		SuppressCommand = new AsyncRelayCommand(SuppressAsync);
 		AssignCommand = new AsyncRelayCommand(AssignAsync);
+		SelectCompleteBloodCountCommand = new RelayCommand(SelectCompleteBlood);
+		UpdateByTestResultSelectCommand = new AsyncRelayCommand(UpdateReportByTestResultSelectAsync);
 
 		_labRequisition = new LabRequisitionViewModel();
 		_labRequisition.LabOrderNumber = 1;
@@ -90,9 +93,14 @@ public class LabReportViewModel : ObservableObject
 	}
 
 	public Dialogs.DialogViewModel DialogViewModel { get; private set; }
-	
+
 	public ObservableCollection<CompleteBloodCountViewModel> CompleteBloodCounts { get; private set; } = [];
-	public CompleteBloodCountViewModel? SelectedCompleteBloodCount { get; set; }
+
+	public CompleteBloodCountViewModel? SelectedCompleteBloodCount
+	{
+		get => _selectedCompleteBloodCount;
+		set => SetProperty(ref _selectedCompleteBloodCount, value);
+	}
 
 	public IAsyncRelayCommand NewCommand { get; private set; }
 	public IAsyncRelayCommand SaveCommand { get; private set; }
@@ -104,6 +112,8 @@ public class LabReportViewModel : ObservableObject
 	public IAsyncRelayCommand UpdateReportCommand { get; private set; }
 	public IAsyncRelayCommand SuppressCommand { get; private set; }
 	public IAsyncRelayCommand AssignCommand { get; private set; }
+	public IRelayCommand SelectCompleteBloodCountCommand { get; private set; }
+	public IAsyncRelayCommand UpdateByTestResultSelectCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -133,6 +143,14 @@ public class LabReportViewModel : ObservableObject
 		CompleteBloodCounts.Add(completeBloodCountViewModel);
 	}
 
+	private void SelectCompleteBlood()
+	{
+		var sequenceNumber = _labRequisition.LabOrderNumber;
+
+		var selectedCompleteBloodCount = CompleteBloodCounts.FirstOrDefault(cbc => cbc.LabOrderNumber == _labRequisition.LabOrderNumber);
+		SelectedCompleteBloodCount = selectedCompleteBloodCount;
+	}
+	
 	private async Task SaveAsync()
 	{
 		var saveLabTestReportCommand = new SaveLabTestReportCommand
@@ -202,6 +220,21 @@ public class LabReportViewModel : ObservableObject
 		var query = new GetLabTestReportQuery(_labRequisition.LabOrderNumber, _labRequisition.LabOrderDate);
 		var report = await _mediator.Send(query);
 		_labRequisition.SetLabRequisition(report);
+	}
+
+	private async Task UpdateReportByTestResultSelectAsync()
+	{
+		if (SelectedCompleteBloodCount == null)
+			return;
+		
+		var labOrderNumber = SelectedCompleteBloodCount.LabOrderNumber;
+		var labOrderDate = SelectedCompleteBloodCount.LabOrderDate;
+		
+		var query = new GetLabTestReportQuery(labOrderNumber, labOrderDate);
+		var report = await _mediator.Send(query);
+		
+		if(report.IsSuccess)
+			_labRequisition.SetLabRequisition(report);
 	}
 
 	private async Task ExportAsync()

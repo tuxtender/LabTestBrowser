@@ -37,6 +37,8 @@
 						<!-- TODO: Refactor -->
 						<b:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
     AncestorType={x:Type Window}}, Path=DataContext.UpdateReportCommand}" />
+						<b:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.SelectCompleteBloodCountCommand}" />
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 			</ui:NumberBox>

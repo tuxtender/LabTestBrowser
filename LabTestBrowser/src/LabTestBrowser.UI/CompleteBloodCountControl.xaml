@@ -181,13 +181,13 @@
 				  >
 			<b:Interaction.Triggers>
 				<b:EventTrigger EventName="SelectionChanged">
-					<b:InvokeCommandAction Command="{Binding }" />
+					<b:InvokeCommandAction Command="{Binding UpdateByTestResultSelectCommand}" />
 				</b:EventTrigger>
 			</b:Interaction.Triggers>
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Образец"
 									Width="110"
-									Binding="{Binding SequenceNumber}" />
+									Binding="{Binding LabOrder}" />
 				<DataGridTextColumn Header="ID"
 									Width="110"
 									Binding="{Binding ExternalId}" />

@@ -9,7 +9,10 @@ public class GetLabTestReportHandler(IReadRepository<LabTestReport> _repository)
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+		if(!request.LabOrderNumber.HasValue || !request.LabOrderDate.HasValue)
+			return Result.NotFound();
+
+		var accessionNumber = AccessionNumber.Create(request.LabOrderNumber.Value, request.LabOrderDate.Value);
 
 		if (!accessionNumber.IsSuccess)
 			return Result.Error();
@@ -20,8 +23,8 @@ public class GetLabTestReportHandler(IReadRepository<LabTestReport> _repository)
 		if (labTestReport == null)
 			return new LabTestReportDto
 			{
-				Date = request.Date,
-				SequenceNumber = request.SequenceNumber
+				Date = request.LabOrderDate.Value,
+				SequenceNumber = request.LabOrderNumber.Value
 			};
 
 		var dto = labTestReport.ConvertToLabTestReportDto();

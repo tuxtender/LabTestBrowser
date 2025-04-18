@@ -11,7 +11,9 @@ public class CompleteBloodCountViewModel : ObservableObject
 		Id = completeBloodCount.Id;
 		ExternalId = completeBloodCount.ExternalId!;
 		ObservationTimestamp = completeBloodCount.ObservationDateTime;
-		SequenceNumber = Format(completeBloodCount.SequenceNumber, completeBloodCount.ReviewResult);
+		LabOrder = Format(completeBloodCount.LabOrderNumber, completeBloodCount.ReviewResult);
+		LabOrderNumber = completeBloodCount.LabOrderNumber;
+		LabOrderDate = completeBloodCount.LabOrderDate;
 		WhiteBloodCell = completeBloodCount.WhiteBloodCell ?? string.Empty;
 		LymphocytePercent = completeBloodCount.LymphocytePercent ?? string.Empty;
 		MonocytePercent = completeBloodCount.MonocytePercent ?? string.Empty;
@@ -29,7 +31,9 @@ public class CompleteBloodCountViewModel : ObservableObject
 	public int? Id { get; set; }
 	public string ExternalId { get; init; }
 	public DateTime ObservationTimestamp { get; init; }
-	public string SequenceNumber { get; init; }
+	public string LabOrder { get; init; }
+	public int? LabOrderNumber { get; init; }
+	public DateOnly? LabOrderDate { get; init; }
 	public string WhiteBloodCell { get; init; }
 	public string LymphocytePercent { get; init; }
 	public string MonocytePercent { get; init; }
