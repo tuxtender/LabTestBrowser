@@ -188,10 +188,10 @@ public class LabReportViewModel : ObservableObject
 		_labRequisition.SetLabRequisition(report);
 
 		var reviewedCompleteBloodCountsQuery = new ListReviewedCompleteBloodCountsQuery(_labRequisition.LabOrderDate);
-		var reviewedCompleteBloodCounts = await _mediator.Send(reviewedCompleteBloodCountsQuery);
 		var underReviewCompleteBloodCountsQuery = new ListUnderReviewCompleteBloodCountsQuery();
-		var underReviewCompleteBloodCounts = await _mediator.Send(underReviewCompleteBloodCountsQuery);
-		List<CompleteBloodCountDto> completeBloodCounts = [..reviewedCompleteBloodCounts.Value, ..underReviewCompleteBloodCounts.Value];
+		var queryResults = await Task.WhenAll(_mediator.Send(reviewedCompleteBloodCountsQuery),
+			_mediator.Send(underReviewCompleteBloodCountsQuery));
+		var completeBloodCounts = queryResults.SelectMany(queryResult => queryResult.Value);
 
 		CompleteBloodCounts.Clear();
 		completeBloodCounts.ToList().ForEach(cbc => CompleteBloodCounts.Add(new CompleteBloodCountViewModel(cbc)));
