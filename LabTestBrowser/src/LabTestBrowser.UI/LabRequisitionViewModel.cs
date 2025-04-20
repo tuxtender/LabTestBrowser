@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.UI;
@@ -20,6 +21,13 @@ public class LabRequisitionViewModel : ObservableObject
 	private int? _ageInYears;
 	private int? _ageInMonths;
 	private int? _ageInDays;
+
+	private IReadOnlyCollection<string> _suggestedBreeds = [];
+
+	public LabRequisitionViewModel()
+	{
+		SuggestBreedCommand = new RelayCommand(SearchBreeds);
+	}
 
 	public int? Id { get; internal set; }
 
@@ -71,6 +79,14 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _breed, value);
 	}
 
+	public IReadOnlyCollection<string> AllBreeds { get; private set; } = [];
+
+	public IReadOnlyCollection<string> SuggestedBreeds
+	{
+		get => _suggestedBreeds;
+		private set => SetProperty(ref _suggestedBreeds, value);
+	}
+
 	public string? Category
 	{
 		get => _category;
@@ -95,6 +111,8 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _ageInDays, value);
 	}
 
+	public IRelayCommand SuggestBreedCommand { get; private set; }
+
 	public void SetLabRequisition(LabTestReportDto report) 
 	{
 		Id = report.Id;
@@ -110,5 +128,21 @@ public class LabRequisitionViewModel : ObservableObject
 		AgeInYears = report.AgeInYears;
 		AgeInMonths = report.AgeInMonths;
 		AgeInDays = report.AgeInDays;
+	}
+
+	private void SearchBreeds()
+	{
+		if (string.IsNullOrWhiteSpace(Breed))
+		{
+			SuggestedBreeds = AllBreeds;
+			return;
+		}
+
+		var breedNameItems = Breed.Split(' ');
+		SuggestedBreeds = AllBreeds
+			.Where(breed =>
+				breedNameItems.All(breedNameItem => breed.Contains(breedNameItem, StringComparison.CurrentCultureIgnoreCase)))
+			.OrderByDescending(breed => breed.StartsWith(Breed, StringComparison.CurrentCultureIgnoreCase))
+			.ToList();
 	}
 }
