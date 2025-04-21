@@ -46,6 +46,7 @@ public class LabReportViewModel : ObservableObject
 	public LabReportViewModel(IMediator mediator,
 		ILogger<LabReportViewModel>  logger, 
 		ReportTemplateDialogViewModel reportTemplateDialog,
+		LabRequisitionViewModel labRequisition,
 		DialogViewModel dialogViewModel)
 	{
 		_mediator = mediator;
@@ -66,7 +67,7 @@ public class LabReportViewModel : ObservableObject
 		SuppressCommand = new AsyncRelayCommand(SuppressAsync);
 		AssignCommand = new AsyncRelayCommand(AssignAsync);
 
-		_labRequisition = new LabRequisitionViewModel();
+		_labRequisition = labRequisition;
 		_labRequisition.LabOrderDate = DateOnly.FromDateTime(DateTime.Now);
 		UpdateAsync().GetAwaiter().GetResult();
 

@@ -5,10 +5,12 @@ using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
+using LabTestBrowser.UseCases.AnimalSpecies;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReportTemplates;
+using LabTestBrowser.UseCases.SpecimenCollectionCenters;
 
 namespace LabTestBrowser.Infrastructure;
 
@@ -46,7 +48,11 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
 		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
-		
+
+		var queryServiceFactory = new QueryServicesFromConfigFactory(labReportSettings, animalSettings);
+		services.AddSingleton(queryServiceFactory.CreateListSpecimenCollectionCentersQueryService());
+		services.AddSingleton(queryServiceFactory.CreateListAnimalSpeciesQueryService());
+
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
 		return services;

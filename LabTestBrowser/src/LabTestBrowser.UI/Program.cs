@@ -37,6 +37,7 @@ builder.Services.AddServiceConfigs(appLogger, builder);
 builder.Services.AddSingleton<LabReportViewModel>();
 builder.Services.AddSingleton<DialogViewModel>();
 builder.Services.AddSingleton<ReportTemplateDialogViewModel>();
+builder.Services.AddSingleton<LabRequisitionViewModel>();
 
 // Build and run the application.
 var app = builder.Build();

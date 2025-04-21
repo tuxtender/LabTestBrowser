@@ -34,34 +34,48 @@
 						  Maximum="1000">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="ValueChanged">
-						<!-- TODO: Refactor -->
-						<b:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+						<!-- TODO: Refactor with PreviewTextInput -->
+						<b:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor,
     AncestorType={x:Type Window}}, Path=DataContext.UpdateReportCommand}" />
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 			</ui:NumberBox>
 
-			<ComboBox IsEditable="True"
+			<ComboBox Name="FacilityComboBox"
 					  HorizontalAlignment="Left"
-					  ItemsSource="{Binding Facilities}"
+					  ItemsSource="{Binding CollectionCenters}"
 					  Text="{Binding Facility}"
+					  TextSearch.TextPath="Facility"
 					  ui:ControlHelper.Header="Организация"
-					  Width="200" />
+					  Width="200">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Facility}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 
 			<ComboBox IsEditable="True"
 					  HorizontalAlignment="Left"
-					  ItemsSource="{Binding TradeNames}"
-					  Text="{Binding TradeName}"
+					  ItemsSource="{Binding ElementName=FacilityComboBox, Path=SelectedItem.TradeNames}"
+					  Text="{Binding  TradeName}"
 					  ui:ControlHelper.Header="Торговое название"
 					  Width="200" />
 
-			<ComboBox IsEditable="True"
+			<ComboBox Name="AnimalSpeciesComboBox"
 					  HorizontalAlignment="Left"
-					  ItemsSource="{Binding Animals}"
+					  ItemsSource="{Binding AnimalSpecies}"
 					  Text="{Binding Animal}"
+					  TextSearch.TextPath="Name"
 					  ui:ControlHelper.Header="Животное"
-					  Width="200" />
-
+					  Width="200">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			
 			<ui:AutoSuggestBox Text="{Binding PetOwner, Mode=TwoWay}"
 							   Width="200"
 							   ui:ControlHelper.Header="Владелец" />
@@ -72,20 +86,22 @@
 							   ui:ControlHelper.Header="Имя питомца" />
 
 
-			<ui:AutoSuggestBox Text="{Binding Breed, Mode=TwoWay}"
-							   ItemsSource="{Binding SuggestedBreeds}"
+			<ui:AutoSuggestBox Name="BreedSuggestionBox"
+							   Text="{Binding Breed, Mode=TwoWay}"
+							   ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.SuggestedBreeds}"
 							   Width="200"
 							   ui:ControlHelper.Header="Порода">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="TextChanged">
-						<b:InvokeCommandAction Command="{Binding SuggestBreedCommand}" />
+						<b:InvokeCommandAction Command="{Binding ElementName=AnimalSpeciesComboBox, Path= SelectedItem.SuggestBreedCommand}"
+											   CommandParameter="{Binding ElementName=BreedSuggestionBox, Path=Text}" />
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 			</ui:AutoSuggestBox>
 
 			<ComboBox IsEditable="True"
 					  HorizontalAlignment="Left"
-					  ItemsSource="{Binding Сategories, Mode=TwoWay}"
+					  ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.Categories}"
 					  Text="{Binding Category}"
 					  ui:ControlHelper.Header="Категория"
 					  Width="200" />

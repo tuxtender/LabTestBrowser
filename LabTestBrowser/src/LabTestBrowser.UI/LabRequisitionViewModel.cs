@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using LabTestBrowser.UseCases.AnimalSpecies.List;
 using LabTestBrowser.UseCases.LabTestReports;
+using LabTestBrowser.UseCases.SpecimenCollectionCenters.List;
+using MediatR;
 
 namespace LabTestBrowser.UI;
 
@@ -22,11 +24,19 @@ public class LabRequisitionViewModel : ObservableObject
 	private int? _ageInMonths;
 	private int? _ageInDays;
 
-	private IReadOnlyCollection<string> _suggestedBreeds = [];
-
-	public LabRequisitionViewModel()
+	public LabRequisitionViewModel(IMediator mediator)
 	{
-		SuggestBreedCommand = new RelayCommand(SearchBreeds);
+		//TODO: Move from constructor
+		var centers = mediator.Send(new ListSpecimenCollectionCentersQuery(null, null)).GetAwaiter().GetResult().Value;
+		CollectionCenters = centers.Select(center => new CollectionCenterViewModel
+			{
+				Facility = center.Facility!,
+				TradeNames = center.TradeNames
+			})
+			.ToList();
+
+		var animals = mediator.Send(new ListAnimalSpeciesQuery(null, null)).GetAwaiter().GetResult().Value;
+		AnimalSpecies = animals.Select(a => new AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList())).ToList();
 	}
 
 	public int? Id { get; internal set; }
@@ -43,6 +53,8 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _labOrderNumber, value);
 	}
 
+	public IReadOnlyCollection<CollectionCenterViewModel> CollectionCenters { get; private set; }
+
 	public string? Facility
 	{
 		get => _facility;
@@ -54,6 +66,8 @@ public class LabRequisitionViewModel : ObservableObject
 		get => _tradeName;
 		set => SetProperty(ref _tradeName, value);
 	}
+
+	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies { get; private set; }
 
 	public string? Animal
 	{
@@ -77,14 +91,6 @@ public class LabRequisitionViewModel : ObservableObject
 	{
 		get => _breed;
 		set => SetProperty(ref _breed, value);
-	}
-
-	public IReadOnlyCollection<string> AllBreeds { get; private set; } = [];
-
-	public IReadOnlyCollection<string> SuggestedBreeds
-	{
-		get => _suggestedBreeds;
-		private set => SetProperty(ref _suggestedBreeds, value);
 	}
 
 	public string? Category
@@ -111,9 +117,7 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _ageInDays, value);
 	}
 
-	public IRelayCommand SuggestBreedCommand { get; private set; }
-
-	public void SetLabRequisition(LabTestReportDto report) 
+	public void SetLabRequisition(LabTestReportDto report)
 	{
 		Id = report.Id;
 		LabOrderDate = report.Date;
@@ -128,21 +132,5 @@ public class LabRequisitionViewModel : ObservableObject
 		AgeInYears = report.AgeInYears;
 		AgeInMonths = report.AgeInMonths;
 		AgeInDays = report.AgeInDays;
-	}
-
-	private void SearchBreeds()
-	{
-		if (string.IsNullOrWhiteSpace(Breed))
-		{
-			SuggestedBreeds = AllBreeds;
-			return;
-		}
-
-		var breedNameItems = Breed.Split(' ');
-		SuggestedBreeds = AllBreeds
-			.Where(breed =>
-				breedNameItems.All(breedNameItem => breed.Contains(breedNameItem, StringComparison.CurrentCultureIgnoreCase)))
-			.OrderByDescending(breed => breed.StartsWith(Breed, StringComparison.CurrentCultureIgnoreCase))
-			.ToList();
 	}
 }
