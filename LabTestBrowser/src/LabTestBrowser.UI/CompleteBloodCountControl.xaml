@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
+			 xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 			 d:DataContext="{d:DesignInstance {x:Type local:CompleteBloodCountViewModel}}"
 			 mc:Ignorable="d"
@@ -11,7 +12,16 @@
 			 d:DesignWidth="300">
 	
 	<UserControl.Resources>
-			<DataTemplate x:Key="CompleteBloodCountTemplate">
+		<CollectionViewSource x:Key="SortedCompleteBloodCounts"
+							  Source="{Binding CompleteBloodCounts}">
+			<CollectionViewSource.SortDescriptions>
+				<scm:SortDescription PropertyName="PriorityLevel"
+									 Direction="Descending" />
+				<scm:SortDescription PropertyName="LabOrderNumber"
+									 Direction="Ascending" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+		<DataTemplate x:Key="CompleteBloodCountTemplate">
 			<StackPanel>
 				<Grid Margin="25,15">
 					<Grid.RowDefinitions>
@@ -174,7 +184,7 @@
 				  BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
 				  VerticalScrollBarVisibility="Visible"
 				  RowDetailsTemplate="{StaticResource CompleteBloodCountTemplate}"
-				  ItemsSource="{Binding CompleteBloodCounts}"
+				  ItemsSource="{Binding Source={StaticResource SortedCompleteBloodCounts}}"
 				  SelectedItem="{Binding SelectedCompleteBloodCount}"
 				  VirtualizingPanel.VirtualizationMode="Recycling"
 				  VirtualizingPanel.IsVirtualizingWhenGrouping="True">

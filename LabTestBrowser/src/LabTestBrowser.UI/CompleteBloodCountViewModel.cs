@@ -9,6 +9,7 @@ public class CompleteBloodCountViewModel : ObservableObject
 	public CompleteBloodCountViewModel(CompleteBloodCountDto completeBloodCount)
 	{
 		Id = completeBloodCount.Id;
+		PriorityLevel = ConvertToPriorityLevel(completeBloodCount.ReviewResult);
 		ExternalId = completeBloodCount.ExternalId!;
 		ObservationTimestamp = completeBloodCount.ObservationDateTime;
 		LabOrder = Format(completeBloodCount.LabOrderNumber, completeBloodCount.ReviewResult);
@@ -29,6 +30,7 @@ public class CompleteBloodCountViewModel : ObservableObject
 	}
 
 	public int? Id { get; set; }
+	public PriorityLevel PriorityLevel { get; init; }
 	public string ExternalId { get; init; }
 	public DateTime ObservationTimestamp { get; init; }
 	public string LabOrder { get; init; }
@@ -55,6 +57,17 @@ public class CompleteBloodCountViewModel : ObservableObject
 			ReviewResult.Suppressed => "Отложен",
 			ReviewResult.UnderReview => string.Empty,
 			_ => string.Empty
+		};
+	}
+
+	private static PriorityLevel ConvertToPriorityLevel(ReviewResult reviewResult)
+	{
+		return reviewResult switch
+		{
+			ReviewResult.Reported => PriorityLevel.Low,
+			ReviewResult.Suppressed => PriorityLevel.Medium,
+			ReviewResult.UnderReview => PriorityLevel.High,
+			_ => PriorityLevel.None
 		};
 	}
 }
