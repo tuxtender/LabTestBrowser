@@ -1,5 +1,7 @@
-﻿using LabTestBrowser.Infrastructure.Data.Settings;
+﻿using LabTestBrowser.Core.LabTestReportTemplateAggregate;
+using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.UseCases.AnimalSpecies;
+using LabTestBrowser.UseCases.LabTestReportTemplates;
 using LabTestBrowser.UseCases.SpecimenCollectionCenters;
 
 namespace LabTestBrowser.Infrastructure.Data.Queries;
@@ -38,5 +40,36 @@ public class QueryServicesFromConfigFactory
 			});
 
 		return new ListAnimalSpeciesQueryService(animals);
+	}
+
+	public ILabTestReportTemplateQueryService CreateLabTestReportTemplateQueryService()
+	{
+		var animals = _animalSettings.Animals.ToDictionary(animal => animal.Id, animal => animal.Title);
+
+		var id = 0;
+
+		var reportTemplates = new List<LabTestReportTemplate>();
+
+		foreach (var facility in _labReportSettings.Facilities)
+		foreach (var facilityTrademark in facility.Trademarks)
+		foreach (var reportTemplate in facilityTrademark.ReportTemplates)
+		{
+			var animal = animals[reportTemplate.AnimalId];
+			var entity = new LabTestReportTemplate(facility.Supervisor, facilityTrademark.Title, animal,
+				reportTemplate.LabTestTitle, reportTemplate.TemplatePath);
+
+			entity.Id = id;
+
+			reportTemplates.Add(entity);
+
+			id++;
+		}
+
+		var templates = reportTemplates.ToDictionary(template => template.Id);
+
+		var reportTemplateLookup = reportTemplates.ToLookup(template => new ReportTemplateIndex(template.Facility, template.TradeName,
+			template.Animal), template => template);
+
+		return new LabTestReportTemplateQueryService(templates, reportTemplateLookup);
 	}
 }

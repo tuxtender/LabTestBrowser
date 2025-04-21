@@ -38,8 +38,10 @@ public static class InfrastructureServiceExtensions
 		var section = config.GetSection(nameof(AnimalSettings));
 		var animalSettings = section.Get<AnimalSettings>();
 		Guard.Against.Null(animalSettings);
-		var queryService = LabTestReportTemplateQueryService.Create(labReportSettings, animalSettings);
-		services.AddSingleton<ILabTestReportTemplateQueryService>(queryService);
+		var queryServiceFactory = new QueryServicesFromConfigFactory(labReportSettings, animalSettings);
+		services.AddSingleton(queryServiceFactory.CreateLabTestReportTemplateQueryService());
+		services.AddSingleton(queryServiceFactory.CreateListSpecimenCollectionCentersQueryService());
+		services.AddSingleton(queryServiceFactory.CreateListAnimalSpeciesQueryService());
 
 		services.AddScoped<IExportService, ExportService>();
 		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
@@ -48,10 +50,6 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
 		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
-
-		var queryServiceFactory = new QueryServicesFromConfigFactory(labReportSettings, animalSettings);
-		services.AddSingleton(queryServiceFactory.CreateListSpecimenCollectionCentersQueryService());
-		services.AddSingleton(queryServiceFactory.CreateListAnimalSpeciesQueryService());
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
