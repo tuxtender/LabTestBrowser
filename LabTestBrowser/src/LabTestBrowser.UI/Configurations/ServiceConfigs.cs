@@ -3,7 +3,6 @@ using LabTestBrowser.Infrastructure;
 using LabTestBrowser.Infrastructure.Email;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.LaboratoryEquipment;
-using LabTestBrowser.UseCases.CompleteBloodCounts;
 using LabTestBrowser.UseCases.LaboratoryEquipment;
 
 namespace LabTestBrowser.UI.Configurations;
@@ -34,7 +33,7 @@ public static class ServiceConfigs
 		services.AddSingleton<IV231OruR01Converter, V231OruR01Converter>();
 		services.AddSingleton<IUrit5160Hl7Converter, Urit5160Hl7Converter>();
 		services.AddSingleton<IHl7MessageHandler, Hl7MessageHandler>();
-		services.AddSingleton<ICbcTestResultReader, CbcTestResultReader>();
+		services.AddSingleton<ICompleteBloodCountUpdateChannel, CompleteBloodCountUpdateChannel>();
 
 		logger.LogInformation("{Project} services registered", "Mediatr and Email Sender");
 

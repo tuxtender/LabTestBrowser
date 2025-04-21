@@ -1,4 +1,6 @@
-﻿namespace LabTestBrowser.Core.CompleteBloodCountAggregate;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
+
+namespace LabTestBrowser.Core.CompleteBloodCountAggregate;
 
 public class CompleteBloodCount : EntityBase, IAggregateRoot
 {
@@ -36,6 +38,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 		AccessionNumber = accessionNumber;
 		ReviewResult = ReviewResult.Reported;
 		ReviewDate = accessionNumber.Date;
+		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id));
 	}
 
 	public void Review()
@@ -43,6 +46,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 		AccessionNumber = null;
 		ReviewResult = ReviewResult.UnderReview;
 		ReviewDate = null;
+		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id));
 	}
 
 	public void Suppress(DateOnly date)
@@ -50,6 +54,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 		AccessionNumber = null;
 		ReviewResult = ReviewResult.Suppressed;
 		ReviewDate = date;
+		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id));
 	}
 
 	public void SetWhiteBloodCell(string value) => WhiteBloodCell = new LabTestResult(value);

@@ -11,6 +11,7 @@ using LabTestBrowser.UseCases.CompleteBloodCounts.Assign;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
+using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListReviewed;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListUnderReview;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ResetReview;
@@ -78,7 +79,7 @@ public class LabReportViewModel : ObservableObject
 
 			while (true)
 			{
-				await GetCompleteBloodCountAsync();
+				await UpdateCompleteBloodCountAsync();
 			}
 		}); //TODO: Refactor using IObservable
 	}
@@ -131,10 +132,23 @@ public class LabReportViewModel : ObservableObject
 		_labRequisition.SetLabRequisition(result.Value);
 	}
 
-	private async Task GetCompleteBloodCountAsync() 
+	private async Task UpdateCompleteBloodCountAsync()
 	{
-		var completeBloodCount = await _mediator.Send(new GetCreatedCompleteBloodCountQuery());
-		var completeBloodCountViewModel = new CompleteBloodCountViewModel(completeBloodCount.Value);
+		var completeBloodCount = await _mediator.Send(new GetUpdatedCompleteBloodCountQuery());
+
+		if (!completeBloodCount.IsSuccess)
+			return;
+
+		var completeBloodCountViewModel = new CompleteBloodCountViewModel(completeBloodCount);
+		var updatingCompleteBloodCountViewModel = CompleteBloodCounts.FirstOrDefault(cbc => cbc.Id == completeBloodCountViewModel.Id);
+
+		if (updatingCompleteBloodCountViewModel == null)
+		{
+			CompleteBloodCounts.Add(completeBloodCountViewModel);
+			return;
+		}
+
+		CompleteBloodCounts.Remove(updatingCompleteBloodCountViewModel);
 		CompleteBloodCounts.Add(completeBloodCountViewModel);
 	}
 
