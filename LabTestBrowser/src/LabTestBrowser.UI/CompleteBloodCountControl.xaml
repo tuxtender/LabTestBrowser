@@ -196,7 +196,7 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Образец"
 									Width="110"
-									Binding="{Binding LabOrder}" />
+									Binding="{Binding Description}" />
 				<DataGridTextColumn Header="ID"
 									Width="110"
 									Binding="{Binding ExternalId}" />

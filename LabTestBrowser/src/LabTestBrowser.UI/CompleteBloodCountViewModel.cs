@@ -12,7 +12,7 @@ public class CompleteBloodCountViewModel : ObservableObject
 		PriorityLevel = ConvertToPriorityLevel(completeBloodCount.ReviewResult);
 		ExternalId = completeBloodCount.ExternalId!;
 		ObservationTimestamp = completeBloodCount.ObservationDateTime;
-		LabOrder = Format(completeBloodCount.LabOrderNumber, completeBloodCount.ReviewResult);
+		Description = Format(completeBloodCount.LabOrderNumber, completeBloodCount.ReviewResult);
 		LabOrderNumber = completeBloodCount.LabOrderNumber;
 		LabOrderDate = completeBloodCount.LabOrderDate;
 		WhiteBloodCell = completeBloodCount.WhiteBloodCell ?? string.Empty;
@@ -33,7 +33,7 @@ public class CompleteBloodCountViewModel : ObservableObject
 	public PriorityLevel PriorityLevel { get; init; }
 	public string ExternalId { get; init; }
 	public DateTime ObservationTimestamp { get; init; }
-	public string LabOrder { get; init; }
+	public string Description { get; init; }
 	public int? LabOrderNumber { get; init; }
 	public DateOnly? LabOrderDate { get; init; }
 	public string WhiteBloodCell { get; init; }
