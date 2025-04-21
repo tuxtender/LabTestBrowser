@@ -52,7 +52,7 @@ public class CompleteBloodCountViewModel : ObservableObject
 		return reviewResult switch
 		{
 			ReviewResult.Reported => sequenceNumber?.ToString() ?? string.Empty,
-			ReviewResult.Suppressed => "X",
+			ReviewResult.Suppressed => "Отложен",
 			ReviewResult.UnderReview => string.Empty,
 			_ => string.Empty
 		};
