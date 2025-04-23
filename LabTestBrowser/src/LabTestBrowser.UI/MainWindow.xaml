@@ -5,10 +5,11 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:LabTestBrowser.UI"
 		xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
+		xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		SizeToContent="WidthAndHeight"
-		Title="MainWindow">
+		Title="{x:Static localization:Strings.ApplicationTitle}">
 
 	<Grid>
 		<StackPanel>
