@@ -6,6 +6,7 @@
 			 xmlns:local="clr-namespace:LabTestBrowser.UI"
 			 xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 d:DataContext="{d:DesignInstance {x:Type local:CompleteBloodCountViewModel}}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
@@ -170,7 +171,7 @@
 		</DataTemplate>
 	</UserControl.Resources>
 
-	<GroupBox Header="ОАК"
+	<GroupBox Header="{x:Static localization:Strings.CompleteBloodCount_Title}"
 			  d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}">
 		<StackPanel>
 		<DataGrid Padding="5"
@@ -194,13 +195,13 @@
 				</b:EventTrigger>
 			</b:Interaction.Triggers>
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Образец"
+				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_SpecimenDescription}"
 									Width="110"
 									Binding="{Binding Description}" />
-				<DataGridTextColumn Header="ID"
+				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ExternalId}"
 									Width="110"
 									Binding="{Binding ExternalId}" />
-				<DataGridTextColumn Header="Дата"
+				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ObservationTimestamp}"
 									Width="130"
 									Binding="{Binding ObservationTimestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />
 			</DataGrid.Columns>
@@ -210,14 +211,14 @@
 						HorizontalAlignment="Right">
 				<Button Command="{Binding ResetCommand}"
 						Margin="0, 0,2,0"
-						Content="Сброс" />
+						Content="{x:Static localization:Strings.CompleteBloodCount_Reset}" />
 				<Button Command="{Binding SuppressCommand}"
 						Margin="2, 0,0,0"
-						Content="Отложить" />
+						Content="{x:Static localization:Strings.CompleteBloodCount_Suppress}" />
 				<Button Command="{Binding AssignCommand}"
 						Style="{DynamicResource AccentButtonStyle}"
 						Margin="2, 0,0,0"
-						Content="Включить в отчете" />
+						Content="{x:Static localization:Strings.CompleteBloodCount_Report}" />
 			</StackPanel>
 		</StackPanel>
 	</GroupBox>

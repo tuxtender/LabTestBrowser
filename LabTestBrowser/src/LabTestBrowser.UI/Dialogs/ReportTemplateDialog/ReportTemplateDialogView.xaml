@@ -5,6 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LabTestBrowser.UI.Dialogs.ReportTemplateDialog"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type local:ReportTemplateDialogViewModel}}">
 	<UserControl.Resources>
@@ -66,13 +67,13 @@
 			</Grid.ColumnDefinitions>
 
 			<Button Grid.Column="0"
-					Content="Ok"
+					Content="{x:Static localization:Strings.ReportTemplateDialog_Export}"
 					Margin="0, 0,2,0"
 					HorizontalAlignment="Stretch"
 					Command="{Binding FilterCommand}"
 					Style="{DynamicResource AccentButtonStyle}" />
 			<Button Grid.Column="1"
-					Content="Cancel"
+					Content="{x:Static localization:Strings.ReportTemplateDialog_Cancel}"
 					Margin="2, 0,0,0"
 					IsCancel="True"
 					Command="{Binding CancelCommand}"

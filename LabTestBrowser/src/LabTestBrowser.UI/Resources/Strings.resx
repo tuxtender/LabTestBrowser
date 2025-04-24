@@ -36,4 +36,76 @@
     <data name="CommandBar_Export" xml:space="preserve">
         <value>Экспорт</value>
     </data>
+    <data name="CompleteBloodCount_Title" xml:space="preserve">
+        <value>ОАК</value>
+    </data>
+    <data name="CompleteBloodCount_SpecimenDescription" xml:space="preserve">
+        <value>Образец</value>
+    </data>
+    <data name="CompleteBloodCount_ExternalId" xml:space="preserve">
+        <value>ID</value>
+    </data>
+    <data name="CompleteBloodCount_ObservationTimestamp" xml:space="preserve">
+        <value>Дата</value>
+    </data>
+    <data name="CompleteBloodCount_Reset" xml:space="preserve">
+        <value>Сброс</value>
+    </data>
+    <data name="CompleteBloodCount_Suppress" xml:space="preserve">
+        <value>Отложить</value>
+    </data>
+    <data name="CompleteBloodCount_Report" xml:space="preserve">
+        <value>Включить в отчёт</value>
+    </data>
+    <data name="LabRequisition_Title" xml:space="preserve">
+        <value>Данные образца</value>
+    </data>
+    <data name="LabRequisition_DateOfService" xml:space="preserve">
+        <value>Дата обследования</value>
+    </data>
+    <data name="LabRequisition_PickDate" xml:space="preserve">
+        <value>Выбрать дату</value>
+    </data>
+    <data name="LabRequisition_SpecimenNumber" xml:space="preserve">
+        <value>Номер образца</value>
+    </data>
+    <data name="LabRequisition_HealthcareFacility" xml:space="preserve">
+        <value>Медучреждение</value>
+    </data>
+    <data name="LabRequisition_SatelliteFacility" xml:space="preserve">
+        <value>Подразделение</value>
+    </data>
+    <data name="LabRequisition_Animal" xml:space="preserve">
+        <value>Животное</value>
+    </data>
+    <data name="LabRequisition_PetOwner" xml:space="preserve">
+        <value>Владелец</value>
+    </data>
+    <data name="LabRequisition_Nickname" xml:space="preserve">
+        <value>Имя питомца</value>
+    </data>
+    <data name="LabRequisition_Breed" xml:space="preserve">
+        <value>Порода</value>
+    </data>
+    <data name="LabRequisition_CategoryAndSex" xml:space="preserve">
+        <value>Категория/пол</value>
+    </data>
+    <data name="LabRequisition_Age" xml:space="preserve">
+        <value>Возраст</value>
+    </data>
+    <data name="LabRequisition_AgeInYears" xml:space="preserve">
+        <value>лет</value>
+    </data>
+    <data name="LabRequisition_AgeInMonths" xml:space="preserve">
+        <value>мес</value>
+    </data>
+    <data name="LabRequisition_AgeInDays" xml:space="preserve">
+        <value>дней</value>
+    </data>
+    <data name="ReportTemplateDialog_Export" xml:space="preserve">
+        <value>Экспортировать</value>
+    </data>
+    <data name="ReportTemplateDialog_Cancel" xml:space="preserve">
+        <value>Отмена</value>
+    </data>
 </root>

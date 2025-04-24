@@ -112,5 +112,221 @@ namespace LabTestBrowser.UI.Resources {
                 return ResourceManager.GetString("CommandBar_Save", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        public static string CompleteBloodCount_ExternalId {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_ExternalId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата.
+        /// </summary>
+        public static string CompleteBloodCount_ObservationTimestamp {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_ObservationTimestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Включить в отчёт.
+        /// </summary>
+        public static string CompleteBloodCount_Report {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сброс.
+        /// </summary>
+        public static string CompleteBloodCount_Reset {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Образец.
+        /// </summary>
+        public static string CompleteBloodCount_SpecimenDescription {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_SpecimenDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отложить.
+        /// </summary>
+        public static string CompleteBloodCount_Suppress {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_Suppress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ОАК.
+        /// </summary>
+        public static string CompleteBloodCount_Title {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возраст.
+        /// </summary>
+        public static string LabRequisition_Age {
+            get {
+                return ResourceManager.GetString("LabRequisition_Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to дней.
+        /// </summary>
+        public static string LabRequisition_AgeInDays {
+            get {
+                return ResourceManager.GetString("LabRequisition_AgeInDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to мес.
+        /// </summary>
+        public static string LabRequisition_AgeInMonths {
+            get {
+                return ResourceManager.GetString("LabRequisition_AgeInMonths", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to лет.
+        /// </summary>
+        public static string LabRequisition_AgeInYears {
+            get {
+                return ResourceManager.GetString("LabRequisition_AgeInYears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Животное.
+        /// </summary>
+        public static string LabRequisition_Animal {
+            get {
+                return ResourceManager.GetString("LabRequisition_Animal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Порода.
+        /// </summary>
+        public static string LabRequisition_Breed {
+            get {
+                return ResourceManager.GetString("LabRequisition_Breed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Категория/пол.
+        /// </summary>
+        public static string LabRequisition_CategoryAndSex {
+            get {
+                return ResourceManager.GetString("LabRequisition_CategoryAndSex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата обследования.
+        /// </summary>
+        public static string LabRequisition_DateOfService {
+            get {
+                return ResourceManager.GetString("LabRequisition_DateOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Медучреждение.
+        /// </summary>
+        public static string LabRequisition_HealthcareFacility {
+            get {
+                return ResourceManager.GetString("LabRequisition_HealthcareFacility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Имя питомца.
+        /// </summary>
+        public static string LabRequisition_Nickname {
+            get {
+                return ResourceManager.GetString("LabRequisition_Nickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Владелец.
+        /// </summary>
+        public static string LabRequisition_PetOwner {
+            get {
+                return ResourceManager.GetString("LabRequisition_PetOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выбрать дату.
+        /// </summary>
+        public static string LabRequisition_PickDate {
+            get {
+                return ResourceManager.GetString("LabRequisition_PickDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Подразделение.
+        /// </summary>
+        public static string LabRequisition_SatelliteFacility {
+            get {
+                return ResourceManager.GetString("LabRequisition_SatelliteFacility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер образца.
+        /// </summary>
+        public static string LabRequisition_SpecimenNumber {
+            get {
+                return ResourceManager.GetString("LabRequisition_SpecimenNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Данные образца.
+        /// </summary>
+        public static string LabRequisition_Title {
+            get {
+                return ResourceManager.GetString("LabRequisition_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отмена.
+        /// </summary>
+        public static string ReportTemplateDialog_Cancel {
+            get {
+                return ResourceManager.GetString("ReportTemplateDialog_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Экспортировать.
+        /// </summary>
+        public static string ReportTemplateDialog_Export {
+            get {
+                return ResourceManager.GetString("ReportTemplateDialog_Export", resourceCulture);
+            }
+        }
     }
 }
