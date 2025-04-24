@@ -60,11 +60,47 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тестовое сообщение о удачном выполнении.
+        ///   Looks up a localized string similar to Ошибка сохранения.
         /// </summary>
-        internal static string Dummy {
+        internal static string SaveLabTestReport_SaveFailed {
             get {
-                return ResourceManager.GetString("Dummy", resourceCulture);
+                return ResourceManager.GetString("SaveLabTestReport_SaveFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер образца меньше 1.
+        /// </summary>
+        internal static string ValidationError_AccessionNumber {
+            get {
+                return ResourceManager.GetString("ValidationError_AccessionNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не указано животное.
+        /// </summary>
+        internal static string ValidationError_Patient_Animal {
+            get {
+                return ResourceManager.GetString("ValidationError_Patient_Animal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Недостаточно сведений о пациенте.
+        /// </summary>
+        internal static string ValidationError_Patient_IncompleteDetails {
+            get {
+                return ResourceManager.GetString("ValidationError_Patient_IncompleteDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не указано медучреждение.
+        /// </summary>
+        internal static string ValidationError_SpecimenCollectionCenter {
+            get {
+                return ResourceManager.GetString("ValidationError_SpecimenCollectionCenter", resourceCulture);
             }
         }
     }
