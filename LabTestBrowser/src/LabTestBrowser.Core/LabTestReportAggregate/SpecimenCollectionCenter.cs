@@ -14,7 +14,7 @@ public class SpecimenCollectionCenter : ValueObject
 	public static Result<SpecimenCollectionCenter> Create(string? facility, string? tradeName)
 	{
 		if (string.IsNullOrWhiteSpace(facility))
-			return Result.Error();
+			return Result.Invalid(new ValidationError("ValidationError_SpecimenCollectionCenter", "No healthcare facility specified"));
 
 		return new SpecimenCollectionCenter(facility, tradeName);
 	}
