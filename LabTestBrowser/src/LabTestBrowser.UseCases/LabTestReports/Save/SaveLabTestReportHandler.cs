@@ -1,10 +1,14 @@
 ﻿using LabTestBrowser.UseCases.LabTestReports.Create;
 using LabTestBrowser.UseCases.LabTestReports.Update;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.LabTestReports.Save;
 
-public class SaveLabTestReportHandler(IMediator _mediator)
+public class SaveLabTestReportHandler(
+	IMediator _mediator,
+	ILocalizationService _localizationService,
+	ILogger<SaveLabTestReportHandler> _logger)
 	: ICommandHandler<SaveLabTestReportCommand, Result<LabTestReportDto>>
 {
 	public async Task<Result<LabTestReportDto>> Handle(SaveLabTestReportCommand request, CancellationToken cancellationToken)
@@ -14,7 +18,7 @@ public class SaveLabTestReportHandler(IMediator _mediator)
 			var updateCommand = CreateUpdateLabTestReportCommand(request);
 			var updateResult = await _mediator.Send(updateCommand, cancellationToken);
 
-			return updateResult;
+			return updateResult.IsSuccess ? GetSuccessMessageResult(updateResult) : updateResult;
 		}
 
 		var createCommand = new CreateLabTestReportCommand
@@ -34,8 +38,14 @@ public class SaveLabTestReportHandler(IMediator _mediator)
 		};
 
 		var createResult = await _mediator.Send(createCommand, cancellationToken);
+		return createResult.IsSuccess ? GetSuccessMessageResult(createResult) : createResult;
+	}
 
-		return createResult;
+	private Result<LabTestReportDto> GetSuccessMessageResult(Result<LabTestReportDto> result)
+	{
+		_logger.LogInformation("Saved successfully");
+		var message = _localizationService.GetString("SaveLabTestReport_Saved");
+		return Result.Success(result.Value, message);
 	}
 
 	private static UpdateLabTestReportCommand CreateUpdateLabTestReportCommand(SaveLabTestReportCommand request)
