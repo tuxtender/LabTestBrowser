@@ -25,6 +25,7 @@ var logger = Log.Logger = new LoggerConfiguration()
 logger.Information("Starting application");
 
 builder.AddLoggerConfigs();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 var appLogger = new SerilogLoggerFactory(logger)
 	.CreateLogger<Program>();
@@ -95,10 +96,10 @@ var mllpHost = mllpHostBuilder.Build();
 
 // await Task.WhenAny(app.RunAsync(), mllpHost.RunAsync());
 
-await Task.WhenAny(mllpHost.RunAsync(), app.RunAsync());
+// await Task.WhenAny(mllpHost.RunAsync(), app.RunAsync());
 
 
-// await app.RunAsync();
+await app.RunAsync();
 
 // await mllpHost.RunAsync();
 
