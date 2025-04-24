@@ -7,7 +7,6 @@ using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
-using LabTestBrowser.UseCases.CompleteBloodCounts.Assign;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
@@ -195,7 +194,7 @@ public class LabReportViewModel : ObservableObject
 
 	private async Task AssignAsync()
 	{
-		var command = new AssignCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderNumber,
+		var command = new ReviewCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderNumber,
 			_labRequisition.LabOrderDate);
 		var result = await _mediator.Send(command);
 	}
