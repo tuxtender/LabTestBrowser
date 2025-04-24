@@ -12,16 +12,23 @@
 		Title="{x:Static localization:Strings.ApplicationTitle}">
 
 	<Grid>
-		<StackPanel>
-			<local:LabReportCommandBar />
-			<WrapPanel Orientation="Horizontal">
-				<local:LabRequisitionControl Padding="5, 0"
-											 DataContext="{Binding Path= LabRequisition }" />
-				<local:CompleteBloodCountControl Padding="5, 0" />
-			</WrapPanel>
-		</StackPanel>
+		<DockPanel LastChildFill="True">
+			<local:LabReportCommandBar DockPanel.Dock="Top" />
+
+			<StatusBar DockPanel.Dock="Bottom"
+					   VerticalAlignment="Bottom">
+				<StatusBarItem HorizontalAlignment="Right">
+					<TextBlock Text="Error" />
+				</StatusBarItem>
+			</StatusBar>
+
+			<local:LabRequisitionControl DockPanel.Dock="Left"
+										 Padding="5, 0"
+										 DataContext="{Binding Path= LabRequisition }" />
+			<local:CompleteBloodCountControl DockPanel.Dock="Right"
+											 Padding="5, 0" />
+		</DockPanel>
 
 		<dialogs:DialogView DataContext="{Binding DialogViewModel}" />
 	</Grid>
-
 </Window>
