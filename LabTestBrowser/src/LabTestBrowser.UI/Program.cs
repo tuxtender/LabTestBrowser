@@ -93,13 +93,9 @@ var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFil
 
 var mllpHost = mllpHostBuilder.Build();
 
+await Task.WhenAny(mllpHost.RunAsync(), app.RunAsync());
 
-// await Task.WhenAny(app.RunAsync(), mllpHost.RunAsync());
-
-// await Task.WhenAny(mllpHost.RunAsync(), app.RunAsync());
-
-
-await app.RunAsync();
+// await app.RunAsync();
 
 // await mllpHost.RunAsync();
 
