@@ -11,7 +11,7 @@ public class UpdateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 		var labTestReport = await _repository.GetByIdAsync(request.Id, cancellationToken);
 		if (labTestReport == null)
 		{
-			_logger.LogInformation("LabTestReport id: {labTestReportId} not found", request.Id);
+			_logger.LogWarning("LabTestReport id: {labTestReportId} not found", request.Id);
 			return Result.NotFound();
 		}
 

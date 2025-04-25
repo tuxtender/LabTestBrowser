@@ -18,7 +18,7 @@ public class CreateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
 		if (labTestReport != null)
 		{
-			_logger.LogInformation("LabTestReport id: {labTestReportId} is already created", labTestReport.Id);
+			_logger.LogWarning("LabTestReport id: {labTestReportId} is already created", labTestReport.Id);
 			return Result.NotFound();
 		}
 

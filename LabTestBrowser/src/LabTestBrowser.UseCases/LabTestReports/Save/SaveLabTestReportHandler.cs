@@ -13,6 +13,8 @@ public class SaveLabTestReportHandler(
 {
 	public async Task<Result<LabTestReportDto>> Handle(SaveLabTestReportCommand request, CancellationToken cancellationToken)
 	{
+		_logger.LogInformation("Saving LabTestReport");
+
 		if (request.Id.HasValue)
 		{
 			var updateCommand = CreateUpdateLabTestReportCommand(request);
@@ -41,13 +43,6 @@ public class SaveLabTestReportHandler(
 		return createResult.IsSuccess ? GetSuccessMessageResult(createResult) : createResult;
 	}
 
-	private Result<LabTestReportDto> GetSuccessMessageResult(Result<LabTestReportDto> result)
-	{
-		_logger.LogInformation("Saved successfully");
-		var message = _localizationService.GetString("SaveLabTestReport_Saved");
-		return Result.Success(result.Value, message);
-	}
-
 	private static UpdateLabTestReportCommand CreateUpdateLabTestReportCommand(SaveLabTestReportCommand request)
 	{
 		return new UpdateLabTestReportCommand
@@ -64,5 +59,12 @@ public class SaveLabTestReportHandler(
 			AgeInMonths = request.AgeInMonths,
 			AgeInDays = request.AgeInDays
 		};
+	}
+
+	private Result<LabTestReportDto> GetSuccessMessageResult(Result<LabTestReportDto> result)
+	{
+		_logger.LogInformation("Saved successfully");
+		var message = _localizationService.GetString("SaveLabTestReport_Saved");
+		return Result.Success(result.Value, message);
 	}
 }
