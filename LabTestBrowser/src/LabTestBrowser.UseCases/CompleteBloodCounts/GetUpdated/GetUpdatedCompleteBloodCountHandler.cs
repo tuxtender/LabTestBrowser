@@ -13,7 +13,7 @@ public class GetUpdatedCompleteBloodCountHandler(
 	public async Task<Result<CompleteBloodCountDto>> Handle(GetUpdatedCompleteBloodCountQuery request, CancellationToken cancellationToken)
 	{
 		var completeBloodCountId = await _updateChannel.ReadAsync();
-		_logger.LogInformation("Got updated complete blood count id: {completeBloodCountId}", completeBloodCountId);
+		_logger.LogInformation("Notified of complete blood count id: {completeBloodCountId} update", completeBloodCountId);
 
 		var cbc = await _repository.GetByIdAsync(completeBloodCountId, cancellationToken);
 		if (cbc != null)

@@ -31,7 +31,7 @@ public class CreateCompleteBloodCountHandler(
 		await _repository.AddAsync(cbc, cancellationToken);
 		await _updateChannel.WriteAsync(cbc.Id);
 
-		_logger.LogInformation("Created CompleteBloodCount {completeBloodCountId}", cbc.Id);
+		_logger.LogInformation("Created complete blood count id: {completeBloodCountId}", cbc.Id);
 
 		return cbc.Id;
 	}
