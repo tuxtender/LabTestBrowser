@@ -18,7 +18,7 @@ public class GetUpdatedCompleteBloodCountHandler(
 		if (cbc != null)
 			return cbc.ConvertToCompleteBloodCountDto();
 
-		_logger.LogError("Inconsistent data. CBC: {completeBloodCountId} hasn't been saved yet", completeBloodCountId);
+		_logger.LogWarning("Inconsistent data. CBC: {completeBloodCountId} hasn't been saved yet", completeBloodCountId);
 		return Result.Error();
 	}
 }
