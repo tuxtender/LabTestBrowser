@@ -64,7 +64,7 @@ namespace LabTestBrowser.UI.Resources {
         /// </summary>
         internal static string SaveLabTestReport_SaveFailed {
             get {
-                return ResourceManager.GetString("SaveLabTestReport_SaveFailed", resourceCulture);
+                return ResourceManager.GetString("SaveLabTestReport.SaveFailed", resourceCulture);
             }
         }
         
@@ -73,7 +73,7 @@ namespace LabTestBrowser.UI.Resources {
         /// </summary>
         internal static string ValidationError_AccessionNumber {
             get {
-                return ResourceManager.GetString("ValidationError_AccessionNumber", resourceCulture);
+                return ResourceManager.GetString("ValidationError.AccessionNumber", resourceCulture);
             }
         }
         
@@ -82,7 +82,7 @@ namespace LabTestBrowser.UI.Resources {
         /// </summary>
         internal static string ValidationError_Patient_Animal {
             get {
-                return ResourceManager.GetString("ValidationError_Patient_Animal", resourceCulture);
+                return ResourceManager.GetString("ValidationError.Patient.Animal", resourceCulture);
             }
         }
         
@@ -91,7 +91,7 @@ namespace LabTestBrowser.UI.Resources {
         /// </summary>
         internal static string ValidationError_Patient_IncompleteDetails {
             get {
-                return ResourceManager.GetString("ValidationError_Patient_IncompleteDetails", resourceCulture);
+                return ResourceManager.GetString("ValidationError.Patient.IncompleteDetails", resourceCulture);
             }
         }
         
@@ -100,7 +100,7 @@ namespace LabTestBrowser.UI.Resources {
         /// </summary>
         internal static string ValidationError_SpecimenCollectionCenter {
             get {
-                return ResourceManager.GetString("ValidationError_SpecimenCollectionCenter", resourceCulture);
+                return ResourceManager.GetString("ValidationError.SpecimenCollectionCenter", resourceCulture);
             }
         }
     }

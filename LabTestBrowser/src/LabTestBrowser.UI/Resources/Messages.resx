@@ -18,19 +18,19 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="ValidationError_AccessionNumber" xml:space="preserve">
+    <data name="ValidationError.AccessionNumber" xml:space="preserve">
         <value>Номер образца меньше 1</value>
     </data>
-    <data name="SaveLabTestReport_SaveFailed" xml:space="preserve">
+    <data name="SaveLabTestReport.SaveFailed" xml:space="preserve">
         <value>Ошибка сохранения</value>
     </data>
-    <data name="ValidationError_SpecimenCollectionCenter" xml:space="preserve">
+    <data name="ValidationError.SpecimenCollectionCenter" xml:space="preserve">
         <value>Не указано медучреждение</value>
     </data>
-    <data name="ValidationError_Patient_Animal" xml:space="preserve">
+    <data name="ValidationError.Patient.Animal" xml:space="preserve">
         <value>Не указано животное</value>
     </data>
-    <data name="ValidationError_Patient_IncompleteDetails" xml:space="preserve">
+    <data name="ValidationError.Patient.IncompleteDetails" xml:space="preserve">
         <value>Недостаточно сведений о пациенте</value>
     </data>
 </root>

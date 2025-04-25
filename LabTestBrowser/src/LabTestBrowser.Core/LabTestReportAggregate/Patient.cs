@@ -14,12 +14,12 @@ public class Patient : ValueObject
 	public static Result<Patient> Create(string? animal, Age age, string? healthcareProxy, string? name, string? category, string? breed)
 	{
 		if (string.IsNullOrWhiteSpace(animal))
-			return Result.Invalid(new ValidationError("ValidationError_Patient_Animal", "No animal specified"));
+			return Result.Invalid(new ValidationError("ValidationError.Patient.Animal", "No animal specified"));
 
 		var isIncomplete = age == Age.None && string.IsNullOrEmpty(healthcareProxy) && string.IsNullOrEmpty(name);
 
 		if (isIncomplete)
-			return Result.Invalid(new ValidationError("ValidationError_Patient_IncompleteDetails", "Incomplete patient details"));
+			return Result.Invalid(new ValidationError("ValidationError.Patient.IncompleteDetails", "Incomplete patient details"));
 
 		var patient = new Patient
 		{
