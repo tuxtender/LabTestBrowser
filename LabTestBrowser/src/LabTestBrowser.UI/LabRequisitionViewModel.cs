@@ -120,8 +120,8 @@ public class LabRequisitionViewModel : ObservableObject
 	public void SetLabRequisition(LabTestReportDto report)
 	{
 		Id = report.Id;
-		LabOrderDate = report.Date;
-		LabOrderNumber = report.SequenceNumber;
+		LabOrderDate = report.OrderDate;
+		LabOrderNumber = report.OrderNumber;
 		Facility = report.Facility;
 		TradeName = report.TradeName;
 		Animal = report.Animal;

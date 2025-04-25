@@ -5,13 +5,13 @@ public class GetLastLabTestReportHandler(ILabTestReportQueryService _query)
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetLastLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var labTestReport = await _query.FindLastLabTestReportAsync(request.Date);
+		var labTestReport = await _query.FindLastLabTestReportAsync(request.OrderDate);
 
 		if (labTestReport == null)
 			return new LabTestReportDto
 			{
-				Date = request.Date,
-				SequenceNumber = 1
+				OrderDate = request.OrderDate,
+				OrderNumber = 1
 			};
 
 		return labTestReport;

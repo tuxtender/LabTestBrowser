@@ -5,21 +5,21 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetEmptyLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var report = await _query.FindLastLabTestReportAsync(request.Date);
+		var report = await _query.FindLastLabTestReportAsync(request.OrderDate);
 
 		if (report == null)
 			return new LabTestReportDto
 			{
-				Date = request.Date,
-				SequenceNumber = 1
+				OrderDate = request.OrderDate,
+				OrderNumber = 1
 			};
 
-		var availableNumber = report.SequenceNumber + 1;
+		var availableNumber = report.OrderNumber + 1;
 
 		return new LabTestReportDto
 		{
-			Date = request.Date,
-			SequenceNumber = availableNumber
+			OrderDate = request.OrderDate,
+			OrderNumber = availableNumber
 		};
 	}
 }

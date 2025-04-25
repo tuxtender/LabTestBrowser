@@ -3,8 +3,8 @@
 public record LabTestReportDto
 {
 	public int? Id { get; init; }
-	public int SequenceNumber { get; init; }
-	public DateOnly Date { get; init; }
+	public int OrderNumber { get; init; }
+	public DateOnly OrderDate { get; init; }
 	public string? Facility { get; init; }
 	public string? TradeName { get; init; }
 	public string? HealthcareProxy { get; init; }

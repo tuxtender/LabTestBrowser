@@ -2,8 +2,8 @@
 
 public record CreateLabTestReportCommand : ICommand<Result<LabTestReportDto>>
 {
-	public int SequenceNumber { get; init; }
-	public DateOnly Date { get; init; }
+	public int OrderNumber { get; init; }
+	public DateOnly OrderDate { get; init; }
 	public string? Facility { get; init; }
 	public string? TradeName { get; init; }
 	public string? PetOwner { get; init; }

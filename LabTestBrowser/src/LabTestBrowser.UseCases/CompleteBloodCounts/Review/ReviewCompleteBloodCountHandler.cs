@@ -11,7 +11,7 @@ public class ReviewCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 		if (!request.CompleteBloodCountId.HasValue)
 			return Result.Error();
 
-		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+		var accessionNumber = AccessionNumber.Create(request.LabOrderNumber, request.LabOrderDate);
 
 		if (!accessionNumber.IsSuccess)
 			return Result.Error();
@@ -21,7 +21,7 @@ public class ReviewCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 
 		if (assignedCbc != null)
 		{
-			assignedCbc.Suppress(request.Date);
+			assignedCbc.Suppress(request.LabOrderDate);
 			await _repository.UpdateAsync(assignedCbc, cancellationToken);
 		}
 

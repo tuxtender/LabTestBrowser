@@ -1,3 +1,3 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.Get;
 
-public record GetLabTestReportQuery(int? LabOrderNumber, DateOnly? LabOrderDate) : IQuery<Result<LabTestReportDto>>;
+public record GetLabTestReportQuery(int OrderNumber, DateOnly OrderDate) : IQuery<Result<LabTestReportDto>>;

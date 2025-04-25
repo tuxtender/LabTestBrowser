@@ -10,8 +10,8 @@ public static class LabTestReportExtensions
 		{
 			Id = report.Id,
 			Animal = report.Patient.Animal,
-			SequenceNumber = report.AccessionNumber.SequenceNumber,
-			Date = report.AccessionNumber.Date,
+			OrderNumber = report.AccessionNumber.SequenceNumber,
+			OrderDate = report.AccessionNumber.Date,
 			Facility = report.SpecimenCollectionCenter.Facility,
 			TradeName = report.SpecimenCollectionCenter.TradeName,
 			HealthcareProxy = report.Patient.HealthcareProxy,

@@ -10,7 +10,7 @@ public class CreateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 {
 	public async Task<Result<LabTestReportDto>> Handle(CreateLabTestReportCommand request, CancellationToken cancellationToken)
 	{
-		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+		var accessionNumber = AccessionNumber.Create(request.OrderNumber, request.OrderDate);
 		if (!accessionNumber.IsSuccess)
 			return Result.Invalid(accessionNumber.ValidationErrors);
 
@@ -36,7 +36,7 @@ public class CreateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 
 		labTestReport = new LabTestReport(accessionNumber, specimenCollectionCenter, patient);
 		await _repository.AddAsync(labTestReport, cancellationToken);
-		_logger.LogInformation("Created LabTestReport for accession number: {sequenceNumber} {date}", request.SequenceNumber, request.Date);
+		_logger.LogInformation("Created LabTestReport for accession number: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
 
 		return labTestReport.ConvertToLabTestReportDto();
 	}

@@ -25,8 +25,8 @@ public class SaveLabTestReportHandler(
 
 		var createCommand = new CreateLabTestReportCommand
 		{
-			SequenceNumber = request.SequenceNumber,
-			Date = request.Date,
+			OrderNumber = request.OrderNumber,
+			OrderDate = request.OrderDate,
 			Facility = request.Facility,
 			TradeName = request.TradeName,
 			PetOwner = request.PetOwner,

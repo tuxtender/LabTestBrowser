@@ -9,18 +9,18 @@ public class GetPreviousLabTestReportHandler(ILabTestReportQueryService _query, 
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetPreviousLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+		var accessionNumber = AccessionNumber.Create(request.OrderNumber, request.OrderDate);
 
 		if (!accessionNumber.IsSuccess)
 			return Result.Error();
 
-		var lastLabTestReportDto = await _query.FindLastLabTestReportAsync(request.Date);
+		var lastLabTestReportDto = await _query.FindLastLabTestReportAsync(request.OrderDate);
 
 		if (lastLabTestReportDto == null)
 			return new LabTestReportDto
 			{
-				SequenceNumber = 1,
-				Date = request.Date
+				OrderNumber = 1,
+				OrderDate = request.OrderDate
 			};
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);

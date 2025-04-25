@@ -1,3 +1,3 @@
 ﻿namespace LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 
-public record GetEmptyLabTestReportQuery(DateOnly Date) : IQuery<Result<LabTestReportDto>>;
+public record GetEmptyLabTestReportQuery(DateOnly OrderDate) : IQuery<Result<LabTestReportDto>>;

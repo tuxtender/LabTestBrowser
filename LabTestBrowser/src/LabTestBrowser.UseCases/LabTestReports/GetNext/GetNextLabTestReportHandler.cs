@@ -9,7 +9,7 @@ public class GetNextLabTestReportHandler(ILabTestReportQueryService _query, IRea
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetNextLabTestReportQuery request, CancellationToken cancellationToken)
 	{
-		var accessionNumber = AccessionNumber.Create(request.SequenceNumber, request.Date);
+		var accessionNumber = AccessionNumber.Create(request.OrderNumber, request.OrderDate);
 
 		if (!accessionNumber.IsSuccess)
 			return Result.Error();
@@ -20,8 +20,8 @@ public class GetNextLabTestReportHandler(ILabTestReportQueryService _query, IRea
 		if (labTestReport == null)
 			return new LabTestReportDto
 			{
-				SequenceNumber = request.SequenceNumber,
-				Date = request.Date,
+				OrderNumber = request.OrderNumber,
+				OrderDate = request.OrderDate,
 			};
 
 		var nextLabTestReport =
