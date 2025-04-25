@@ -10,6 +10,7 @@ internal class CompleteBloodCountReviewedHandler(
 	public async Task Handle(CompleteBloodCountReviewedEvent domainEvent, CancellationToken cancellationToken)
 	{
 		await updateChannel.WriteAsync(domainEvent.CompleteBloodCountId);
-		logger.LogTrace("CBC: {completeBloodCountId} reviewed", domainEvent.CompleteBloodCountId);
+		logger.LogInformation("Complete blood count id: {completeBloodCountId} is {reviewResult}", domainEvent.CompleteBloodCountId,
+			domainEvent.ReviewResult.ToString());
 	}
 }

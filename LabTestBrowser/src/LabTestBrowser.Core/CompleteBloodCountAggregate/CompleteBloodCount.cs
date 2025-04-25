@@ -38,7 +38,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 		AccessionNumber = accessionNumber;
 		ReviewResult = ReviewResult.Reported;
 		ReviewDate = accessionNumber.Date;
-		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id));
+		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id, ReviewResult));
 	}
 
 	public void Review()
@@ -46,7 +46,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 		AccessionNumber = null;
 		ReviewResult = ReviewResult.UnderReview;
 		ReviewDate = null;
-		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id));
+		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id, ReviewResult));
 	}
 
 	public void Suppress(DateOnly date)
@@ -54,7 +54,7 @@ public class CompleteBloodCount : EntityBase, IAggregateRoot
 		AccessionNumber = null;
 		ReviewResult = ReviewResult.Suppressed;
 		ReviewDate = date;
-		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id));
+		RegisterDomainEvent(new CompleteBloodCountReviewedEvent(Id, ReviewResult));
 	}
 
 	public void SetWhiteBloodCell(string value) => WhiteBloodCell = new LabTestResult(value);
