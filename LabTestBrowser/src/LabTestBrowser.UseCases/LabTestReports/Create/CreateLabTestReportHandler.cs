@@ -12,7 +12,10 @@ public class CreateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 	{
 		var accessionNumber = AccessionNumber.Create(request.OrderNumber, request.OrderDate);
 		if (!accessionNumber.IsSuccess)
+		{
+			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
 			return Result.Invalid(accessionNumber.ValidationErrors);
+		}
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);
 		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
