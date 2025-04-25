@@ -1,11 +1,13 @@
 ﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 
 public class CreateCompleteBloodCountHandler(
 	IRepository<CompleteBloodCount> _repository,
-	ICompleteBloodCountUpdateChannel _updateChannel) : ICommandHandler<CreateCompleteBloodCountCommand, Result<int>>
+	ICompleteBloodCountUpdateChannel _updateChannel,
+	ILogger<CreateCompleteBloodCountHandler> _logger) : ICommandHandler<CreateCompleteBloodCountCommand, Result<int>>
 {
 	public async Task<Result<int>> Handle(CreateCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
@@ -28,6 +30,8 @@ public class CreateCompleteBloodCountHandler(
 
 		await _repository.AddAsync(cbc, cancellationToken);
 		await _updateChannel.WriteAsync(cbc.Id);
+
+		_logger.LogInformation("Created CompleteBloodCount {completeBloodCountId}", cbc.Id);
 
 		return cbc.Id;
 	}

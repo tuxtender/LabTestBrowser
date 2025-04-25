@@ -13,12 +13,14 @@ public class GetUpdatedCompleteBloodCountHandler(
 	public async Task<Result<CompleteBloodCountDto>> Handle(GetUpdatedCompleteBloodCountQuery request, CancellationToken cancellationToken)
 	{
 		var completeBloodCountId = await _updateChannel.ReadAsync();
-		var cbc = await _repository.GetByIdAsync(completeBloodCountId, cancellationToken);
+		_logger.LogInformation("Got updated complete blood count id: {completeBloodCountId}", completeBloodCountId);
 
+		var cbc = await _repository.GetByIdAsync(completeBloodCountId, cancellationToken);
 		if (cbc != null)
 			return cbc.ConvertToCompleteBloodCountDto();
 
-		_logger.LogWarning("Inconsistent data. CBC: {completeBloodCountId} hasn't been saved yet", completeBloodCountId);
+		_logger.LogWarning("Inconsistent data. Complete blood count id: {completeBloodCountId} hasn't been saved yet",
+			completeBloodCountId);
 		return Result.Error();
 	}
 }

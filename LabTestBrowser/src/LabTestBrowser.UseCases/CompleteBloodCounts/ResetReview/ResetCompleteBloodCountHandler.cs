@@ -1,23 +1,30 @@
 ﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.CompleteBloodCounts.ResetReview;
 
-public class ResetCompleteBloodCountHandler(IRepository<CompleteBloodCount> _repository)
+public class ResetCompleteBloodCountHandler(IRepository<CompleteBloodCount> _repository, ILogger<ResetCompleteBloodCountHandler> _logger)
 	: ICommandHandler<ResetCompleteBloodCountCommand, Result>
 {
 	public async Task<Result> Handle(ResetCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
+		_logger.LogInformation("Resetting complete blood count");
+
 		if (!request.CompleteBloodCountId.HasValue)
-			return Result.Error();
+			return Result.Invalid();
 
 		var cbc = await _repository.GetByIdAsync(request.CompleteBloodCountId.Value, cancellationToken);
-
 		if (cbc == null)
-			return Result.NotFound();
+		{
+			_logger.LogWarning("Missing required complete blood count id: {completeBloodCountId} in database",
+				request.CompleteBloodCountId.Value);
+			return Result.Error();
+		}
 
 		cbc.Review();
 		await _repository.UpdateAsync(cbc, cancellationToken);
+		_logger.LogInformation("Complete blood count id: {completeBloodCountId} set under review", cbc.Id);
 
-		return Result.Success();
+		return Result.SuccessWithMessage("SuccessMessage.ResetCompleteBloodCount");
 	}
 }
