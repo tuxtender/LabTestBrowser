@@ -31,6 +31,6 @@
         <value>Не указано животное</value>
     </data>
     <data name="ValidationError.Patient.IncompleteDetails" xml:space="preserve">
-        <value>Недостаточно сведений о пациенте</value>
+        <value>Недостаточно сведений о пациенте (возраст, владелец, имя питомца)</value>
     </data>
 </root>

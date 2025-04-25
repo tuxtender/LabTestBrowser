@@ -87,7 +87,7 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Недостаточно сведений о пациенте.
+        ///   Looks up a localized string similar to Недостаточно сведений о пациенте (возраст, владелец, имя питомца).
         /// </summary>
         internal static string ValidationError_Patient_IncompleteDetails {
             get {
