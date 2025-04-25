@@ -6,7 +6,6 @@ public class GetEmptyLabTestReportHandler(ILabTestReportQueryService _query)
 	public async Task<Result<LabTestReportDto>> Handle(GetEmptyLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var report = await _query.FindLastLabTestReportAsync(request.OrderDate);
-
 		if (report == null)
 			return new LabTestReportDto
 			{

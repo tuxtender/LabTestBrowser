@@ -1,21 +1,26 @@
 ﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate.Specifications;
+using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 
-public class GetPreviousLabTestReportHandler(ILabTestReportQueryService _query, IReadRepository<LabTestReport> _repository)
+public class GetPreviousLabTestReportHandler(
+	ILabTestReportQueryService _query,
+	IReadRepository<LabTestReport> _repository,
+	ILogger<GetPreviousLabTestReportHandler> _logger)
 	: IQueryHandler<GetPreviousLabTestReportQuery, Result<LabTestReportDto>>
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetPreviousLabTestReportQuery request, CancellationToken cancellationToken)
 	{
 		var accessionNumber = AccessionNumber.Create(request.OrderNumber, request.OrderDate);
-
 		if (!accessionNumber.IsSuccess)
+		{
+			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
 			return Result.Error();
+		}
 
 		var lastLabTestReportDto = await _query.FindLastLabTestReportAsync(request.OrderDate);
-
 		if (lastLabTestReportDto == null)
 			return new LabTestReportDto
 			{
@@ -25,7 +30,6 @@ public class GetPreviousLabTestReportHandler(ILabTestReportQueryService _query, 
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);
 		var labTestReport = await _repository.FirstOrDefaultAsync(spec, cancellationToken);
-
 		if (labTestReport == null)
 			return lastLabTestReportDto;
 
