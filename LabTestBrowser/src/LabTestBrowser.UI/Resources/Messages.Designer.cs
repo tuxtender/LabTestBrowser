@@ -69,6 +69,33 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Анализ сброшен.
+        /// </summary>
+        internal static string SuccessMessage_ResetCompleteBloodCount {
+            get {
+                return ResourceManager.GetString("SuccessMessage.ResetCompleteBloodCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализ добавлен в отчёт.
+        /// </summary>
+        internal static string SuccessMessage_ReviewCompleteBloodCount {
+            get {
+                return ResourceManager.GetString("SuccessMessage.ReviewCompleteBloodCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализ отложен.
+        /// </summary>
+        internal static string SuccessMessage_SuppressCompleteBloodCount {
+            get {
+                return ResourceManager.GetString("SuccessMessage.SuppressCompleteBloodCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Номер образца меньше 1.
         /// </summary>
         internal static string ValidationError_AccessionNumber {

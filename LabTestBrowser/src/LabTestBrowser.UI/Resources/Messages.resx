@@ -33,4 +33,13 @@
     <data name="ValidationError.Patient.IncompleteDetails" xml:space="preserve">
         <value>Недостаточно сведений о пациенте (возраст, владелец, имя питомца)</value>
     </data>
+    <data name="SuccessMessage.ResetCompleteBloodCount" xml:space="preserve">
+        <value>Анализ сброшен</value>
+    </data>
+    <data name="SuccessMessage.ReviewCompleteBloodCount" xml:space="preserve">
+        <value>Анализ добавлен в отчёт</value>
+    </data>
+    <data name="SuccessMessage.SuppressCompleteBloodCount" xml:space="preserve">
+        <value>Анализ отложен</value>
+    </data>
 </root>
