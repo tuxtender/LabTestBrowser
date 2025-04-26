@@ -5,7 +5,8 @@ namespace LabTestBrowser.Infrastructure.Export;
 
 public class ExportFileNamingService : IExportFileNamingService
 {
-	private const string DefaultPathTemplate = "./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}";
+	//TODO: Move to resources. Get with service or IOptions
+	private const string DefaultPathTemplate  = "./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}";
 
 	private readonly ITextTemplateEngine _textTemplateEngine;
 	private readonly ExportSettings _exportSettings;
