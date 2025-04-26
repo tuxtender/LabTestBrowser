@@ -22,7 +22,7 @@ public class CreateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 		if (labTestReport != null)
 		{
 			_logger.LogWarning("LabTestReport id: {labTestReportId} is already created", labTestReport.Id);
-			return Result.NotFound();
+			return Result.Conflict("ErrorMessage.LabTestReportIdConflict");
 		}
 
 		var specimenCollectionCenter = SpecimenCollectionCenter.Create(request.Facility, request.TradeName!);

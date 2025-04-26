@@ -12,7 +12,7 @@ public class UpdateLabTestReportHandler(IRepository<LabTestReport> _repository, 
 		if (labTestReport == null)
 		{
 			_logger.LogWarning("LabTestReport id: {labTestReportId} not found", request.Id);
-			return Result.NotFound();
+			return Result.CriticalError("ErrorMessage.ApplicationFault");
 		}
 
 		var specimenCollectionCenter = SpecimenCollectionCenter.Create(request.Facility, request.TradeName!);

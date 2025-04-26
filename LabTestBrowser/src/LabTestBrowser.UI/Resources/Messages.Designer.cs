@@ -60,11 +60,38 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка сохранения.
+        ///   Looks up a localized string similar to Ошибка приложения.
         /// </summary>
-        internal static string SaveLabTestReport_SaveFailed {
+        internal static string ErrorMessage_ApplicationFault {
             get {
-                return ResourceManager.GetString("SaveLabTestReport.SaveFailed", resourceCulture);
+                return ResourceManager.GetString("ErrorMessage.ApplicationFault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка экспорта.
+        /// </summary>
+        internal static string ErrorMessage_ExportFailed {
+            get {
+                return ResourceManager.GetString("ErrorMessage.ExportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Указанный отчет уже существует.
+        /// </summary>
+        internal static string ErrorMessage_LabTestReportIdConflict {
+            get {
+                return ResourceManager.GetString("ErrorMessage.LabTestReportIdConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Экспорт завершен.
+        /// </summary>
+        internal static string SuccessMessage_ExportLabTestReport {
+            get {
+                return ResourceManager.GetString("SuccessMessage.ExportLabTestReport", resourceCulture);
             }
         }
         
@@ -87,6 +114,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отчёт сохранён.
+        /// </summary>
+        internal static string SuccessMessage_SaveLabTestReport {
+            get {
+                return ResourceManager.GetString("SuccessMessage.SaveLabTestReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Анализ отложен.
         /// </summary>
         internal static string SuccessMessage_SuppressCompleteBloodCount {
@@ -101,6 +137,15 @@ namespace LabTestBrowser.UI.Resources {
         internal static string ValidationError_AccessionNumber {
             get {
                 return ResourceManager.GetString("ValidationError.AccessionNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Лабораторный отчет не указан.
+        /// </summary>
+        internal static string ValidationError_LabTestReportRequired {
+            get {
+                return ResourceManager.GetString("ValidationError.LabTestReportRequired", resourceCulture);
             }
         }
         
@@ -128,6 +173,15 @@ namespace LabTestBrowser.UI.Resources {
         internal static string ValidationError_SpecimenCollectionCenter {
             get {
                 return ResourceManager.GetString("ValidationError.SpecimenCollectionCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализ не выбран.
+        /// </summary>
+        internal static string ValidationError_TestNotSelected {
+            get {
+                return ResourceManager.GetString("ValidationError.TestNotSelected", resourceCulture);
             }
         }
     }

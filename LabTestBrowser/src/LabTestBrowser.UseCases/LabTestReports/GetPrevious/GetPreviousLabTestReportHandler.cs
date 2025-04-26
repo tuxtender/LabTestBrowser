@@ -17,7 +17,7 @@ public class GetPreviousLabTestReportHandler(
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
-			return Result.Error();
+			return Result.Invalid(accessionNumber.ValidationErrors);
 		}
 
 		var lastLabTestReportDto = await _query.FindLastLabTestReportAsync(request.OrderDate);

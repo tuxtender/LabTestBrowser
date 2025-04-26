@@ -21,6 +21,6 @@ public class GetUpdatedCompleteBloodCountHandler(
 
 		_logger.LogWarning("Inconsistent data. Complete blood count id: {completeBloodCountId} hasn't been saved yet",
 			completeBloodCountId);
-		return Result.Error();
+		return Result.CriticalError("ErrorMessage.ApplicationFault");
 	}
 }

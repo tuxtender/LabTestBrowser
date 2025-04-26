@@ -9,16 +9,14 @@ public class ReviewCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 {
 	public async Task<Result> Handle(ReviewCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
-		_logger.LogInformation("Reviewing complete blood count");
-
 		if (!request.CompleteBloodCountId.HasValue)
-			return Result.Invalid();
+			return Result.Invalid(new ValidationError("ValidationError.TestNotSelected", "No test selected"));
 
 		var accessionNumber = AccessionNumber.Create(request.LabOrderNumber, request.LabOrderDate);
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.LabOrderNumber, request.LabOrderDate);
-			return Result.Invalid();
+			return Result.Invalid(accessionNumber.ValidationErrors);
 		}
 
 		var spec = new CompleteBloodCountByAccessionNumberSpec(accessionNumber);
@@ -35,7 +33,7 @@ public class ReviewCompleteBloodCountHandler(IRepository<CompleteBloodCount> _re
 		{
 			_logger.LogWarning("Missing required complete blood count id: {completeBloodCountId} in database",
 				request.CompleteBloodCountId.Value);
-			return Result.Error();
+			return Result.CriticalError("ErrorMessage.ApplicationFault");
 		}
 
 		cbc.Review(accessionNumber);

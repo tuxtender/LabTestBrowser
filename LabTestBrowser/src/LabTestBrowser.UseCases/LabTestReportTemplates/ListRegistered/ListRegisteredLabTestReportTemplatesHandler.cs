@@ -1,22 +1,26 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
+using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.LabTestReportTemplates.ListRegistered;
 
 public class ListRegisteredLabTestReportTemplatesHandler(
 	ILabTestReportTemplateQueryService _queryService,
-	IRepository<LabTestReport> _repository)
+	IRepository<LabTestReport> _repository,
+	ILogger<ListRegisteredLabTestReportTemplatesHandler> _logger)
 	: IQueryHandler<ListRegisteredLabTestReportTemplatesQuery, Result<IEnumerable<LabTestReportTemplateDto>>>
 {
 	public async Task<Result<IEnumerable<LabTestReportTemplateDto>>> Handle(ListRegisteredLabTestReportTemplatesQuery query,
 		CancellationToken cancellationToken)
 	{
 		if (!query.LabTestReportId.HasValue)
-			return Result.NotFound();
+			return Result.Invalid();
 
 		var report = await _repository.GetByIdAsync(query.LabTestReportId.Value, cancellationToken);
-
 		if (report == null)
-			return Result.NotFound();
+		{
+			_logger.LogWarning("LabTestReport id: {labTestReportId} not found", query.LabTestReportId);
+			return Result.CriticalError("ErrorMessage.ApplicationFault");
+		}
 
 		var facility = report.SpecimenCollectionCenter.Facility;
 		var tradeName = report.SpecimenCollectionCenter.TradeName;

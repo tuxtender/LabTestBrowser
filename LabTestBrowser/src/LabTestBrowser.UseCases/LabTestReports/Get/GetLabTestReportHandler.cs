@@ -14,7 +14,7 @@ public class GetLabTestReportHandler(IReadRepository<LabTestReport> _repository,
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
-			return Result.Error();
+			return Result.Invalid(accessionNumber.ValidationErrors);
 		}
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);

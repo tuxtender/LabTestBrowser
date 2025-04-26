@@ -21,8 +21,8 @@
     <data name="ValidationError.AccessionNumber" xml:space="preserve">
         <value>Номер образца меньше 1</value>
     </data>
-    <data name="SaveLabTestReport.SaveFailed" xml:space="preserve">
-        <value>Ошибка сохранения</value>
+    <data name="SuccessMessage.SaveLabTestReport" xml:space="preserve">
+        <value>Отчёт сохранён</value>
     </data>
     <data name="ValidationError.SpecimenCollectionCenter" xml:space="preserve">
         <value>Не указано медучреждение</value>
@@ -41,5 +41,23 @@
     </data>
     <data name="SuccessMessage.SuppressCompleteBloodCount" xml:space="preserve">
         <value>Анализ отложен</value>
+    </data>
+    <data name="ErrorMessage.ApplicationFault" xml:space="preserve">
+        <value>Ошибка приложения</value>
+    </data>
+    <data name="ValidationError.TestNotSelected" xml:space="preserve">
+        <value>Анализ не выбран</value>
+    </data>
+    <data name="ErrorMessage.LabTestReportIdConflict" xml:space="preserve">
+        <value>Указанный отчет уже существует</value>
+    </data>
+    <data name="ValidationError.LabTestReportRequired" xml:space="preserve">
+        <value>Лабораторный отчет не указан</value>
+    </data>
+    <data name="ErrorMessage.ExportFailed" xml:space="preserve">
+        <value>Ошибка экспорта</value>
+    </data>
+    <data name="SuccessMessage.ExportLabTestReport" xml:space="preserve">
+        <value>Экспорт завершен</value>
     </data>
 </root>

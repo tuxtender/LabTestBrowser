@@ -10,17 +10,15 @@ public class SuppressCompleteBloodCountHandler(
 {
 	public async Task<Result> Handle(SuppressCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
-		_logger.LogInformation("Suppressing complete blood count");
-
 		if (!request.CompleteBloodCountId.HasValue)
-			return Result.Invalid();
+			return Result.Invalid(new ValidationError("ValidationError.TestNotSelected", "No test selected"));
 
 		var cbc = await _repository.GetByIdAsync(request.CompleteBloodCountId.Value, cancellationToken);
 		if (cbc == null)
 		{
 			_logger.LogWarning("Missing required complete blood count id: {completeBloodCountId} in database",
 				request.CompleteBloodCountId.Value);
-			return Result.Error();
+			return Result.CriticalError("ErrorMessage.ApplicationFault");
 		}
 
 		cbc.Suppress(request.SuppressionDate);
