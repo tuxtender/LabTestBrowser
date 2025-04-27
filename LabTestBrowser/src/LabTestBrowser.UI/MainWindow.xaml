@@ -18,7 +18,14 @@
 			<StatusBar DockPanel.Dock="Bottom"
 					   VerticalAlignment="Bottom">
 				<StatusBarItem HorizontalAlignment="Right">
-					<TextBlock Text="Error" />
+					<TextBlock Text="{Binding ErrorMessage}" />
+				</StatusBarItem>
+
+				<StatusBarItem HorizontalAlignment="Right">
+					<Viewbox Width="20"
+							 Height="20">
+						<ContentPresenter Content="{Binding ErrorCode, Converter={StaticResource NotificationIconConverter}}" />
+					</Viewbox>
 				</StatusBarItem>
 			</StatusBar>
 

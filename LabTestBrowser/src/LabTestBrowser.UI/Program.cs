@@ -7,6 +7,7 @@ using LabTestBrowser.UI;
 using LabTestBrowser.UI.Configurations;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
+using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LaboratoryEquipment.Hl7;
 using MediatR;
@@ -39,6 +40,7 @@ builder.Services.AddSingleton<LabReportViewModel>();
 builder.Services.AddSingleton<DialogViewModel>();
 builder.Services.AddSingleton<ReportTemplateDialogViewModel>();
 builder.Services.AddSingleton<LabRequisitionViewModel>();
+builder.Services.AddSingleton<INotificationService, NotificationService>();
 
 // Build and run the application.
 var app = builder.Build();

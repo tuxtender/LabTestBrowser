@@ -9,9 +9,11 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ui:ThemeResources />
 				<ui:XamlControlsResources />
+				<ResourceDictionary Source="Resources/Icons.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<converters:AgeConverter x:Key="AgeConverter" />
 			<converters:DateConverter x:Key="DateConverter" />
+			<converters:NotificationIconConverter x:Key="NotificationIconConverter" />
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 		</ResourceDictionary>
 	</Application.Resources>
