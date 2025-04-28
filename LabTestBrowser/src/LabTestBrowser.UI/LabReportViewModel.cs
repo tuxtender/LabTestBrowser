@@ -8,8 +8,6 @@ using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
-using LabTestBrowser.UseCases.CompleteBloodCounts.Get;
-using LabTestBrowser.UseCases.CompleteBloodCounts.GetCreated;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListReviewed;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListUnderReview;
@@ -156,8 +154,8 @@ public class LabReportViewModel : ObservableObject
 		var saveLabTestReportCommand = new SaveLabTestReportCommand
 		{
 			Id = _labRequisition.Id,
-			SequenceNumber = _labRequisition.LabOrderNumber,
-			Date = _labRequisition.LabOrderDate,
+			OrderNumber = _labRequisition.LabOrderNumber,
+			OrderDate = _labRequisition.LabOrderDate,
 			Facility = _labRequisition.Facility,
 			TradeName = _labRequisition.TradeName,
 			PetOwner = _labRequisition.PetOwner,
@@ -235,8 +233,11 @@ public class LabReportViewModel : ObservableObject
 		
 		var labOrderNumber = SelectedCompleteBloodCount.LabOrderNumber;
 		var labOrderDate = SelectedCompleteBloodCount.LabOrderDate;
-		
-		var query = new GetLabTestReportQuery(labOrderNumber, labOrderDate);
+
+		if (!labOrderNumber.HasValue || !labOrderDate.HasValue)
+			return;
+
+		var query = new GetLabTestReportQuery(labOrderNumber.Value, labOrderDate.Value);
 		var report = await _mediator.Send(query);
 		
 		if(report.IsSuccess)
