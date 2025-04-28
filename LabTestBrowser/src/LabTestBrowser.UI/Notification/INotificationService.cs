@@ -3,5 +3,5 @@
 public interface INotificationService
 {
 	Task PublishAsync(NotificationMessage notification);
-	IAsyncEnumerable<NotificationMessage> ListenAsync(CancellationToken cancellationToken = default);
+	IObservable<NotificationMessage> Notifications { get; }
 }

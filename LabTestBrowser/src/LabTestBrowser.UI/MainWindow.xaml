@@ -15,23 +15,12 @@
 		<DockPanel LastChildFill="True">
 			<local:LabReportCommandBar DockPanel.Dock="Top" />
 
-			<StatusBar DockPanel.Dock="Bottom"
-					   VerticalAlignment="Bottom">
-				<StatusBarItem HorizontalAlignment="Right">
-					<TextBlock Text="{Binding ErrorMessage}" />
-				</StatusBarItem>
-
-				<StatusBarItem HorizontalAlignment="Right">
-					<Viewbox Width="20"
-							 Height="20">
-						<ContentPresenter Content="{Binding ErrorCode, Converter={StaticResource NotificationIconConverter}}" />
-					</Viewbox>
-				</StatusBarItem>
-			</StatusBar>
+			<local:StatusBarControl DockPanel.Dock="Bottom"
+									DataContext="{Binding StatusBarViewModel}" />
 
 			<local:LabRequisitionControl DockPanel.Dock="Left"
 										 Padding="5, 0"
-										 DataContext="{Binding Path= LabRequisition }" />
+										 DataContext="{Binding Path= LabRequisition}" />
 			<local:CompleteBloodCountControl DockPanel.Dock="Right"
 											 Padding="5, 0" />
 		</DockPanel>

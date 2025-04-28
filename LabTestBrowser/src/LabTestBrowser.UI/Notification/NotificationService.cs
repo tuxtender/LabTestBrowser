@@ -1,25 +1,23 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Channels;
+﻿using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace LabTestBrowser.UI.Notification;
 
-public class NotificationService : INotificationService
+public class NotificationService : INotificationService, IDisposable
 {
-	private readonly Channel<NotificationMessage> _channel = Channel.CreateUnbounded<NotificationMessage>();
+	private readonly ISubject<NotificationMessage> _subject = Subject.Synchronize(new ReplaySubject<NotificationMessage>(1));
 
 	public async Task PublishAsync(NotificationMessage message)
 	{
-		await _channel.Writer.WriteAsync(message);
+		_subject.OnNext(message);
+		await Task.CompletedTask;
 	}
 
-	public async IAsyncEnumerable<NotificationMessage> ListenAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+	public IObservable<NotificationMessage> Notifications => _subject.AsObservable();
+
+	public void Dispose()
 	{
-		while (await _channel.Reader.WaitToReadAsync(cancellationToken))
-		{
-			while (_channel.Reader.TryRead(out var message))
-			{
-				yield return message;
-			}
-		}
+		_subject.OnCompleted();
+		(_subject as IDisposable)?.Dispose();
 	}
 }

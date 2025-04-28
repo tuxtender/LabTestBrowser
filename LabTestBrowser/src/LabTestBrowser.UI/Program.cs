@@ -40,6 +40,7 @@ builder.Services.AddSingleton<LabReportViewModel>();
 builder.Services.AddSingleton<DialogViewModel>();
 builder.Services.AddSingleton<ReportTemplateDialogViewModel>();
 builder.Services.AddSingleton<LabRequisitionViewModel>();
+builder.Services.AddSingleton<StatusBarViewModel>();
 builder.Services.AddSingleton<INotificationService, NotificationService>();
 
 // Build and run the application.

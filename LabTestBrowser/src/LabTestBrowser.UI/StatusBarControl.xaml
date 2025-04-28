@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="LabTestBrowser.UI.StatusBarControl"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:local="clr-namespace:LabTestBrowser.UI"
+			 mc:Ignorable="d"
+			 d:DataContext="{d:DesignInstance {x:Type local:StatusBarViewModel}}">
+
+	<UserControl.Resources>
+		<DataTemplate x:Key="NotificationTemplate"
+					  DataType="{x:Type local:NotificationViewModel}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="25" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0"
+						   TextWrapping="Wrap"
+						   Text="{Binding Message}"
+						   FontSize="14" />
+
+				<Viewbox Grid.Column="1"
+						 Width="20"
+						 Height="20">
+					<ContentPresenter Content="{Binding Level, Converter={StaticResource NotificationIconConverter}}" />
+				</Viewbox>
+			</Grid>
+		</DataTemplate>
+	</UserControl.Resources>
+
+	<StatusBar DockPanel.Dock="Bottom">
+		<StatusBarItem Content="{Binding Notification}"
+					   ContentTemplate="{StaticResource NotificationTemplate}"
+					   HorizontalAlignment="Right" />
+	</StatusBar>
+</UserControl>
