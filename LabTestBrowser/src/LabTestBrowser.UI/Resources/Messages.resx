@@ -60,4 +60,7 @@
     <data name="SuccessMessage.ExportLabTestReport" xml:space="preserve">
         <value>Экспорт завершен</value>
     </data>
+    <data name="InfoMessage.Idle" xml:space="preserve">
+        <value>Готов</value>
+    </data>
 </root>

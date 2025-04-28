@@ -87,6 +87,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Готов.
+        /// </summary>
+        internal static string InfoMessage_Idle {
+            get {
+                return ResourceManager.GetString("InfoMessage.Idle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Экспорт завершен.
         /// </summary>
         internal static string SuccessMessage_ExportLabTestReport {
