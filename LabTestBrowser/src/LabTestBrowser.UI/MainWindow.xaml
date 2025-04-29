@@ -6,10 +6,12 @@
 		xmlns:local="clr-namespace:LabTestBrowser.UI"
 		xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
 		xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
+		xmlns:ui="http://schemas.modernwpf.com/2019"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		SizeToContent="WidthAndHeight"
-		Title="{x:Static localization:Strings.ApplicationTitle}">
+		Title="{x:Static localization:Strings.ApplicationTitle}"
+		ui:ThemeManager.RequestedTheme="Light">
 
 	<Grid>
 		<DockPanel LastChildFill="True">
