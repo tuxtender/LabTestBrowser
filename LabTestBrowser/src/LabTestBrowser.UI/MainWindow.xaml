@@ -11,7 +11,7 @@
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		SizeToContent="WidthAndHeight"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
-		ui:ThemeManager.RequestedTheme="Default">
+		ui:ThemeManager.RequestedTheme="Light">
 
 	<Grid Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
 		<DockPanel LastChildFill="True">
