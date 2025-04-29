@@ -1,4 +1,5 @@
-﻿using LabTestBrowser.UseCases.LabTestReports.Create;
+﻿using LabTestBrowser.UseCases.CompleteBloodCounts.Review;
+using LabTestBrowser.UseCases.LabTestReports.Create;
 using LabTestBrowser.UseCases.LabTestReports.Update;
 using MediatR;
 
@@ -11,13 +12,45 @@ public class SaveLabTestReportHandler(IMediator _mediator)
 	{
 		if (request.Id.HasValue)
 		{
-			var updateCommand = CreateUpdateLabTestReportCommand(request);
-			var updateResult = await _mediator.Send(updateCommand, cancellationToken);
-
-			return updateResult.IsSuccess ? GetSuccessMessageResult(updateResult) : updateResult;
+			var updateResult = await UpdateReportAsync(request, cancellationToken);
+			return updateResult;
 		}
 
-		var createCommand = new CreateLabTestReportCommand
+		var createResult = await CreateReportAsync(request, cancellationToken);
+		return createResult;
+	}
+
+	private async Task<Result<LabTestReportDto>> UpdateReportAsync(SaveLabTestReportCommand request, CancellationToken cancellationToken)
+	{
+		var command = new UpdateLabTestReportCommand
+		{
+			Id = request.Id!.Value,
+			Facility = request.Facility,
+			TradeName = request.TradeName,
+			PetOwner = request.PetOwner,
+			Nickname = request.Nickname,
+			Animal = request.Animal,
+			Category = request.Category,
+			Breed = request.Breed,
+			AgeInYears = request.AgeInYears,
+			AgeInMonths = request.AgeInMonths,
+			AgeInDays = request.AgeInDays
+		};
+
+		var result = await _mediator.Send(command, cancellationToken);
+
+		if (!result.IsSuccess || !request.CompleteBloodCountId.HasValue)
+			return result;
+
+		var reviewCommand = new ReviewCompleteBloodCountCommand(request.CompleteBloodCountId, request.OrderNumber, request.OrderDate);
+		var reviewResult = await _mediator.Send(reviewCommand, cancellationToken);
+
+		return reviewResult.IsSuccess ? result : reviewResult;
+	}
+
+	private async Task<Result<LabTestReportDto>> CreateReportAsync(SaveLabTestReportCommand request, CancellationToken cancellationToken)
+	{
+		var command = new CreateLabTestReportCommand
 		{
 			OrderNumber = request.OrderNumber,
 			OrderDate = request.OrderDate,
@@ -33,28 +66,14 @@ public class SaveLabTestReportHandler(IMediator _mediator)
 			AgeInDays = request.AgeInDays
 		};
 
-		var createResult = await _mediator.Send(createCommand, cancellationToken);
-		return createResult.IsSuccess ? GetSuccessMessageResult(createResult) : createResult;
-	}
+		var result = await _mediator.Send(command, cancellationToken);
 
-	private static UpdateLabTestReportCommand CreateUpdateLabTestReportCommand(SaveLabTestReportCommand request)
-	{
-		return new UpdateLabTestReportCommand
-		{
-			Id = request.Id!.Value,
-			Facility = request.Facility,
-			TradeName = request.TradeName,
-			PetOwner = request.PetOwner,
-			Nickname = request.Nickname,
-			Animal = request.Animal,
-			Category = request.Category,
-			Breed = request.Breed,
-			AgeInYears = request.AgeInYears,
-			AgeInMonths = request.AgeInMonths,
-			AgeInDays = request.AgeInDays
-		};
-	}
+		if (!result.IsSuccess || !request.CompleteBloodCountId.HasValue)
+			return result;
 
-	private static Result<LabTestReportDto> GetSuccessMessageResult(Result<LabTestReportDto> result) =>
-		Result.Success(result.Value, "SuccessMessage.SaveLabTestReport");
+		var reviewCommand = new ReviewCompleteBloodCountCommand(request.CompleteBloodCountId, request.OrderNumber, request.OrderDate);
+		var reviewResult = await _mediator.Send(reviewCommand, cancellationToken);
+
+		return reviewResult.IsSuccess ? result : reviewResult;
+	}
 }

@@ -26,11 +26,10 @@ public class StatusBarViewModel : ObservableObject
 	{
 		try
 		{
-			var notification = new NotificationViewModel(message.Title, message.Level);
-			Notification = notification;
-			await Task.Delay(notification.TimeToLive);
+			Notification = new NotificationViewModel(message);
+			await Task.Delay(Notification.TimeToLive);
 
-			var isNotificationUpdated = Notification?.Message != message.Title;
+			var isNotificationUpdated = Notification?.Id != message.Id;
 			if (!isNotificationUpdated)
 				ResetNotification();
 		}

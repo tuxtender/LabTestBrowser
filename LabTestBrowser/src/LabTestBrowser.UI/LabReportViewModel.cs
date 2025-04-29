@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
+using Ardalis.Result;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
+using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
@@ -29,28 +31,30 @@ using MediatR;
 
 namespace LabTestBrowser.UI;
 
+using Localizations = Resources.Strings;
+
 public class LabReportViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
-	private readonly ILogger<LabReportViewModel> _logger;
 	private readonly ReportTemplateDialogViewModel _reportTemplateDialog;
 
 	private readonly LabRequisitionViewModel _labRequisition;
+	private readonly INotificationService _notificationService;
 
-	
 	private object _itemsLock = new object();
 	private CompleteBloodCountViewModel? _selectedCompleteBloodCount;
 
 	public LabReportViewModel(IMediator mediator,
-		ILogger<LabReportViewModel>  logger, 
+		INotificationService notificationService, 
 		ReportTemplateDialogViewModel reportTemplateDialog,
 		LabRequisitionViewModel labRequisition,
-		DialogViewModel dialogViewModel)
+		DialogViewModel dialogViewModel,
+		StatusBarViewModel statusBar)
 	{
 		_mediator = mediator;
-		_logger = logger;
 		_reportTemplateDialog = reportTemplateDialog;
 		DialogViewModel = dialogViewModel;
+		StatusBar = statusBar;
 
 		//TODO: Refactor
 		NewCommand = new AsyncRelayCommand(CreateAsync);
@@ -66,6 +70,7 @@ public class LabReportViewModel : ObservableObject
 		AssignCommand = new AsyncRelayCommand(AssignAsync);
 
 		_labRequisition = labRequisition;
+		_notificationService = notificationService;
 		_labRequisition.LabOrderDate = DateOnly.FromDateTime(DateTime.Now);
 		UpdateAsync().GetAwaiter().GetResult();
 
@@ -86,7 +91,8 @@ public class LabReportViewModel : ObservableObject
 		get => _labRequisition;
 	}
 
-	public Dialogs.DialogViewModel DialogViewModel { get; private set; }
+	public DialogViewModel DialogViewModel { get; private set; }
+	public StatusBarViewModel StatusBar { get; private set; }
 
 	public ObservableCollection<CompleteBloodCountViewModel> CompleteBloodCounts { get; private set; } = [];
 
@@ -165,29 +171,44 @@ public class LabReportViewModel : ObservableObject
 			Breed = _labRequisition.Breed,
 			AgeInYears = _labRequisition.AgeInYears,
 			AgeInMonths = _labRequisition.AgeInMonths,
-			AgeInDays = _labRequisition.AgeInDays
+			AgeInDays = _labRequisition.AgeInDays,
+			CompleteBloodCountId = _labRequisition.Id
 		};
 
 		var result = await _mediator.Send(saveLabTestReportCommand);
+		var notification = result.ToNotification(Localizations.LabReport_ReportSavingFailed);
 
 		if (result.IsSuccess)
-			_labRequisition.SetLabRequisition(result.Value);
+		{
+			_labRequisition.SetLabRequisition(result);
+			notification = result.ToNotification(Localizations.LabReport_ReportSaved);
+		}
 
-		var reviewCompleteBloodCountCommand =
-			new ReviewCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderNumber, _labRequisition.LabOrderDate);
-		result = await _mediator.Send(reviewCompleteBloodCountCommand);
+		await _notificationService.PublishAsync(notification);
 	}
 
 	private async Task ResetAsync()
 	{
 		var command = new ResetCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id);
 		var result = await _mediator.Send(command);
+		var notification = result.ToNotification();
+
+		if (result.IsSuccess)
+			notification = result.ToNotification(Localizations.LabReport_TestReset);
+
+		await _notificationService.PublishAsync(notification);
 	}
 
 	private async Task SuppressAsync()
 	{
 		var command = new SuppressCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderDate);
 		var result = await _mediator.Send(command);
+		var notification = result.ToNotification();
+
+		if (result.IsSuccess)
+			notification = result.ToNotification(Localizations.LabReport_TestSuppressed);
+
+		await _notificationService.PublishAsync(notification);
 	}
 
 	private async Task AssignAsync()
@@ -195,10 +216,22 @@ public class LabReportViewModel : ObservableObject
 		var command = new ReviewCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, _labRequisition.LabOrderNumber,
 			_labRequisition.LabOrderDate);
 		var result = await _mediator.Send(command);
+		var notification = result.ToNotification();
+
+		if (result.IsSuccess)
+			notification = result.ToNotification(Localizations.LabReport_TestReported);
+
+		await _notificationService.PublishAsync(notification);
 	}
 
 	private async Task UpdateAsync()
 	{
+		var notification = new NotificationMessage
+		{
+			Title = Localizations.LabReport_Loading
+		};
+		await _notificationService.PublishAsync(notification);
+
 		var reviewedCompleteBloodCountsQuery = new ListReviewedCompleteBloodCountsQuery(_labRequisition.LabOrderDate);
 		var underReviewCompleteBloodCountsQuery = new ListUnderReviewCompleteBloodCountsQuery();
 		var queryResults = await Task.WhenAll(_mediator.Send(reviewedCompleteBloodCountsQuery),
@@ -211,6 +244,12 @@ public class LabReportViewModel : ObservableObject
 		var reportQuery = new GetLastLabTestReportQuery(_labRequisition.LabOrderDate);
 		var report = await _mediator.Send(reportQuery);
 		_labRequisition.SetLabRequisition(report);
+
+		notification = new NotificationMessage
+		{
+			Title = Localizations.LabReport_Idle
+		};
+		await _notificationService.PublishAsync(notification);
 	}
 
 	private async Task UpdateReportAsync()
@@ -249,9 +288,11 @@ public class LabReportViewModel : ObservableObject
 		//TODO: Encapsulate export into ReportTemplateDialogViewModel
 		var query = new ListRegisteredLabTestReportTemplatesQuery(_labRequisition.Id);
 		var result = await _mediator.Send(query);
-
 		if (!result.IsSuccess)
+		{
+			await _notificationService.PublishAsync(result.ToNotification(Localizations.LabReport_ExportFailed));
 			return;
+		}
 
 		var reportTemplates = result.Value;
 		var dialogInput = new ReportTemplateDialogInput
@@ -264,12 +305,23 @@ public class LabReportViewModel : ObservableObject
 		if (dialogOutput.DialogResult == ReportTemplateDialogResult.Cancel)
 			return;
 
-		if(dialogOutput.ReportTemplates == null)
+		if (dialogOutput.ReportTemplates == null)
 			return;
+
+		await _notificationService.PublishAsync(new NotificationMessage
+		{
+			Title = Localizations.LabReport_Exporting
+		});
 		
 		var templateIds = dialogOutput.ReportTemplates.Select(template => template.Id);
-		
+
 		var command = new ExportLabTestReportCommand(_labRequisition.Id, templateIds);
 		result = await _mediator.Send(command);
+		var notification = result.ToNotification();
+
+		if (result.IsSuccess)
+			notification = result.ToNotification(Localizations.LabReport_ReportExported);
+
+		await _notificationService.PublishAsync(notification);
 	}
 }

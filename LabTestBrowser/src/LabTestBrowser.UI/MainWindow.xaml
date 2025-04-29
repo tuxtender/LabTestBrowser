@@ -16,7 +16,7 @@
 			<local:LabReportCommandBar DockPanel.Dock="Top" />
 
 			<local:StatusBarControl DockPanel.Dock="Bottom"
-									DataContext="{Binding StatusBarViewModel}" />
+									DataContext="{Binding StatusBar}" />
 
 			<local:LabRequisitionControl DockPanel.Dock="Left"
 										 Padding="5, 0"

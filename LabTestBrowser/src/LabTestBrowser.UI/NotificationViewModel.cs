@@ -2,14 +2,18 @@ using LabTestBrowser.UI.Notification;
 
 namespace LabTestBrowser.UI;
 
-public class NotificationViewModel(string message, NotificationLevel level)
+public class NotificationViewModel(NotificationMessage notification)
 {
-	public string Message { get; init; } = message;
-	public NotificationLevel Level { get; init; } = level;
+	public Guid Id { get; } = notification.Id;
 
-	public TimeSpan TimeToLive { get; init; } = level switch
+	public string Message { get; } = $"{notification.Title}. {notification.Body?.Trim('.')}".Trim(' ', '.');
+
+	public NotificationLevel Level { get; } = notification.Level;
+
+	public TimeSpan TimeToLive { get; } = notification.Level switch
 	{
-		NotificationLevel.Success or NotificationLevel.Info => TimeSpan.FromSeconds(5),
+		NotificationLevel.Info => TimeSpan.FromSeconds(2),
+		NotificationLevel.Success => TimeSpan.FromSeconds(2),
 		NotificationLevel.Warning or NotificationLevel.Error => TimeSpan.FromSeconds(15),
 		_ => TimeSpan.Zero
 	};

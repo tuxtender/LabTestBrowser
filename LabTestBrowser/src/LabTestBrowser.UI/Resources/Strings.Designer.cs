@@ -177,6 +177,105 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка экспорта.
+        /// </summary>
+        public static string LabReport_ExportFailed {
+            get {
+                return ResourceManager.GetString("LabReport_ExportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Экспорт запущен.
+        /// </summary>
+        public static string LabReport_Exporting {
+            get {
+                return ResourceManager.GetString("LabReport_Exporting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Готов.
+        /// </summary>
+        public static string LabReport_Idle {
+            get {
+                return ResourceManager.GetString("LabReport_Idle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузка.
+        /// </summary>
+        public static string LabReport_Loading {
+            get {
+                return ResourceManager.GetString("LabReport_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Экспорт завершен.
+        /// </summary>
+        public static string LabReport_ReportExported {
+            get {
+                return ResourceManager.GetString("LabReport_ReportExported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отчёт не сохранён.
+        /// </summary>
+        public static string LabReport_ReportNotSaved {
+            get {
+                return ResourceManager.GetString("LabReport_ReportNotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отчёт сохранён.
+        /// </summary>
+        public static string LabReport_ReportSaved {
+            get {
+                return ResourceManager.GetString("LabReport_ReportSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось сохранить.
+        /// </summary>
+        public static string LabReport_ReportSavingFailed {
+            get {
+                return ResourceManager.GetString("LabReport_ReportSavingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализ добавлен в отчёт.
+        /// </summary>
+        public static string LabReport_TestReported {
+            get {
+                return ResourceManager.GetString("LabReport_TestReported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализ сброшен.
+        /// </summary>
+        public static string LabReport_TestReset {
+            get {
+                return ResourceManager.GetString("LabReport_TestReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализ отложен.
+        /// </summary>
+        public static string LabReport_TestSuppressed {
+            get {
+                return ResourceManager.GetString("LabReport_TestSuppressed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Возраст.
         /// </summary>
         public static string LabRequisition_Age {

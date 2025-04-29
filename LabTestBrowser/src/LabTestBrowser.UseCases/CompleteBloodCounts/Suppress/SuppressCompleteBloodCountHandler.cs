@@ -5,26 +5,27 @@ namespace LabTestBrowser.UseCases.CompleteBloodCounts.Suppress;
 
 public class SuppressCompleteBloodCountHandler(
 	IRepository<CompleteBloodCount> _repository,
+	IErrorLocalizationService _errorLocalizer,
 	ILogger<SuppressCompleteBloodCountHandler> _logger)
 	: ICommandHandler<SuppressCompleteBloodCountCommand, Result>
 {
 	public async Task<Result> Handle(SuppressCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
 		if (!request.CompleteBloodCountId.HasValue)
-			return Result.Invalid(new ValidationError("ValidationError.TestNotSelected", "No test selected"));
+			return Result.Invalid(new ValidationError(_errorLocalizer.GetTestNotSelected()));
 
 		var cbc = await _repository.GetByIdAsync(request.CompleteBloodCountId.Value, cancellationToken);
 		if (cbc == null)
 		{
 			_logger.LogWarning("Missing required complete blood count id: {completeBloodCountId} in database",
 				request.CompleteBloodCountId.Value);
-			return Result.CriticalError("ErrorMessage.ApplicationFault");
+			return Result.CriticalError(_errorLocalizer.GetApplicationFault());
 		}
 
 		cbc.Suppress(request.SuppressionDate);
 		_logger.LogInformation("Complete blood count id: {completeBloodCountId} suppressed at {suppressionDate}", cbc.Id,
 			request.SuppressionDate);
 
-		return Result.SuccessWithMessage("SuccessMessage.SuppressCompleteBloodCount");
+		return Result.Success();
 	}
 }

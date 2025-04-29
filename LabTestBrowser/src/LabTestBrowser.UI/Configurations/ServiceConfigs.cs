@@ -37,6 +37,8 @@ public static class ServiceConfigs
 		services.AddSingleton<IHl7MessageHandler, Hl7MessageHandler>();
 		services.AddSingleton<ICompleteBloodCountUpdateChannel, CompleteBloodCountUpdateChannel>();
 		services.AddSingleton<ILocalizationService, LocalizationService>();
+		services.AddSingleton<IErrorLocalizationService, ErrorLocalizationService>();
+		services.AddSingleton<IValidationLocalizationService, ValidationLocalizationService>();
 
 		logger.LogInformation("{Project} services registered", "Mediatr and Email Sender");
 

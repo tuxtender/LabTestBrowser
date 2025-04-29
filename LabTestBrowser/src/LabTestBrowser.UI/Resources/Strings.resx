@@ -108,4 +108,37 @@
     <data name="ReportTemplateDialog_Cancel" xml:space="preserve">
         <value>Отмена</value>
     </data>
+    <data name="LabReport_ReportSaved" xml:space="preserve">
+        <value>Отчёт сохранён</value>
+    </data>
+    <data name="LabReport_TestReset" xml:space="preserve">
+        <value>Анализ сброшен</value>
+    </data>
+    <data name="LabReport_TestReported" xml:space="preserve">
+        <value>Анализ добавлен в отчёт</value>
+    </data>
+    <data name="LabReport_TestSuppressed" xml:space="preserve">
+        <value>Анализ отложен</value>
+    </data>
+    <data name="LabReport_ReportExported" xml:space="preserve">
+        <value>Экспорт завершен</value>
+    </data>
+    <data name="LabReport_Idle" xml:space="preserve">
+        <value>Готов</value>
+    </data>
+    <data name="LabReport_ReportSavingFailed" xml:space="preserve">
+        <value>Не удалось сохранить</value>
+    </data>
+    <data name="LabReport_Loading" xml:space="preserve">
+        <value>Загрузка</value>
+    </data>
+    <data name="LabReport_ReportNotSaved" xml:space="preserve">
+        <value>Отчёт не сохранён</value>
+    </data>
+    <data name="LabReport_ExportFailed" xml:space="preserve">
+        <value>Ошибка экспорта</value>
+    </data>
+    <data name="LabReport_Exporting" xml:space="preserve">
+        <value>Экспорт запущен</value>
+    </data>
 </root>

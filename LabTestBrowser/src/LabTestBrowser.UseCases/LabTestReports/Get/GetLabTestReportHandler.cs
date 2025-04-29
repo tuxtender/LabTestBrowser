@@ -5,7 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.LabTestReports.Get;
 
-public class GetLabTestReportHandler(IReadRepository<LabTestReport> _repository, ILogger<GetLabTestReportHandler> _logger)
+public class GetLabTestReportHandler(
+	IReadRepository<LabTestReport> _repository,
+	IValidationLocalizationService _validationLocalizer,
+	ILogger<GetLabTestReportHandler> _logger)
 	: IQueryHandler<GetLabTestReportQuery, Result<LabTestReportDto>>
 {
 	public async Task<Result<LabTestReportDto>> Handle(GetLabTestReportQuery request, CancellationToken cancellationToken)
@@ -14,7 +17,7 @@ public class GetLabTestReportHandler(IReadRepository<LabTestReport> _repository,
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
-			return Result.Invalid(accessionNumber.ValidationErrors);
+			return Result.Invalid(_validationLocalizer.Localize(accessionNumber.ValidationErrors));
 		}
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);
