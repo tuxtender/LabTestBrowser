@@ -11,13 +11,13 @@
 
 	<Grid Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
 		<Grid.Background>
-			<SolidColorBrush Color="White"
+			<SolidColorBrush Color="Black"
 							 Opacity="0.8" />
 		</Grid.Background>
 
 		<Border HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				Background="White"
+				Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 				BorderBrush="DarkGray"
 				BorderThickness="1"
 				Padding="20">
