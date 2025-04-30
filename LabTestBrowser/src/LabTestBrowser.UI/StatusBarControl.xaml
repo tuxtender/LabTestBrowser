@@ -32,10 +32,32 @@
 
 	<StatusBar>
 		<StatusBarItem>
-			<Button Command="{Binding ToggleThemeCommand}" />
+			<Button Background="Transparent"
+					Padding="0"
+					Command="{Binding ToggleThemeCommand}">
+				<Viewbox Width="20"
+						 Height="20">
+					<ContentPresenter>
+						<ContentPresenter.Style>
+							<Style TargetType="ContentPresenter">
+								<Setter Property="Content"
+										Value="{StaticResource DarkThemeIcon}" />
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding  Path=ApplicationMode}"
+												 Value="Dark">
+										<Setter Property="Content"
+												Value="{StaticResource LightThemeIcon}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</ContentPresenter.Style>
+					</ContentPresenter>
+				</Viewbox>
+			</Button>
 		</StatusBarItem>
-		<StatusBarItem Content="{Binding Notification}"
-					   ContentTemplate="{StaticResource NotificationTemplate}"
-					   HorizontalAlignment="Right" />
+
+		<StatusBarItem HorizontalAlignment="Right"
+					   Content="{Binding Notification}"
+					   ContentTemplate="{StaticResource NotificationTemplate}" />
 	</StatusBar>
 </UserControl>
