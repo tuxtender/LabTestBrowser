@@ -14,6 +14,7 @@
 			<converters:AgeConverter x:Key="AgeConverter" />
 			<converters:DateConverter x:Key="DateConverter" />
 			<converters:NotificationIconConverter x:Key="NotificationIconConverter" />
+			<converters:ApplicationThemeConverter x:Key="ApplicationThemeConverter" />
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 		</ResourceDictionary>
 	</Application.Resources>

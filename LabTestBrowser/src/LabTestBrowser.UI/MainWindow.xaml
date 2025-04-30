@@ -9,9 +9,9 @@
 		xmlns:ui="http://schemas.modernwpf.com/2019"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
-		SizeToContent="WidthAndHeight"
+		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
-		ui:ThemeManager.RequestedTheme="Light">
+		SizeToContent="WidthAndHeight">
 
 	<Grid Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
 		<DockPanel LastChildFill="True">

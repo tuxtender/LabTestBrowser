@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UI.Notification;
 
 namespace LabTestBrowser.UI;
@@ -7,11 +8,19 @@ public class StatusBarViewModel : ObservableObject
 {
 	private readonly ILogger<StatusBarViewModel> _logger;
 	private NotificationViewModel? _notification;
+	private ApplicationMode _applicationMode = ApplicationMode.Light;
 
 	public StatusBarViewModel(INotificationService notificationService, ILogger<StatusBarViewModel> logger)
 	{
 		_logger = logger;
 		notificationService.Notifications.Subscribe(Notify);
+
+		ToggleThemeCommand = new RelayCommand(ToggleTheme);
+	}
+
+	private void ToggleTheme()
+	{
+		ApplicationMode = ApplicationMode != ApplicationMode.Light ? ApplicationMode.Light : ApplicationMode.Dark;
 	}
 
 	public NotificationViewModel? Notification
@@ -20,6 +29,13 @@ public class StatusBarViewModel : ObservableObject
 		private set => SetProperty(ref _notification, value);
 	}
 
+	public ApplicationMode ApplicationMode
+	{
+		get => _applicationMode;
+		private set => SetProperty(ref _applicationMode, value);
+	}
+
+	public IRelayCommand ToggleThemeCommand { get; private set; }
 	private void ResetNotification() => Notification = null;
 
 	private async void Notify(NotificationMessage message)

@@ -30,7 +30,10 @@
 		</DataTemplate>
 	</UserControl.Resources>
 
-	<StatusBar DockPanel.Dock="Bottom">
+	<StatusBar>
+		<StatusBarItem>
+			<Button Command="{Binding ToggleThemeCommand}" />
+		</StatusBarItem>
 		<StatusBarItem Content="{Binding Notification}"
 					   ContentTemplate="{StaticResource NotificationTemplate}"
 					   HorizontalAlignment="Right" />
