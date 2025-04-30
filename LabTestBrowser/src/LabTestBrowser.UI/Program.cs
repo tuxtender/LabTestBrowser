@@ -60,9 +60,8 @@ var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFil
 		using var serviceScope = app.Services.CreateScope();
 		var services = serviceScope.ServiceProvider;
 		var mediator = services.GetRequiredService<IMediator>();
-		var hl7Message = Encoding.UTF8.GetString(p.Content);
-		var hl7AckMessage = await mediator.Send(new ProcessHl7RequestCommand(hl7Message));
-		await s.SendAsync(Encoding.UTF8.GetBytes(hl7AckMessage));
+		var response = await mediator.Send(new ProcessHl7RequestCommand(p.Content));
+		await s.SendAsync(response);
 	})
 	.ConfigureSuperSocket(options =>
 	{

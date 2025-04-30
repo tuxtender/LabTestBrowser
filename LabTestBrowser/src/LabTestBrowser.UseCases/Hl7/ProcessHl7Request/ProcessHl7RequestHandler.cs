@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.Hl7.ProcessHl7Request;
 
-public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand, string>
+public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand, byte[]>
 {
 	private readonly IV231OruR01Converter _converter;
 	private readonly IHl7AcknowledgmentService _acknowledgmentService;
@@ -21,12 +21,12 @@ public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand
 		_logger = logger;
 	}
 
-	public async Task<string> Handle(ProcessHl7RequestCommand request, CancellationToken cancellationToken)
+	public async Task<byte[]> Handle(ProcessHl7RequestCommand request, CancellationToken cancellationToken)
 	{
 		//TODO: convert exception handling
 		const string universalServiceId = "URIT^URIT-5160";
 
-		var oruR01 = _converter.Convert(request.Message);
+		var oruR01 = _converter.Convert(request.Hl7Message);
 		if (universalServiceId != oruR01.Obr.UniversalServiceId)
 		{
 			_logger.LogWarning("Unsupported lab equipment. Sending service: {universalServiceId} ", oruR01.Obr.UniversalServiceId);

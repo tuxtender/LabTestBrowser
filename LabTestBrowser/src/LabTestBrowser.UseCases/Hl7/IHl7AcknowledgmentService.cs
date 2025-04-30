@@ -4,5 +4,5 @@ namespace LabTestBrowser.UseCases.Hl7;
 
 public interface IHl7AcknowledgmentService
 {
-	string GetAckMessage(AckStatus ackStatus, string messageControlId);
+	byte[] GetAckMessage(AckStatus ackStatus, string messageControlId);
 }

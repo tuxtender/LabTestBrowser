@@ -1,4 +1,5 @@
-﻿using Efferent.HL7.V2;
+﻿using System.Text;
+using Efferent.HL7.V2;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.Hl7.Messaging.v231;
 using LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
@@ -7,9 +8,10 @@ namespace LabTestBrowser.Infrastructure.Hl7;
 
 public class V231OruR01Converter : IV231OruR01Converter
 {
-	public OruR01 Convert(string hl7Message)
+	public OruR01 Convert(byte[] hl7Message)
 	{
-		var message = new Message(hl7Message);
+		var encodedHl7Message = Encoding.UTF8.GetString(hl7Message);
+		var message = new Message(encodedHl7Message);
 		message.ParseMessage();
 
 		var msh = GetMessageHeader(message);
