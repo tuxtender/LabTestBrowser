@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.Infrastructure.Hl7.Messaging.v231.Segment;
+﻿namespace LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
 
 public record Msa
 {

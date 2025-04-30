@@ -4,7 +4,6 @@ using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
-using LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
 using LabTestBrowser.UseCases.AnimalSpecies;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Hl7;

@@ -1,6 +1,6 @@
-﻿namespace LabTestBrowser.UseCases.LaboratoryEquipment.Hl7.Dto;
+﻿namespace LabTestBrowser.UseCases.Hl7.LaboratoryEquipment.Urit5160;
 
-public record Urit5160CompleteBloodCount
+public record Urit5160LabTestResult
 {
 	public required string ExternalId { get; init; }
 	public DateTime ObservationDateTime { get; init; }

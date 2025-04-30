@@ -1,11 +1,11 @@
-namespace LabTestBrowser.Infrastructure.Hl7.Messaging.v231.Segment;
+namespace LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
 
 public class Obr
 {
 	public int? Id { get; init; }
 	public string? PlacerOrderNumber { get; init; }
 	public string? FillerOrderNumber { get; init; }
-	public string? UniversalServiceId { get; init; }
+	public required string UniversalServiceId { get; init; }
 	public string? Priority { get; init; }
 	public DateTime? RequestedDatetime { get; init; }
 	public DateTime? ObservationDateTime { get; init; }

@@ -24,8 +24,4 @@
 		<ProjectReference Include="..\LabTestBrowser.Core\LabTestBrowser.Core.csproj" />
 		<ProjectReference Include="..\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Hl7\Dto\" />
-	</ItemGroup>
 </Project>

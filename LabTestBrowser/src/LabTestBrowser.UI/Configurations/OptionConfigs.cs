@@ -4,8 +4,6 @@ using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Email;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7;
-using LabTestBrowser.Infrastructure.LaboratoryEquipment;
-using LabTestBrowser.UseCases.LaboratoryEquipment;
 
 namespace LabTestBrowser.UI.Configurations;
 

@@ -9,7 +9,6 @@ using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
-using LabTestBrowser.UseCases.CompleteBloodCounts.Create;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListReviewed;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListUnderReview;

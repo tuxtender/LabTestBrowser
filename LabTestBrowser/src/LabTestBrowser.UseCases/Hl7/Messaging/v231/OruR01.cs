@@ -1,6 +1,6 @@
-﻿using LabTestBrowser.Infrastructure.Hl7.Messaging.v231.Segment;
+﻿using LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
 
-namespace LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
+namespace LabTestBrowser.UseCases.Hl7.Messaging.v231;
 
 public record OruR01
 {

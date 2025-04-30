@@ -1,6 +1,7 @@
 ﻿using Efferent.HL7.V2;
-using LabTestBrowser.Infrastructure.Hl7.Messaging.v231;
-using LabTestBrowser.Infrastructure.Hl7.Messaging.v231.Segment;
+using LabTestBrowser.UseCases.Hl7;
+using LabTestBrowser.UseCases.Hl7.Messaging.v231;
+using LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
 
 namespace LabTestBrowser.Infrastructure.Hl7;
 
@@ -65,6 +66,7 @@ public class V231OruR01Converter : IV231OruR01Converter
 			SendingFacility = segment.Fields(4).Value,
 			DateTimeOfMessage = segment.Fields(7).Value,
 			MessageType = segment.Fields(9).Value,
+			MessageControlId = segment.Fields(10).Value,
 			VersionId = segment.Fields(12).Value,
 		};
 

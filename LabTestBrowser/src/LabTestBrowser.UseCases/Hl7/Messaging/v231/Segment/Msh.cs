@@ -1,6 +1,6 @@
-namespace LabTestBrowser.UseCases.Hl7.Messaging.ORU_R01;
+namespace LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
 
-public class MessageHeader
+public record Msh
 {
 	public string? FieldSeparator { get; init; }
 	public string? EncodingCharacters { get; init; }
@@ -10,10 +10,10 @@ public class MessageHeader
 	public string? ReceivingFacility { get; init; }
 	public string? DateTimeOfMessage { get; init; }
 	public string? Security { get; init; }
-	public string? MessageType { get; init; }
-	public string? MessageControlId { get; init; }
+	public required string MessageType { get; init; }
+	public required string MessageControlId { get; init; }
 	public string? ProcessingId { get; init; }
-	public string? VersionId { get; init; }
+	public required string VersionId { get; init; }
 	public string? SequenceNumber { get; init; }
 	public string? ContinuationPointer { get; init; }
 	public string? AcceptAcknowledgmentType { get; init; }

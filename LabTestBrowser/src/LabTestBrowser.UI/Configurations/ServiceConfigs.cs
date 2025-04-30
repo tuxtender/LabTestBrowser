@@ -2,10 +2,10 @@
 using LabTestBrowser.Infrastructure;
 using LabTestBrowser.Infrastructure.Email;
 using LabTestBrowser.Infrastructure.Hl7;
-using LabTestBrowser.Infrastructure.LaboratoryEquipment;
 using LabTestBrowser.UI.Localization;
 using LabTestBrowser.UseCases;
-using LabTestBrowser.UseCases.LaboratoryEquipment;
+using LabTestBrowser.UseCases.Hl7;
+using LabTestBrowser.UseCases.Hl7.LaboratoryEquipment.Urit5160;
 
 namespace LabTestBrowser.UI.Configurations;
 
@@ -33,8 +33,7 @@ public static class ServiceConfigs
 		}
 		
 		services.AddSingleton<IV231OruR01Converter, V231OruR01Converter>();
-		services.AddSingleton<IUrit5160Hl7Converter, Urit5160Hl7Converter>();
-		services.AddSingleton<IHl7MessageHandler, Hl7MessageHandler>();
+		services.AddSingleton<IHl7AcknowledgmentService, Hl7AcknowledgmentService>();
 		services.AddSingleton<ICompleteBloodCountUpdateChannel, CompleteBloodCountUpdateChannel>();
 		services.AddSingleton<ILocalizationService, LocalizationService>();
 		services.AddSingleton<IErrorLocalizationService, ErrorLocalizationService>();

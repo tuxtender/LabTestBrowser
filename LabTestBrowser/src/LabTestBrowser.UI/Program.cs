@@ -9,7 +9,7 @@ using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.Hl7;
-using LabTestBrowser.UseCases.LaboratoryEquipment.Hl7;
+using LabTestBrowser.UseCases.Hl7.ProcessHl7Request;
 using MediatR;
 using SuperSocket.ProtoBase;
 using SuperSocket.Server.Abstractions;
@@ -59,9 +59,9 @@ var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFil
 		//TODO: Shared service collection
 		using var serviceScope = app.Services.CreateScope();
 		var services = serviceScope.ServiceProvider;
-		var hl7Handler = services.GetRequiredService<IHl7MessageHandler>();
+		var mediator = services.GetRequiredService<IMediator>();
 		var hl7Message = Encoding.UTF8.GetString(p.Content);
-		var hl7AckMessage = await hl7Handler.HandleMessageAsync(hl7Message);
+		var hl7AckMessage = await mediator.Send(new ProcessHl7RequestCommand(hl7Message));
 		await s.SendAsync(Encoding.UTF8.GetBytes(hl7AckMessage));
 	})
 	.ConfigureSuperSocket(options =>
