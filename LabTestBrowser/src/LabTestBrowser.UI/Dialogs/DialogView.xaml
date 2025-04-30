@@ -7,7 +7,7 @@
 			 xmlns:reportTemplateDialog="clr-namespace:LabTestBrowser.UI.Dialogs.ReportTemplateDialog"
 			 xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
 			 mc:Ignorable="d"
-			 d:DataContext="{d:DesignInstance {x:Type dialogs:DialogViewModel }}">
+			 d:DataContext="{d:DesignInstance {x:Type dialogs:DialogViewModel}}">
 
 	<Grid Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
 		<Grid.Background>

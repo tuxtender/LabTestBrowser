@@ -8,12 +8,13 @@
 		xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 		xmlns:ui="http://schemas.modernwpf.com/2019"
 		mc:Ignorable="d"
+		Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
 		SizeToContent="WidthAndHeight">
 
-	<Grid Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}">
+	<Grid>
 		<DockPanel LastChildFill="True">
 			<local:LabReportCommandBar DockPanel.Dock="Top" />
 
