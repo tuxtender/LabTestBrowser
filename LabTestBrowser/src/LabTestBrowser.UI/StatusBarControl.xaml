@@ -41,12 +41,12 @@
 						<ContentPresenter.Style>
 							<Style TargetType="ContentPresenter">
 								<Setter Property="Content"
-										Value="{StaticResource DarkThemeIcon}" />
+										Value="{StaticResource DarkThemePath}" />
 								<Style.Triggers>
 									<DataTrigger Binding="{Binding  Path=ApplicationMode}"
 												 Value="Dark">
 										<Setter Property="Content"
-												Value="{StaticResource LightThemeIcon}" />
+												Value="{StaticResource LightThemePath}" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>

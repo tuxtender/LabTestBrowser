@@ -16,10 +16,10 @@ public class NotificationIconConverter : IValueConverter
 
 		return notificationLevel switch
 		{
-			NotificationLevel.Info => Application.Current.Resources["InfoIcon"],
-			NotificationLevel.Warning => Application.Current.Resources["WarningIcon"],
-			NotificationLevel.Error => Application.Current.Resources["ErrorIcon"],
-			NotificationLevel.Success => Application.Current.Resources["SuccessIcon"],
+			NotificationLevel.Info => Application.Current.Resources["InfoPath"],
+			NotificationLevel.Warning => Application.Current.Resources["WarningPath"],
+			NotificationLevel.Error => Application.Current.Resources["ErrorPath"],
+			NotificationLevel.Success => Application.Current.Resources["SuccessPath"],
 			_ => DependencyProperty.UnsetValue
 		};
 	}
