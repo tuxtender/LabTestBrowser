@@ -23,6 +23,7 @@ public class SuppressCompleteBloodCountHandler(
 		}
 
 		cbc.Suppress(request.SuppressionDate);
+		await _repository.UpdateAsync(cbc, cancellationToken);
 		_logger.LogInformation("Complete blood count id: {completeBloodCountId} suppressed at {suppressionDate}", cbc.Id,
 			request.SuppressionDate);
 
