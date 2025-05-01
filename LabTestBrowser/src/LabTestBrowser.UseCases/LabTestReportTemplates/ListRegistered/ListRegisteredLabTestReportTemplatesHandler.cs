@@ -14,7 +14,7 @@ public class ListRegisteredLabTestReportTemplatesHandler(
 		CancellationToken cancellationToken)
 	{
 		if (!query.LabTestReportId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.GetLabTestReportRequired()));
+			return Result.Invalid(new ValidationError(_errorLocalizer.GetLabTestReportNotSaved()));
 
 		var report = await _repository.GetByIdAsync(query.LabTestReportId.Value, cancellationToken);
 		if (report == null)

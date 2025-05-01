@@ -15,7 +15,7 @@ public class ReportExportDialogViewModel : ObservableObject,
 	private readonly IMediator _mediator;
 	private readonly INotificationService _notificationService;
 	private TaskCompletionSource<ReportExportDialogOutput>? _tcs;
-	private IEnumerable<LabTestReportTemplateViewModel> _reportTemplates = [];
+	private IReadOnlyCollection<LabTestReportTemplateViewModel> _reportTemplates = [];
 	private int? _labTestReportId;
 
 	public ReportExportDialogViewModel(IMediator mediator, INotificationService notificationService)
@@ -30,7 +30,7 @@ public class ReportExportDialogViewModel : ObservableObject,
 	public IAsyncRelayCommand ExportCommand { get; private set; }
 	public IRelayCommand CancelCommand { get; private set; }
 
-	public IEnumerable<LabTestReportTemplateViewModel> LabTestReportTemplates
+	public IReadOnlyCollection<LabTestReportTemplateViewModel> LabTestReportTemplates
 	{
 		get => _reportTemplates;
 		private set => SetProperty(ref _reportTemplates, value);
@@ -45,7 +45,7 @@ public class ReportExportDialogViewModel : ObservableObject,
 		LabTestReportTemplates = await GetTemplatesAsync(parameters.LabTestReportId);
 	}
 
-	private async Task<IEnumerable<LabTestReportTemplateViewModel>> GetTemplatesAsync(int? labTestReportTemplateId)
+	private async Task<List<LabTestReportTemplateViewModel>> GetTemplatesAsync(int? labTestReportTemplateId)
 	{
 		var query = new ListRegisteredLabTestReportTemplatesQuery(labTestReportTemplateId);
 		var result = await _mediator.Send(query);
@@ -78,11 +78,16 @@ public class ReportExportDialogViewModel : ObservableObject,
 		var command = new ExportLabTestReportCommand(_labTestReportId, templateIds);
 		var result = await _mediator.Send(command);
 		var notification = result.ToNotification();
+		var dialogOutput = new ReportExportDialogOutput(ReportExportDialogResult.Error);
 
 		if (result.IsSuccess)
+		{
 			notification = result.ToNotification(Localizations.LabReport_ReportExported);
+			dialogOutput = new ReportExportDialogOutput(ReportExportDialogResult.Ok);
+		}
 
 		await _notificationService.PublishAsync(notification);
+		_tcs?.SetResult(dialogOutput);
 	}
 
 	private void Cancel()

@@ -15,7 +15,7 @@ public class ExportLabTestReportHandler(
 		//TODO: Exception handling location
 
 		if (!request.LabTestReportId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.GetLabTestReportRequired()));
+			return Result.Invalid(new ValidationError(_errorLocalizer.GetLabTestReportNotSaved()));
 
 		var report = await _repository.GetByIdAsync(request.LabTestReportId.Value, cancellationToken);
 		if (report == null)
