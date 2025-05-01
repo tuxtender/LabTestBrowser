@@ -7,7 +7,6 @@ using LabTestBrowser.UI;
 using LabTestBrowser.UI.Configurations;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportExportDialog;
-using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.Hl7.ProcessHl7Request;

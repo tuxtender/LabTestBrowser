@@ -7,7 +7,6 @@ using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportExportDialog;
-using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
