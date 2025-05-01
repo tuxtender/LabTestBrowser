@@ -26,7 +26,7 @@ public class CreateLabTestReportHandler(
 		if (labTestReport != null)
 		{
 			_logger.LogWarning("LabTestReport id: {labTestReportId} is already created", labTestReport.Id);
-			return Result.Conflict(_errorLocalizer.GetLabTestReportIdConflict());
+			return Result.Conflict(_errorLocalizer.LabTestReportIdConflict);
 		}
 
 		var specimenCollectionCenter = SpecimenCollectionCenter.Create(request.Facility, request.TradeName!);

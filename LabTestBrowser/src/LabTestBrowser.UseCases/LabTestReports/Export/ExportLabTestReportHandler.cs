@@ -15,13 +15,13 @@ public class ExportLabTestReportHandler(
 		//TODO: Exception handling location
 
 		if (!request.LabTestReportId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.GetLabTestReportNotSaved()));
+			return Result.Invalid(new ValidationError(_errorLocalizer.LabTestReportNotSaved));
 
 		var report = await _repository.GetByIdAsync(request.LabTestReportId.Value, cancellationToken);
 		if (report == null)
 		{
 			_logger.LogWarning("Missing required LabTestReport id: {completeBloodCountId} in database", request.LabTestReportId.Value);
-			return Result.CriticalError(_errorLocalizer.GetExportFailed());
+			return Result.CriticalError(_errorLocalizer.ExportFailed);
 		}
 
 		var exportTasks = request.LabTestReportTemplateIds

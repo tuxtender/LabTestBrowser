@@ -16,7 +16,7 @@ public class UpdateLabTestReportHandler(
 		if (labTestReport == null)
 		{
 			_logger.LogWarning("LabTestReport id: {labTestReportId} not found", request.Id);
-			return Result.CriticalError(_errorLocalizer.GetApplicationFault());
+			return Result.CriticalError(_errorLocalizer.ApplicationFault);
 		}
 
 		var specimenCollectionCenter = SpecimenCollectionCenter.Create(request.Facility, request.TradeName!);

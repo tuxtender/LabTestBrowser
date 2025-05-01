@@ -14,7 +14,7 @@ public class ReviewCompleteBloodCountHandler(
 	public async Task<Result> Handle(ReviewCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
 		if (!request.CompleteBloodCountId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.GetTestNotSelected()));
+			return Result.Invalid(new ValidationError(_errorLocalizer.TestNotSelected));
 
 		var accessionNumber = AccessionNumber.Create(request.LabOrderNumber, request.LabOrderDate);
 		if (!accessionNumber.IsSuccess)
@@ -37,7 +37,7 @@ public class ReviewCompleteBloodCountHandler(
 		{
 			_logger.LogWarning("Missing required complete blood count id: {completeBloodCountId} in database",
 				request.CompleteBloodCountId.Value);
-			return Result.CriticalError(_errorLocalizer.GetApplicationFault());
+			return Result.CriticalError(_errorLocalizer.ApplicationFault);
 		}
 
 		cbc.Review(accessionNumber);

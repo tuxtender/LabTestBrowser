@@ -4,10 +4,10 @@ namespace LabTestBrowser.UI.Localization;
 
 public class ErrorLocalizationService : IErrorLocalizationService
 {
-	public string GetApplicationFault() => Resources.Errors.ApplicationFault;
-	public string GetLabTestReportIdConflict() => Resources.Errors.LabTestReportIdConflict;
-	public string GetExportFailed() => Resources.Errors.ExportFailed;
-	public string GetTestNotSelected() => Resources.Errors.TestNotSelected;
-	public string GetLabTestReportRequired() => Resources.Errors.LabTestReportRequired;
-	public string GetLabTestReportNotSaved() => Resources.Errors.LabTestReportNotSaved;
+	public string ApplicationFault => Resources.Errors.ApplicationFault;
+	public string LabTestReportIdConflict => Resources.Errors.LabTestReportIdConflict;
+	public string ExportFailed => Resources.Errors.ExportFailed;
+	public string TestNotSelected => Resources.Errors.TestNotSelected;
+	public string LabTestReportRequired => Resources.Errors.LabTestReportRequired;
+	public string LabTestReportNotSaved => Resources.Errors.LabTestReportNotSaved;
 }

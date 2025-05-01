@@ -14,13 +14,13 @@ public class ListRegisteredLabTestReportTemplatesHandler(
 		CancellationToken cancellationToken)
 	{
 		if (!query.LabTestReportId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.GetLabTestReportNotSaved()));
+			return Result.Invalid(new ValidationError(_errorLocalizer.LabTestReportNotSaved));
 
 		var report = await _repository.GetByIdAsync(query.LabTestReportId.Value, cancellationToken);
 		if (report == null)
 		{
 			_logger.LogWarning("LabTestReport id: {labTestReportId} not found", query.LabTestReportId);
-			return Result.CriticalError(_errorLocalizer.GetApplicationFault());
+			return Result.CriticalError(_errorLocalizer.ApplicationFault);
 		}
 
 		var facility = report.SpecimenCollectionCenter.Facility;

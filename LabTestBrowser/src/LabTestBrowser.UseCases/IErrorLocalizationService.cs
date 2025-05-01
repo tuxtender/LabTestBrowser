@@ -2,10 +2,10 @@
 
 public interface IErrorLocalizationService
 {
-	string GetApplicationFault();
-	string GetLabTestReportIdConflict();
-	string GetExportFailed();
-	string GetTestNotSelected();
-	string GetLabTestReportRequired();
-	string GetLabTestReportNotSaved();
+	string ApplicationFault { get;}
+	string LabTestReportIdConflict { get;}
+	string ExportFailed { get;}
+	string TestNotSelected { get;}
+	string LabTestReportRequired { get;}
+	string LabTestReportNotSaved { get;}
 }
