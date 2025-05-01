@@ -1,4 +1,5 @@
-﻿using LabTestBrowser.UseCases.Hl7.LaboratoryEquipment.Urit5160.SaveUrit5160LabTestResult;
+﻿using LabTestBrowser.UseCases.Hl7.LaboratoryEquipment;
+using LabTestBrowser.UseCases.Hl7.LaboratoryEquipment.Urit5160.SaveUrit5160LabTestResult;
 using LabTestBrowser.UseCases.Hl7.Messaging;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -33,7 +34,7 @@ public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand
 			return _acknowledgmentService.GetAckMessage(AckStatus.AR, oruR01.Msh.MessageControlId);
 		}
 
-		ICommand<Result> command = new SaveUrit5160LabTestResultCommand(oruR01);
+		ISaveLabTestResultCommand command = new SaveUrit5160LabTestResultCommand(oruR01);
 		var result = await _mediator.Send(command, cancellationToken);
 
 		var ackMessage = _acknowledgmentService.GetAckMessage(AckStatus.AA, oruR01.Msh.MessageControlId);
