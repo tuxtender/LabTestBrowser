@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.Core.CompleteBloodCountAggregate.Events;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.UI.Dialogs;
+using LabTestBrowser.UI.Dialogs.ReportExportDialog;
 using LabTestBrowser.UI.Dialogs.ReportTemplateDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
@@ -35,7 +36,7 @@ using Localizations = Resources.Strings;
 public class LabReportViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
-	private readonly ReportTemplateDialogViewModel _reportTemplateDialog;
+	private readonly ReportExportDialogViewModel _reportExportDialog;
 
 	private readonly LabRequisitionViewModel _labRequisition;
 	private readonly INotificationService _notificationService;
@@ -45,13 +46,13 @@ public class LabReportViewModel : ObservableObject
 
 	public LabReportViewModel(IMediator mediator,
 		INotificationService notificationService, 
-		ReportTemplateDialogViewModel reportTemplateDialog,
+		ReportExportDialogViewModel reportExportDialog,
 		LabRequisitionViewModel labRequisition,
 		DialogViewModel dialogViewModel,
 		StatusBarViewModel statusBar)
 	{
 		_mediator = mediator;
-		_reportTemplateDialog = reportTemplateDialog;
+		_reportExportDialog = reportExportDialog;
 		DialogViewModel = dialogViewModel;
 		StatusBar = statusBar;
 
@@ -284,43 +285,7 @@ public class LabReportViewModel : ObservableObject
 
 	private async Task ExportAsync()
 	{
-		//TODO: Encapsulate export into ReportTemplateDialogViewModel
-		var query = new ListRegisteredLabTestReportTemplatesQuery(_labRequisition.Id);
-		var result = await _mediator.Send(query);
-		if (!result.IsSuccess)
-		{
-			await _notificationService.PublishAsync(result.ToNotification(Localizations.LabReport_ExportFailed));
-			return;
-		}
-
-		var reportTemplates = result.Value;
-		var dialogInput = new ReportTemplateDialogInput
-		{
-			ReportTemplates = reportTemplates
-		};
-
-		var dialogOutput = await DialogViewModel.ShowAsync(_reportTemplateDialog, dialogInput);
-
-		if (dialogOutput.DialogResult == ReportTemplateDialogResult.Cancel)
-			return;
-
-		if (dialogOutput.ReportTemplates == null)
-			return;
-
-		await _notificationService.PublishAsync(new NotificationMessage
-		{
-			Title = Localizations.LabReport_Exporting
-		});
-		
-		var templateIds = dialogOutput.ReportTemplates.Select(template => template.Id);
-
-		var command = new ExportLabTestReportCommand(_labRequisition.Id, templateIds);
-		result = await _mediator.Send(command);
-		var notification = result.ToNotification();
-
-		if (result.IsSuccess)
-			notification = result.ToNotification(Localizations.LabReport_ReportExported);
-
-		await _notificationService.PublishAsync(notification);
+		var dialogInput = new ReportExportDialogInput(_labRequisition.Id);
+		await DialogViewModel.ShowAsync(_reportExportDialog, dialogInput);
 	}
 }

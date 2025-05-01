@@ -26,7 +26,13 @@ public class ReportTemplateDialogViewModel : ObservableObject,
 		set => SetProperty(ref _reportTemplates, value);
 	}
 
-	public void Initialize(ReportTemplateDialogInput parameters, TaskCompletionSource<ReportTemplateDialogOutput> taskCompletionSource)
+	public Task InitializeAsync(ReportTemplateDialogInput parameters, TaskCompletionSource<ReportTemplateDialogOutput> taskCompletionSource)
+	{
+		Initialize(parameters, taskCompletionSource);
+		return Task.CompletedTask;
+	}
+
+	private void Initialize(ReportTemplateDialogInput parameters, TaskCompletionSource<ReportTemplateDialogOutput> taskCompletionSource)
 	{
 		LabTestReportTemplates = parameters.ReportTemplates
 			.Select(template => new LabTestReportTemplateViewModel

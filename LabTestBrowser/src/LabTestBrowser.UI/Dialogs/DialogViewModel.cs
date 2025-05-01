@@ -10,7 +10,7 @@ public class DialogViewModel : ObservableObject
 	public object? DialogContentViewModel
 	{
 		get => _dialogContentViewModel;
-		set => SetProperty(ref _dialogContentViewModel, value);
+		private set => SetProperty(ref _dialogContentViewModel, value);
 	}
 
 	public bool IsVisible
@@ -25,7 +25,7 @@ public class DialogViewModel : ObservableObject
 		IsVisible = true;
 		DialogContentViewModel = dialogContentViewModel;
 		var taskCompletionSource = new TaskCompletionSource<TOutput>();
-		dialogContentViewModel.Initialize(input, taskCompletionSource);
+		await dialogContentViewModel.InitializeAsync(input, taskCompletionSource);
 		var result = await taskCompletionSource.Task.WaitAsync(CancellationToken.None);
 		IsVisible = false;
 

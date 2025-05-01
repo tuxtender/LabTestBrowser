@@ -3,9 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:local="clr-namespace:LabTestBrowser.UI"
-			 xmlns:reportTemplateDialog="clr-namespace:LabTestBrowser.UI.Dialogs.ReportTemplateDialog"
 			 xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
+			 xmlns:reportExportDialog="clr-namespace:LabTestBrowser.UI.Dialogs.ReportExportDialog"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type dialogs:DialogViewModel}}">
 
@@ -25,8 +24,8 @@
 							Content="{Binding DialogContentViewModel}">
 				<FrameworkElement.Resources>
 					<ResourceDictionary>
-						<DataTemplate DataType="{x:Type reportTemplateDialog:ReportTemplateDialogViewModel}">
-							<reportTemplateDialog:ReportTemplateDialogView />
+						<DataTemplate DataType="{x:Type reportExportDialog:ReportExportDialogViewModel}">
+							<reportExportDialog:ReportExportDialogView />
 						</DataTemplate>
 					</ResourceDictionary>
 				</FrameworkElement.Resources>
