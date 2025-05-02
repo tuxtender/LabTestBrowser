@@ -65,10 +65,7 @@ public class ExportService : IExportService
 
 		var templateEngine = _templateEngineResolver.ResolveByFileFormat(reportTemplate.FileFormat);
 		await using var memoryStream = await templateEngine.RenderAsync(fileStream, tokens);
-
-		//TODO: Separate filename and directory creation
 		var exportPath = await _exportFileNamingService.GetExportPathAsync(tokens, reportTemplate.FileExtension);
-
 		//TODO: IOException treatment
 		var directory = Path.GetDirectoryName(exportPath) ?? string.Empty;
 		Directory.CreateDirectory(directory);
