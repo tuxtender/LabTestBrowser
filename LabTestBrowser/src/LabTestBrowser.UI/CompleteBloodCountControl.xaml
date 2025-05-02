@@ -203,7 +203,7 @@
 									Binding="{Binding ExternalId}" />
 				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ObservationTimestamp}"
 									Width="130"
-									Binding="{Binding ObservationTimestamp, StringFormat={}{0:dd.MM.yy HH:mm:ss}}" />
+									Binding="{Binding ObservationTimestamp, StringFormat={}{0:HH:mm:ss dd.MM.yy}}" />
 			</DataGrid.Columns>
 		</DataGrid>
 			<StackPanel Margin="5"
