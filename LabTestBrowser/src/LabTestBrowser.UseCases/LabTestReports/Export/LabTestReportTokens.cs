@@ -14,7 +14,7 @@ public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
 		new TextToken("SUBSIDIARY", report.SpecimenCollectionCenter.TradeName),
 		new TextToken("ANIMAL", report.Patient.Animal),
 		new TextToken("OWNER", report.Patient.HealthcareProxy),
-		new TextToken("OWNER.SECOND_NAME", report.Patient.HealthcareProxy?.Split().First()), //TODO
+		new PersonNameToken("OWNER.SECOND_NAME", report.Patient.HealthcareProxy),
 		new TextToken("NICKNAME", report.Patient.Name),
 		new TextToken("BREED", report.Patient.Breed),
 		new TextToken("SEX", report.Patient.Category),
