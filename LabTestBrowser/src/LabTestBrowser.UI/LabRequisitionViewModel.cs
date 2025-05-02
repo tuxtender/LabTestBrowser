@@ -25,6 +25,8 @@ public class LabRequisitionViewModel : ObservableObject
 	private int? _ageInYears;
 	private int? _ageInMonths;
 	private int? _ageInDays;
+	private IReadOnlyCollection<CollectionCenterViewModel> _collectionCenters = [];
+	private IReadOnlyCollection<AnimalSpeciesViewModel> _animalSpecies = [];
 
 	public LabRequisitionViewModel(IMediator mediator)
 	{
@@ -49,7 +51,11 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _labOrderNumber, value);
 	}
 
-	public IReadOnlyCollection<CollectionCenterViewModel> CollectionCenters { get; private set; } = [];
+	public IReadOnlyCollection<CollectionCenterViewModel> CollectionCenters
+	{
+		get => _collectionCenters;
+		private set => SetProperty(ref _collectionCenters, value);
+	}
 
 	public string? Facility
 	{
@@ -63,7 +69,11 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _tradeName, value);
 	}
 
-	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies { get; private set; } = [];
+	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies
+	{
+		get => _animalSpecies;
+		private set => SetProperty(ref _animalSpecies, value);
+	}
 
 	public string? Animal
 	{
