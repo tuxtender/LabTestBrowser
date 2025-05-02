@@ -7,12 +7,19 @@
 		xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
 		xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 		xmlns:ui="http://schemas.modernwpf.com/2019"
+		xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 		mc:Ignorable="d"
 		Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
 		SizeToContent="WidthAndHeight">
+
+	<b:Interaction.Triggers>
+		<b:EventTrigger EventName="ContentRendered">
+			<b:InvokeCommandAction Command="{Binding LoadCommand}" />
+		</b:EventTrigger>
+	</b:Interaction.Triggers>
 
 	<Grid>
 		<DockPanel LastChildFill="True">

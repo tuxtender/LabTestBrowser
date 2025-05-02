@@ -8,7 +8,7 @@ namespace LabTestBrowser.UI;
 
 public class LabRequisitionViewModel : ObservableObject
 {
-	private DateOnly _labOrderDate;
+	private DateOnly _labOrderDate = DateOnly.FromDateTime(DateTime.Now);
 	private int _labOrderNumber;
 
 	private string? _facility;

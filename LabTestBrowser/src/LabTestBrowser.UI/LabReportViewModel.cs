@@ -34,6 +34,7 @@ using Localizations = Resources.Strings;
 public class LabReportViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
+	private readonly IGetUpdatedCompleteBloodCountsUseCase _getUpdatedCompleteBloodCountsUseCase;
 	private readonly ReportExportDialogViewModel _reportExportDialog;
 
 	private readonly LabRequisitionViewModel _labRequisition;
@@ -51,6 +52,7 @@ public class LabReportViewModel : ObservableObject
 		StatusBarViewModel statusBar)
 	{
 		_mediator = mediator;
+		_getUpdatedCompleteBloodCountsUseCase = getUpdatedCompleteBloodCountsUseCase;
 		_reportExportDialog = reportExportDialog;
 		DialogViewModel = dialogViewModel;
 		StatusBar = statusBar;
@@ -66,20 +68,13 @@ public class LabReportViewModel : ObservableObject
 		UpdateByTestResultSelectCommand = new AsyncRelayCommand(UpdateReportByTestResultSelectAsync);
 		SuppressCommand = new AsyncRelayCommand(SuppressAsync);
 		AssignCommand = new AsyncRelayCommand(AssignAsync);
+		LoadCommand = new AsyncRelayCommand(LoadAsync);
 
 		_labRequisition = labRequisition;
 		_notificationService = notificationService;
-		_labRequisition.LabOrderDate = DateOnly.FromDateTime(DateTime.Now);
-		UpdateAsync().GetAwaiter().GetResult();
-
-		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);
-		Task.Run(async () => await UpdateCompleteBloodCountsAsync(getUpdatedCompleteBloodCountsUseCase.ExecuteAsync())); 
 	}
 
-	public LabRequisitionViewModel LabRequisition
-	{
-		get => _labRequisition;
-	}
+	public LabRequisitionViewModel LabRequisition => _labRequisition;
 
 	public DialogViewModel DialogViewModel { get; private set; }
 	public StatusBarViewModel StatusBar { get; private set; }
@@ -103,6 +98,7 @@ public class LabReportViewModel : ObservableObject
 	public IAsyncRelayCommand SuppressCommand { get; private set; }
 	public IAsyncRelayCommand AssignCommand { get; private set; }
 	public IAsyncRelayCommand UpdateByTestResultSelectCommand { get; private set; }
+	public IAsyncRelayCommand LoadCommand { get; private set; }
 
 	private async Task CreateAsync()
 	{
@@ -207,6 +203,14 @@ public class LabReportViewModel : ObservableObject
 			notification = result.ToNotification(Localizations.LabReport_TestReported);
 
 		await _notificationService.PublishAsync(notification);
+	}
+
+	private async Task LoadAsync()
+	{
+		await UpdateAsync();
+
+		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);
+		_ = Task.Run(async () => await UpdateCompleteBloodCountsAsync(_getUpdatedCompleteBloodCountsUseCase.ExecuteAsync()));
 	}
 
 	private async Task UpdateAsync()
