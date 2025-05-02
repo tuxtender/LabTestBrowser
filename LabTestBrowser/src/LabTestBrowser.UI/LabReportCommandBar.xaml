@@ -16,7 +16,7 @@
 						 Command="{Binding  Path=NextCommand}"
 						 Label="{x:Static localization:Strings.CommandBar_Forward}" />
 		<ui:AppBarButton Icon="Add"
-						 Command="{Binding  Path=NewCommand}"
+						 Command="{Binding  Path=CreateCommand}"
 						 Label="{x:Static localization:Strings.CommandBar_New}" />
 		<ui:AppBarButton Icon="Save"
 						 Command="{Binding  Path=SaveCommand}"

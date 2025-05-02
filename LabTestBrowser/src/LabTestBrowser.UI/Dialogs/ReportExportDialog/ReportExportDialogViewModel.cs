@@ -9,7 +9,7 @@ namespace LabTestBrowser.UI.Dialogs.ReportExportDialog;
 
 using Localizations = Resources.Strings;
 
-public class ReportExportDialogViewModel : ObservableObject,
+public partial class ReportExportDialogViewModel : ObservableObject,
 	IDialogContentViewModel<ReportExportDialogInput, ReportExportDialogOutput>
 {
 	private readonly IMediator _mediator;
@@ -22,13 +22,7 @@ public class ReportExportDialogViewModel : ObservableObject,
 	{
 		_mediator = mediator;
 		_notificationService = notificationService;
-
-		ExportCommand = new AsyncRelayCommand(ExportAsync);
-		CancelCommand = new RelayCommand(Cancel);
 	}
-
-	public IAsyncRelayCommand ExportCommand { get; private set; }
-	public IRelayCommand CancelCommand { get; private set; }
 
 	public IReadOnlyCollection<LabTestReportTemplateViewModel> LabTestReportTemplates
 	{
@@ -69,6 +63,7 @@ public class ReportExportDialogViewModel : ObservableObject,
 		return labTestReportTemplates;
 	}
 
+	[RelayCommand]
 	private async Task ExportAsync()
 	{
 		var templateIds = LabTestReportTemplates
@@ -90,6 +85,7 @@ public class ReportExportDialogViewModel : ObservableObject,
 		_tcs?.SetResult(dialogOutput);
 	}
 
+	[RelayCommand]
 	private void Cancel()
 	{
 		var dialogOutput = new ReportExportDialogOutput(ReportExportDialogResult.Cancel);

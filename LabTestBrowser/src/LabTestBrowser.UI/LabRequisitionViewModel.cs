@@ -7,9 +7,10 @@ using MediatR;
 
 namespace LabTestBrowser.UI;
 
-public class LabRequisitionViewModel : ObservableObject
+public partial class LabRequisitionViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
+
 	private DateOnly _labOrderDate = DateOnly.FromDateTime(DateTime.Now);
 	private int _labOrderNumber;
 
@@ -31,13 +32,9 @@ public class LabRequisitionViewModel : ObservableObject
 	public LabRequisitionViewModel(IMediator mediator)
 	{
 		_mediator = mediator;
-
-		LoadCommand = new AsyncRelayCommand(LoadAsync);
 	}
 
-	public IAsyncRelayCommand LoadCommand { get; private set; }
-
-	public int? Id { get; internal set; }
+	public int? Id { get; private set; }
 
 	public DateOnly LabOrderDate
 	{
@@ -140,6 +137,7 @@ public class LabRequisitionViewModel : ObservableObject
 		AgeInDays = report.AgeInDays;
 	}
 
+	[RelayCommand]
 	private async Task LoadAsync()
 	{
 		var centers = await _mediator.Send(new ListSpecimenCollectionCentersQuery(null, null));

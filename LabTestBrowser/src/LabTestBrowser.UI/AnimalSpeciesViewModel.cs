@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace LabTestBrowser.UI;
 
-public class AnimalSpeciesViewModel : ObservableObject
+public partial class AnimalSpeciesViewModel : ObservableObject
 {
 	private readonly IReadOnlyCollection<string> _breeds;
 	private IReadOnlyCollection<string> _suggestedBreeds = [];
@@ -15,8 +15,6 @@ public class AnimalSpeciesViewModel : ObservableObject
 		Name = animal;
 		_breeds = breeds;
 		Categories = categories;
-
-		SuggestBreedCommand = new RelayCommand<string>(SearchBreeds);
 	}
 
 	public string Name { get; private set; }
@@ -28,9 +26,9 @@ public class AnimalSpeciesViewModel : ObservableObject
 	}
 
 	public IReadOnlyCollection<string> Categories { get; private set; }
-	public IRelayCommand SuggestBreedCommand { get; private set; }
 
-	private void SearchBreeds(string? text)
+	[RelayCommand]
+	private void SuggestBreed(string? text)
 	{
 		if (string.IsNullOrWhiteSpace(text))
 		{
