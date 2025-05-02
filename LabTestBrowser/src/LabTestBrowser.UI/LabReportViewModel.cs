@@ -9,7 +9,6 @@ using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportExportDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
-using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListReviewed;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListUnderReview;
@@ -76,16 +75,6 @@ public class LabReportViewModel : ObservableObject
 		UpdateAsync().GetAwaiter().GetResult();
 
 		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);
-		// Task.Run(async () =>
-		// {
-		// 	//get the data from the previous task a continue the execution on the UI thread
-		//
-		// 	while (true)
-		// 	{
-		// 		await UpdateCompleteBloodCountAsync();
-		// 	}
-		// }); //TODO: Refactor using IObservable
-
 		Task.Run(async () => await UpdateCompleteBloodCountsAsync(getUpdatedCompleteBloodCountsUseCase.ExecuteAsync())); 
 	}
 
@@ -136,26 +125,6 @@ public class LabReportViewModel : ObservableObject
 		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(_labRequisition.LabOrderNumber, _labRequisition.LabOrderDate);
 		var result = await _mediator.Send(getPreviousLabTestReportQuery);
 		_labRequisition.SetLabRequisition(result.Value);
-	}
-
-	private async Task UpdateCompleteBloodCountAsync()
-	{
-		var completeBloodCount = await _mediator.Send(new GetUpdatedCompleteBloodCountQuery());
-
-		if (!completeBloodCount.IsSuccess)
-			return;
-
-		var completeBloodCountViewModel = new CompleteBloodCountViewModel(completeBloodCount);
-		var updatingCompleteBloodCountViewModel = CompleteBloodCounts.FirstOrDefault(cbc => cbc.Id == completeBloodCountViewModel.Id);
-
-		if (updatingCompleteBloodCountViewModel == null)
-		{
-			CompleteBloodCounts.Add(completeBloodCountViewModel);
-			return;
-		}
-
-		CompleteBloodCounts.Remove(updatingCompleteBloodCountViewModel);
-		CompleteBloodCounts.Add(completeBloodCountViewModel);
 	}
 
 	private async Task UpdateCompleteBloodCountsAsync(IAsyncEnumerable<CompleteBloodCountDto> completeBloodCounts,
