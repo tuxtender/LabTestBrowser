@@ -6,13 +6,10 @@ namespace LabTestBrowser.Infrastructure.Export;
 public class ExcelTemplateEngine : IExcelTemplateEngine
 {
 	private readonly ITextTemplateEngine _templateEngine;
-	private readonly ILogger<ExcelTemplateEngine> _logger;
 
-	public ExcelTemplateEngine(ITextTemplateEngine templateEngine,
-		ILogger<ExcelTemplateEngine> logger)
+	public ExcelTemplateEngine(ITextTemplateEngine templateEngine)
 	{
 		_templateEngine = templateEngine;
-		_logger = logger;
 	}
 
 	public Task<MemoryStream> RenderAsync(FileStream fileStream, Dictionary<string, string> tokens)
@@ -26,18 +23,15 @@ public class ExcelTemplateEngine : IExcelTemplateEngine
 			{
 				var cellValue = cell.ToString();
 
-				if (cellValue == null)
+				if (string.IsNullOrEmpty(cellValue))
 					continue;
 
 				var value = _templateEngine.Render(cellValue, tokens);
 
-				//TODO: Fix numeric cast
-				if (float.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, out var resultFloat))
-					cell.SetCellValue(resultFloat);
+				if (float.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, out var numericValue))
+					cell.SetCellValue(numericValue);
 				else
-				{
 					cell.SetCellValue(value);
-				}
 			}
 		}
 
