@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UseCases.AnimalSpecies.List;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.SpecimenCollectionCenters.List;
@@ -8,6 +9,7 @@ namespace LabTestBrowser.UI;
 
 public class LabRequisitionViewModel : ObservableObject
 {
+	private readonly IMediator _mediator;
 	private DateOnly _labOrderDate = DateOnly.FromDateTime(DateTime.Now);
 	private int _labOrderNumber;
 
@@ -26,18 +28,12 @@ public class LabRequisitionViewModel : ObservableObject
 
 	public LabRequisitionViewModel(IMediator mediator)
 	{
-		//TODO: Move from constructor
-		var centers = mediator.Send(new ListSpecimenCollectionCentersQuery(null, null)).GetAwaiter().GetResult().Value;
-		CollectionCenters = centers.Select(center => new CollectionCenterViewModel
-			{
-				Facility = center.Facility!,
-				TradeNames = center.TradeNames
-			})
-			.ToList();
+		_mediator = mediator;
 
-		var animals = mediator.Send(new ListAnimalSpeciesQuery(null, null)).GetAwaiter().GetResult().Value;
-		AnimalSpecies = animals.Select(a => new AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList())).ToList();
+		LoadCommand = new AsyncRelayCommand(LoadAsync);
 	}
+
+	public IAsyncRelayCommand LoadCommand { get; private set; }
 
 	public int? Id { get; internal set; }
 
@@ -53,7 +49,7 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _labOrderNumber, value);
 	}
 
-	public IReadOnlyCollection<CollectionCenterViewModel> CollectionCenters { get; private set; }
+	public IReadOnlyCollection<CollectionCenterViewModel> CollectionCenters { get; private set; } = [];
 
 	public string? Facility
 	{
@@ -67,7 +63,7 @@ public class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _tradeName, value);
 	}
 
-	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies { get; private set; }
+	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies { get; private set; } = [];
 
 	public string? Animal
 	{
@@ -132,5 +128,19 @@ public class LabRequisitionViewModel : ObservableObject
 		AgeInYears = report.AgeInYears;
 		AgeInMonths = report.AgeInMonths;
 		AgeInDays = report.AgeInDays;
+	}
+
+	private async Task LoadAsync()
+	{
+		var centers = await _mediator.Send(new ListSpecimenCollectionCentersQuery(null, null));
+		CollectionCenters = centers.Value.Select(center => new CollectionCenterViewModel
+			{
+				Facility = center.Facility!,
+				TradeNames = center.TradeNames
+			})
+			.ToList();
+
+		var animals = await _mediator.Send(new ListAnimalSpeciesQuery(null, null));
+		AnimalSpecies = animals.Value.Select(a => new AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList())).ToList();
 	}
 }

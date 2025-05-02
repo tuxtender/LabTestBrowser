@@ -10,6 +10,12 @@
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type local:LabRequisitionViewModel}}">
 
+	<b:Interaction.Triggers>
+		<b:EventTrigger EventName="Loaded">
+			<b:InvokeCommandAction Command="{Binding LoadCommand}" />
+		</b:EventTrigger>
+	</b:Interaction.Triggers>
+
 	<GroupBox Header="{x:Static localization:Strings.LabRequisition_Title}">
 
 		<StackPanel>
