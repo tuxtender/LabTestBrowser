@@ -177,6 +177,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}.
+        /// </summary>
+        public static string Export_DefaultPath {
+            get {
+                return ResourceManager.GetString("Export_DefaultPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ошибка экспорта.
         /// </summary>
         public static string LabReport_ExportFailed {

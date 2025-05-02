@@ -1,6 +1,7 @@
 ﻿using LabTestBrowser.Core.Interfaces;
 using LabTestBrowser.Infrastructure;
 using LabTestBrowser.Infrastructure.Email;
+using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.UI.Localization;
 using LabTestBrowser.UseCases;
@@ -38,6 +39,7 @@ public static class ServiceConfigs
 		services.AddSingleton<ILocalizationService, LocalizationService>();
 		services.AddSingleton<IErrorLocalizationService, ErrorLocalizationService>();
 		services.AddSingleton<IValidationLocalizationService, ValidationLocalizationService>();
+		services.AddSingleton<IDefaultPathProvider, ResxDefaultPathProvider>();
 
 		logger.LogInformation("{Project} services registered", "Mediatr and Email Sender");
 

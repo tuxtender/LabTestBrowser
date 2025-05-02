@@ -141,4 +141,7 @@
     <data name="LabReport_Exporting" xml:space="preserve">
         <value>Экспорт запущен</value>
     </data>
+    <data name="Export_DefaultPath" xml:space="preserve">
+        <value>./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}</value>
+    </data>
 </root>

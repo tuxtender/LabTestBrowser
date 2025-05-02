@@ -5,19 +5,18 @@ namespace LabTestBrowser.Infrastructure.Export;
 
 public class ExportFileNamingService : IExportFileNamingService
 {
-	//TODO: Move to resources. Get with service or IOptions
-	private const string DefaultPathTemplate  = "./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}";
-
 	private readonly ITextTemplateEngine _textTemplateEngine;
+	private readonly IDefaultPathProvider _defaultPathProvider;
 	private readonly ExportSettings _exportSettings;
 	private readonly ILogger<ExportFileNamingService> _logger;
 
-	public ExportFileNamingService(IOptions<ExportSettings> exportSettings,
-		ILogger<ExportFileNamingService> logger, ITextTemplateEngine textTemplateEngine)
+	public ExportFileNamingService(ITextTemplateEngine textTemplateEngine, IDefaultPathProvider defaultPathProvider,
+		IOptions<ExportSettings> exportSettings, ILogger<ExportFileNamingService> logger)
 	{
+		_textTemplateEngine = textTemplateEngine;
+		_defaultPathProvider = defaultPathProvider;
 		_exportSettings = exportSettings.Value;
 		_logger = logger;
-		_textTemplateEngine = textTemplateEngine;
 	}
 
 	public Task<string> GetExportPathAsync(Dictionary<string, string> tokens, string fileExtension)
@@ -38,10 +37,11 @@ public class ExportFileNamingService : IExportFileNamingService
 		if (!string.IsNullOrEmpty(filename))
 			return Task.FromResult(path);
 
-		var defaultPath = Path.ChangeExtension(DefaultPathTemplate, fileExtension);
+		var defaultPathTemplate = _defaultPathProvider.GetDefaultPath();
+		var defaultPath = Path.ChangeExtension(defaultPathTemplate, fileExtension);
 		defaultPath = _textTemplateEngine.Render(defaultPath, tokens);
 		defaultPath = Path.GetFullPath(defaultPath);
-		_logger.LogWarning("Unsupported file system path characters. Default template applied: {defaultPath}", defaultPath);
+		_logger.LogWarning("Unsupported file system path characters. Default template applied: {defaultPath}", defaultPathTemplate);
 
 		return Task.FromResult(defaultPath);
 	}
