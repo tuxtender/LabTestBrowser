@@ -17,6 +17,7 @@ public static class ServiceConfigs
 		WpfApplicationBuilder<App, MainWindow> builder)
 	{
 		services.AddInfrastructureServices(builder.Configuration, logger)
+			.AddUseCaseConfigs()
 			.AddMediatrConfigs();
 
 		if (builder.Environment.IsDevelopment())

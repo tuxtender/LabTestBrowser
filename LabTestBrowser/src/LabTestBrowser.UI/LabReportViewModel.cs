@@ -10,6 +10,7 @@ using LabTestBrowser.UI.Dialogs.ReportExportDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdated;
+using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListReviewed;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ListUnderReview;
 using LabTestBrowser.UseCases.CompleteBloodCounts.ResetReview;
@@ -40,10 +41,11 @@ public class LabReportViewModel : ObservableObject
 	private readonly LabRequisitionViewModel _labRequisition;
 	private readonly INotificationService _notificationService;
 
-	private object _itemsLock = new object();
+	private readonly object _completeBloodCountLock = new();
 	private CompleteBloodCountViewModel? _selectedCompleteBloodCount;
 
 	public LabReportViewModel(IMediator mediator,
+		IGetUpdatedCompleteBloodCountsUseCase getUpdatedCompleteBloodCountsUseCase,
 		INotificationService notificationService, 
 		ReportExportDialogViewModel reportExportDialog,
 		LabRequisitionViewModel labRequisition,
@@ -73,16 +75,18 @@ public class LabReportViewModel : ObservableObject
 		_labRequisition.LabOrderDate = DateOnly.FromDateTime(DateTime.Now);
 		UpdateAsync().GetAwaiter().GetResult();
 
-		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _itemsLock);
-		Task.Run(async () =>
-		{
-			//get the data from the previous task a continue the execution on the UI thread
+		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);
+		// Task.Run(async () =>
+		// {
+		// 	//get the data from the previous task a continue the execution on the UI thread
+		//
+		// 	while (true)
+		// 	{
+		// 		await UpdateCompleteBloodCountAsync();
+		// 	}
+		// }); //TODO: Refactor using IObservable
 
-			while (true)
-			{
-				await UpdateCompleteBloodCountAsync();
-			}
-		}); //TODO: Refactor using IObservable
+		Task.Run(async () => await UpdateCompleteBloodCountsAsync(getUpdatedCompleteBloodCountsUseCase.ExecuteAsync())); 
 	}
 
 	public LabRequisitionViewModel LabRequisition
@@ -152,6 +156,21 @@ public class LabReportViewModel : ObservableObject
 
 		CompleteBloodCounts.Remove(updatingCompleteBloodCountViewModel);
 		CompleteBloodCounts.Add(completeBloodCountViewModel);
+	}
+
+	private async Task UpdateCompleteBloodCountsAsync(IAsyncEnumerable<CompleteBloodCountDto> completeBloodCounts,
+		CancellationToken cancellationToken = default)
+	{
+		await foreach (var completeBloodCount in completeBloodCounts.WithCancellation(cancellationToken))
+		{
+			var completeBloodCountViewModel = new CompleteBloodCountViewModel(completeBloodCount);
+			var updatingCompleteBloodCountViewModel = CompleteBloodCounts.FirstOrDefault(cbc => cbc.Id == completeBloodCount.Id);
+
+			if (updatingCompleteBloodCountViewModel != null)
+				CompleteBloodCounts.Remove(updatingCompleteBloodCountViewModel);
+
+			CompleteBloodCounts.Add(completeBloodCountViewModel);
+		}
 	}
 
 	private async Task SaveAsync()
