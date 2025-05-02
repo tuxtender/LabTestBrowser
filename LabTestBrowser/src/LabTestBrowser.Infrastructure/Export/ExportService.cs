@@ -60,7 +60,7 @@ public class ExportService : IExportService
 		await using var fileStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
 		//TODO: refactor LabTestReportTokens
-		var reportTokens = new LabTestReportTokens(report, cbc);
+		var reportTokens = new LabTestReportTokens(report, cbc, reportTemplate.Title);
 		var tokens = reportTokens.Tokens.ToDictionary(token => token.GetName(), token => token.GetValue());
 
 		var templateEngine = _templateEngineResolver.ResolveByFileFormat(reportTemplate.FileFormat);

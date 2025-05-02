@@ -4,7 +4,7 @@ using LabTestBrowser.UseCases.LabTestReports.Export.Format;
 
 namespace LabTestBrowser.UseCases.LabTestReports.Export;
 
-public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
+public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc, string? templateTitle)
 {
 	public IReadOnlyList<IToken> Tokens { get; init; } = new List<IToken>()
 	{
@@ -22,7 +22,7 @@ public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc)
 		new NumberToken("AGE.YEAR", report.Patient.Age.Years),
 		new NumberToken("AGE.MONTH", report.Patient.Age.Months),
 		new NumberToken("AGE.DAY", report.Patient.Age.Days),
-		new TextToken("LAB_TEST", "CBC"), //TODO
+		new TextToken("LAB_TEST", templateTitle),
 		new TextToken("WBC", cbc?.WhiteBloodCell?.Value),
 		new TextToken("LYM%", cbc?.LymphocytePercent?.Value),
 		new TextToken("MON%", cbc?.MonocytePercent?.Value),
