@@ -13,10 +13,10 @@
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
-		SizeToContent="WidthAndHeight">
+		SizeToContent="Manual">
 
 	<b:Interaction.Triggers>
-		<b:EventTrigger EventName="ContentRendered">
+		<b:EventTrigger EventName="Loaded">
 			<b:InvokeCommandAction Command="{Binding LoadCommand}" />
 		</b:EventTrigger>
 	</b:Interaction.Triggers>
