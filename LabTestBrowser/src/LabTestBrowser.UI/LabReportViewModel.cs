@@ -56,7 +56,6 @@ public class LabReportViewModel : ObservableObject
 		DialogViewModel = dialogViewModel;
 		StatusBar = statusBar;
 
-		//TODO: Refactor
 		NewCommand = new AsyncRelayCommand(CreateAsync);
 		SaveCommand = new AsyncRelayCommand(SaveAsync);
 		NextCommand = new AsyncRelayCommand(GetNextAsync);
