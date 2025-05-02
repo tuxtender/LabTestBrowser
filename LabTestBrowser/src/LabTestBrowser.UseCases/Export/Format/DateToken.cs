@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.UseCases.LabTestReports.Export.Format;
+﻿namespace LabTestBrowser.UseCases.Export.Format;
 
 public class DateToken(string name, DateOnly value, string format = "dd.MM.yyyy") : IToken
 {

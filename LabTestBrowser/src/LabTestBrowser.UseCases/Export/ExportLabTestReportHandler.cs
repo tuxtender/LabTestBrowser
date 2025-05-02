@@ -1,7 +1,8 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.UseCases.LabTestReports;
 using Microsoft.Extensions.Logging;
 
-namespace LabTestBrowser.UseCases.LabTestReports.Export;
+namespace LabTestBrowser.UseCases.Export;
 
 public class ExportLabTestReportHandler(
 	IExportService _exportService,

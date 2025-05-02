@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.Infrastructure.Export;

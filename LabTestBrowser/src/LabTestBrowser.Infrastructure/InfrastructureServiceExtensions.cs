@@ -6,6 +6,7 @@ using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.UseCases.AnimalSpecies;
 using LabTestBrowser.UseCases.Contributors.List;
+using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReportTemplates;

@@ -1,6 +1,6 @@
 ﻿using LabTestBrowser.Core.LabTestReportAggregate;
 
-namespace LabTestBrowser.UseCases.LabTestReports.Export.Format;
+namespace LabTestBrowser.UseCases.Export.Format;
 
 public class AgeToken(string name, Age age) : IToken
 {

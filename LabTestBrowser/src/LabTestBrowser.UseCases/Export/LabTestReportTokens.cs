@@ -1,8 +1,8 @@
 ﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
-using LabTestBrowser.UseCases.LabTestReports.Export.Format;
+using LabTestBrowser.UseCases.Export.Format;
 
-namespace LabTestBrowser.UseCases.LabTestReports.Export;
+namespace LabTestBrowser.UseCases.Export;
 
 public class LabTestReportTokens(LabTestReport report, CompleteBloodCount? cbc, string? templateTitle)
 {

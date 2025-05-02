@@ -1,6 +1,4 @@
-﻿using LabTestBrowser.UseCases.LabTestReports.Export;
-
-namespace LabTestBrowser.Infrastructure.Export;
+﻿namespace LabTestBrowser.Infrastructure.Export;
 
 public interface IFileTemplateEngine
 {

@@ -2,8 +2,7 @@
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.CompleteBloodCountAggregate.Specifications;
 using LabTestBrowser.Core.LabTestReportAggregate;
-using LabTestBrowser.UseCases.LabTestReports;
-using LabTestBrowser.UseCases.LabTestReports.Export;
+using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.LabTestReportTemplates;
 
 namespace LabTestBrowser.Infrastructure.Export;

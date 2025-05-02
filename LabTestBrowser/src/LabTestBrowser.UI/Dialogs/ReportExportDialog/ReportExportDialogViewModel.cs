@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UI.Notification;
-using LabTestBrowser.UseCases.LabTestReports.Export;
+using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.LabTestReportTemplates.ListRegistered;
 using MediatR;
 

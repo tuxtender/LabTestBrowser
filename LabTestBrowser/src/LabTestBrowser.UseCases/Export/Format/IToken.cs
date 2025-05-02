@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.UseCases.LabTestReports.Export.Format;
+﻿namespace LabTestBrowser.UseCases.Export.Format;
 
 //TODO: Rename interface 
 public interface IToken

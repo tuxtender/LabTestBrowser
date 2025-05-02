@@ -16,7 +16,6 @@ using LabTestBrowser.UseCases.CompleteBloodCounts.ResetReview;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Review;
 using LabTestBrowser.UseCases.CompleteBloodCounts.Suppress;
 using LabTestBrowser.UseCases.LabTestReports;
-using LabTestBrowser.UseCases.LabTestReports.Export;
 using LabTestBrowser.UseCases.LabTestReports.Get;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;

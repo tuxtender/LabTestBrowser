@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.UseCases.LabTestReports;
+﻿namespace LabTestBrowser.UseCases.Export;
 
 public interface IExportService
 {

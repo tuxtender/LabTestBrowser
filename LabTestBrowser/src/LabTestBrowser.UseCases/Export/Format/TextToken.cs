@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.UseCases.LabTestReports.Export.Format;
+﻿namespace LabTestBrowser.UseCases.Export.Format;
 
 public class TextToken(string name, string? value) : IToken
 {

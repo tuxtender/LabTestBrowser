@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.UseCases.LabTestReports.Export.Format;
+﻿namespace LabTestBrowser.UseCases.Export.Format;
 
 public class NumberToken(string name, int? age) : IToken
 {
