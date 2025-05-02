@@ -168,6 +168,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Отложен.
+        /// </summary>
+        public static string CompleteBloodCount_Suppressed {
+            get {
+                return ResourceManager.GetString("CompleteBloodCount_Suppressed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ОАК.
         /// </summary>
         public static string CompleteBloodCount_Title {

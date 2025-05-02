@@ -144,4 +144,7 @@
     <data name="Export_DefaultPath" xml:space="preserve">
         <value>./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}</value>
     </data>
+    <data name="CompleteBloodCount_Suppressed" xml:space="preserve">
+        <value>Отложен</value>
+    </data>
 </root>

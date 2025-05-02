@@ -4,6 +4,8 @@ using LabTestBrowser.UseCases.CompleteBloodCounts;
 
 namespace LabTestBrowser.UI;
 
+using Localizations = Resources.Strings;
+
 public class CompleteBloodCountViewModel : ObservableObject
 {
 	public CompleteBloodCountViewModel(CompleteBloodCountDto completeBloodCount)
@@ -54,7 +56,7 @@ public class CompleteBloodCountViewModel : ObservableObject
 		return reviewResult switch
 		{
 			ReviewResult.Reported => sequenceNumber?.ToString() ?? string.Empty,
-			ReviewResult.Suppressed => "Отложен",
+			ReviewResult.Suppressed => Localizations.CompleteBloodCount_Suppressed,
 			ReviewResult.UnderReview => string.Empty,
 			_ => string.Empty
 		};
