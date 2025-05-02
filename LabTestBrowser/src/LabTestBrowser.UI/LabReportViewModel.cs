@@ -171,7 +171,7 @@ public class LabReportViewModel : ObservableObject
 			AgeInYears = _labRequisition.AgeInYears,
 			AgeInMonths = _labRequisition.AgeInMonths,
 			AgeInDays = _labRequisition.AgeInDays,
-			CompleteBloodCountId = _labRequisition.Id
+			CompleteBloodCountId = SelectedCompleteBloodCount?.Id
 		};
 
 		var result = await _mediator.Send(saveLabTestReportCommand);
