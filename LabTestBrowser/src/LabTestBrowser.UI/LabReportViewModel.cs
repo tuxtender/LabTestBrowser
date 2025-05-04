@@ -31,6 +31,7 @@ public partial class LabReportViewModel : ObservableObject
 	private readonly ReportExportDialogViewModel _reportExportDialog;
 
 	private readonly LabRequisitionViewModel _labRequisition;
+	private readonly ILogger<LabReportViewModel> _logger;
 	private readonly INotificationService _notificationService;
 
 	private readonly object _completeBloodCountLock = new();
@@ -42,7 +43,8 @@ public partial class LabReportViewModel : ObservableObject
 		ReportExportDialogViewModel reportExportDialog,
 		LabRequisitionViewModel labRequisition,
 		DialogViewModel dialogViewModel,
-		StatusBarViewModel statusBar)
+		StatusBarViewModel statusBar,
+		ILogger<LabReportViewModel> logger)
 	{
 		_mediator = mediator;
 		_getUpdatedCompleteBloodCountsUseCase = getUpdatedCompleteBloodCountsUseCase;
@@ -50,6 +52,7 @@ public partial class LabReportViewModel : ObservableObject
 		DialogViewModel = dialogViewModel;
 		StatusBar = statusBar;
 		_labRequisition = labRequisition;
+		_logger = logger;
 		_notificationService = notificationService;
 	}
 
@@ -179,21 +182,41 @@ public partial class LabReportViewModel : ObservableObject
 	[RelayCommand]
 	private async Task LoadAsync()
 	{
-		await UpdateAsync();
-
-		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);
-		_ = Task.Run(async () => await UpdateCompleteBloodCountsAsync(_getUpdatedCompleteBloodCountsUseCase.ExecuteAsync()));
-	}
-
-	[RelayCommand]
-	private async Task UpdateAsync()
-	{
 		var notification = new NotificationMessage
 		{
 			Title = Localizations.LabReport_Loading
 		};
 		await _notificationService.PublishAsync(notification);
 
+		await Task.WhenAll(UpdateCompleteBloodCountsAsync(), UpdateRequisitionAsync());
+		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);
+		_ = Task.Run(async () =>
+		{
+			try
+			{
+				await UpdateCompleteBloodCountsAsync(_getUpdatedCompleteBloodCountsUseCase.ExecuteAsync());
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error updating complete blood count");
+			}
+		});
+
+		notification = new NotificationMessage
+		{
+			Title = Localizations.LabReport_Idle
+		};
+		await _notificationService.PublishAsync(notification);
+	}
+
+	[RelayCommand]
+	private async Task UpdateAsync()
+	{
+		await Task.WhenAll(UpdateCompleteBloodCountsAsync(), UpdateRequisitionAsync());
+	}
+
+	private async Task UpdateCompleteBloodCountsAsync()
+	{
 		var reviewedCompleteBloodCountsQuery = new ListReviewedCompleteBloodCountsQuery(_labRequisition.LabOrderDate);
 		var underReviewCompleteBloodCountsQuery = new ListUnderReviewCompleteBloodCountsQuery();
 		var queryResults = await Task.WhenAll(_mediator.Send(reviewedCompleteBloodCountsQuery),
@@ -202,16 +225,13 @@ public partial class LabReportViewModel : ObservableObject
 
 		CompleteBloodCounts.Clear();
 		completeBloodCounts.ToList().ForEach(cbc => CompleteBloodCounts.Add(new CompleteBloodCountViewModel(cbc)));
+	}
 
+	private async Task UpdateRequisitionAsync()
+	{
 		var reportQuery = new GetLastLabTestReportQuery(_labRequisition.LabOrderDate);
 		var report = await _mediator.Send(reportQuery);
 		_labRequisition.SetLabRequisition(report);
-
-		notification = new NotificationMessage
-		{
-			Title = Localizations.LabReport_Idle
-		};
-		await _notificationService.PublishAsync(notification);
 	}
 
 	[RelayCommand]
