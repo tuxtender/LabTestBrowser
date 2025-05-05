@@ -13,6 +13,8 @@
 		d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}"
 		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
+		Width="600"
+		Height="800"
 		SizeToContent="Manual">
 
 	<b:Interaction.Triggers>
