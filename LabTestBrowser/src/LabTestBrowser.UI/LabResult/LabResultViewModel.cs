@@ -6,22 +6,22 @@ using LabTestBrowser.UI.Dialogs.ReportExportDialog;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UI.RequestMessages;
 
-namespace LabTestBrowser.UI;
+namespace LabTestBrowser.UI.LabResult;
 
 using Localizations = Resources.Strings;
 
-public partial class LabReportViewModel : ObservableObject
+public partial class LabResultViewModel: ObservableObject
 {
 	private readonly ReportExportDialogViewModel _reportExportDialog;
 	private readonly INotificationService _notificationService;
 
-	public LabReportViewModel(INotificationService notificationService,
+	public LabResultViewModel(INotificationService notificationService,
 		ReportExportDialogViewModel reportExportDialog,
 		LabRequisitionViewModel labRequisition,
 		CompleteBloodCountViewModel completeBloodCountViewModel,
 		DialogViewModel dialogViewModel,
-		StatusBarViewModel statusBar,
-		ILogger<LabReportViewModel> logger)
+		Navigation.StatusBarViewModel statusBar,
+		ILogger<LabResultViewModel> logger)
 	{
 		_reportExportDialog = reportExportDialog;
 		DialogViewModel = dialogViewModel;
@@ -34,7 +34,7 @@ public partial class LabReportViewModel : ObservableObject
 	public LabRequisitionViewModel LabRequisition { get; }
 	public CompleteBloodCountViewModel CompleteBloodCount { get; }
 	public DialogViewModel DialogViewModel { get; private set; }
-	public StatusBarViewModel StatusBar { get; private set; }
+	public Navigation.StatusBarViewModel StatusBar { get; private set; }
 
 	[RelayCommand]
 	private async Task CreateAsync()
@@ -83,7 +83,7 @@ public partial class LabReportViewModel : ObservableObject
 		};
 		await _notificationService.PublishAsync(notification);
 
-		// await LabRequisition.LoadAsync();
+		await LabRequisition.LoadAsync();
 		CompleteBloodCount.Load();
 
 		notification = new NotificationMessage

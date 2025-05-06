@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UI.Notification;
 
-namespace LabTestBrowser.UI;
+namespace LabTestBrowser.UI.Navigation;
 
 public partial class StatusBarViewModel : ObservableObject
 {

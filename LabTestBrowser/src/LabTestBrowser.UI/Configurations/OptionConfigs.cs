@@ -12,7 +12,7 @@ public static class OptionConfigs
 	public static IServiceCollection AddOptionConfigs(this IServiceCollection services,
 		IConfiguration configuration,
 		ILogger logger,
-		WpfApplicationBuilder<App, MainWindow> builder)
+		WpfApplicationBuilder<App, Navigation.ShellWindow> builder)
 	{
 		builder.Configuration.AddJsonFile("labreportsettings.json");
 		builder.Configuration.AddJsonFile("animalsettings.json");

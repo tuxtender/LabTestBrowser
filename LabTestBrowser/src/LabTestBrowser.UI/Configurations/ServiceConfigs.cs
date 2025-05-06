@@ -14,7 +14,7 @@ public static class ServiceConfigs
 {
 	public static IServiceCollection AddServiceConfigs(this IServiceCollection services, 
 		ILogger logger,
-		WpfApplicationBuilder<App, MainWindow> builder)
+		WpfApplicationBuilder<App, Navigation.ShellWindow> builder)
 	{
 		services.AddInfrastructureServices(builder.Configuration, logger)
 			.AddUseCaseConfigs()

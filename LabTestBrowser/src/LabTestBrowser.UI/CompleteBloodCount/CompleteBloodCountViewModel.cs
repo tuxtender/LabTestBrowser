@@ -170,7 +170,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject
 	
 	}
 
-	[RelayCommand]
+	// [RelayCommand]
 	public void Load()
 	{
 		BindingOperations.EnableCollectionSynchronization(CompleteBloodCounts, _completeBloodCountLock);

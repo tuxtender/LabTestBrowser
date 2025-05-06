@@ -267,8 +267,8 @@ public partial class LabRequisitionViewModel : ObservableObject
 		await _notificationService.PublishAsync(notification);
 	}
 
-	[RelayCommand]
-	private async Task LoadAsync()
+	// [RelayCommand]
+	public async Task LoadAsync()
 	{
 		// BindingOperations.EnableCollectionSynchronization(CollectionCenters, _completeBloodCountLock);
 		// BindingOperations.EnableCollectionSynchronization(AnimalSpecies, _completedsBloodCountLock);
