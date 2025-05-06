@@ -11,7 +11,13 @@
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300">
-	
+
+	<!-- <b:Interaction.Triggers> -->
+	<!-- 	<b:EventTrigger EventName="Loaded"> -->
+	<!-- 		<b:InvokeCommandAction Command="{Binding LoadCommand}" /> -->
+	<!-- 	</b:EventTrigger> -->
+	<!-- </b:Interaction.Triggers> -->
+
 	<UserControl.Resources>
 		<CollectionViewSource x:Key="SortedCompleteBloodCounts"
 							  Source="{Binding CompleteBloodCounts}">
@@ -22,7 +28,8 @@
 									 Direction="Ascending" />
 			</CollectionViewSource.SortDescriptions>
 		</CollectionViewSource>
-		<DataTemplate x:Key="CompleteBloodCountTemplate">
+		<DataTemplate x:Key="CompleteBloodCountItemTemplate"
+					  DataType="{x:Type local:CompleteBloodCountItemViewModel}">
 			<StackPanel>
 				<Grid Margin="25,15">
 					<Grid.RowDefinitions>
@@ -171,8 +178,7 @@
 		</DataTemplate>
 	</UserControl.Resources>
 
-	<GroupBox Header="{x:Static localization:Strings.CompleteBloodCount_Title}"
-			  d:DataContext="{d:DesignInstance {x:Type local:LabReportViewModel}}">
+	<GroupBox Header="{x:Static localization:Strings.CompleteBloodCount_Title}">
 		<StackPanel>
 		<DataGrid Padding="5"
 				  Height="470"
@@ -184,14 +190,14 @@
 				  BorderThickness="1"
 				  BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
 				  VerticalScrollBarVisibility="Visible"
-				  RowDetailsTemplate="{StaticResource CompleteBloodCountTemplate}"
+				  RowDetailsTemplate="{StaticResource CompleteBloodCountItemTemplate}"
 				  ItemsSource="{Binding Source={StaticResource SortedCompleteBloodCounts}}"
 				  SelectedItem="{Binding SelectedCompleteBloodCount}"
 				  VirtualizingPanel.VirtualizationMode="Recycling"
 				  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
 			<b:Interaction.Triggers>
 				<b:EventTrigger EventName="SelectionChanged">
-					<b:InvokeCommandAction Command="{Binding UpdateByTestResultSelectCommand}" />
+					<b:InvokeCommandAction Command="{Binding SelectCommand}" />
 				</b:EventTrigger>
 			</b:Interaction.Triggers>
 			<DataGrid.Columns>

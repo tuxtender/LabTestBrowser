@@ -38,14 +38,15 @@ public class SaveLabTestReportHandler(IMediator _mediator)
 		};
 
 		var result = await _mediator.Send(command, cancellationToken);
+		return result;
 
-		if (!result.IsSuccess || !request.CompleteBloodCountId.HasValue)
-			return result;
-
-		var reviewCommand = new ReviewCompleteBloodCountCommand(request.CompleteBloodCountId, request.OrderNumber, request.OrderDate);
-		var reviewResult = await _mediator.Send(reviewCommand, cancellationToken);
-
-		return reviewResult.IsSuccess ? result : reviewResult;
+		// if (!result.IsSuccess || !request.CompleteBloodCountId.HasValue)
+		// 	return result;
+		//
+		// var reviewCommand = new ReviewCompleteBloodCountCommand(request.CompleteBloodCountId, request.OrderNumber, request.OrderDate);
+		// var reviewResult = await _mediator.Send(reviewCommand, cancellationToken);
+		//
+		// return reviewResult.IsSuccess ? result : reviewResult;
 	}
 
 	private async Task<Result<LabTestReportDto>> CreateReportAsync(SaveLabTestReportCommand request, CancellationToken cancellationToken)
@@ -67,13 +68,14 @@ public class SaveLabTestReportHandler(IMediator _mediator)
 		};
 
 		var result = await _mediator.Send(command, cancellationToken);
-
-		if (!result.IsSuccess || !request.CompleteBloodCountId.HasValue)
-			return result;
-
-		var reviewCommand = new ReviewCompleteBloodCountCommand(request.CompleteBloodCountId, request.OrderNumber, request.OrderDate);
-		var reviewResult = await _mediator.Send(reviewCommand, cancellationToken);
-
-		return reviewResult.IsSuccess ? result : reviewResult;
+		return result;
+		
+		// if (!result.IsSuccess || !request.CompleteBloodCountId.HasValue)
+		// 	return result;
+		//
+		// var reviewCommand = new ReviewCompleteBloodCountCommand(request.CompleteBloodCountId, request.OrderNumber, request.OrderDate);
+		// var reviewResult = await _mediator.Send(reviewCommand, cancellationToken);
+		//
+		// return reviewResult.IsSuccess ? result : reviewResult;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 
@@ -6,9 +7,9 @@ namespace LabTestBrowser.UI;
 
 using Localizations = Resources.Strings;
 
-public class CompleteBloodCountViewModel : ObservableObject
+public class CompleteBloodCountItemViewModel: ObservableObject
 {
-	public CompleteBloodCountViewModel(CompleteBloodCountDto completeBloodCount)
+	public CompleteBloodCountItemViewModel(CompleteBloodCountDto completeBloodCount)
 	{
 		Id = completeBloodCount.Id;
 		PriorityLevel = ConvertToPriorityLevel(completeBloodCount.ReviewResult);

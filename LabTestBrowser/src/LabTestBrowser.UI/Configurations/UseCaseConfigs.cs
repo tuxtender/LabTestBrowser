@@ -6,7 +6,7 @@ public static class UseCaseConfigs
 {
 	public static IServiceCollection AddUseCaseConfigs(this IServiceCollection services)
 	{
-		services.AddScoped<IGetUpdatedCompleteBloodCountsUseCase, GetUpdatedCompleteBloodCountsUseCase>();
+		services.AddTransient<IGetUpdatedCompleteBloodCountsUseCase, GetUpdatedCompleteBloodCountsUseCase>();
 
 		return services;
 	}
