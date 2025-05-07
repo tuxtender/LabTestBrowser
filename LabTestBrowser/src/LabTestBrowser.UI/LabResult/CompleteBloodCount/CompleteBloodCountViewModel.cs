@@ -121,7 +121,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 	}
 
 	[RelayCommand]
-	private void Select()
+	private void Notify()
 	{
 		if (_isExternalUpdate)
 			return;
