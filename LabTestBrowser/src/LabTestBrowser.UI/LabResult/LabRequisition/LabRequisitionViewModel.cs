@@ -209,7 +209,6 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		await _notificationService.PublishAsync(notification);
 	}
 
-	// [RelayCommand]
 	public async Task LoadAsync()
 	{
 		var centers = await _mediator.Send(new ListSpecimenCollectionCentersQuery(null, null));
@@ -221,9 +220,13 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 			.ToList();
 
 		var animals = await _mediator.Send(new ListAnimalSpeciesQuery(null, null));
-		AnimalSpecies = animals.Value.Select(a => new LabResult.LabRequisition.AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList())).ToList();
+		AnimalSpecies = animals.Value
+			.Select(a => new LabResult.LabRequisition.AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList()))
+			.ToList();
 
 		await RestoreSessionAsync(LabOrderDate);
+
+		Notify();
 	}
 
 	[RelayCommand]
