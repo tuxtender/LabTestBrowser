@@ -56,13 +56,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 	{
 		try
 		{
-			_isExternalUpdate = true;
-
-			var (labOrderNumber, labOrderDate) = message.Value;
-			await UpdateAsync(labOrderDate);
-			Select(labOrderNumber);
-
-			_isExternalUpdate = false;
+			await UpdateExternal(message);
 		}
 		catch (Exception ex)
 		{
@@ -133,6 +127,15 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 
 		var labOrder = new LabOrder(labOrderNumber.Value, labOrderDate.Value);
 		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(labOrder), LabOrderSyncToken.FromSecondary);
+	}
+
+	private async Task UpdateExternal(LabOrderChangedMessage message)
+	{
+		_isExternalUpdate = true;
+		var (labOrderNumber, labOrderDate) = message.Value;
+		await UpdateAsync(labOrderDate);
+		Select(labOrderNumber);
+		_isExternalUpdate = false;
 	}
 
 	private async Task UpdateAsync(DateOnly labOrderDate)

@@ -40,7 +40,7 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 	private int? _ageInMonths;
 	private int? _ageInDays;
 	private IReadOnlyCollection<CollectionCenterViewModel> _collectionCenters = [];
-	private IReadOnlyCollection<LabResult.LabRequisition.AnimalSpeciesViewModel> _animalSpecies = [];
+	private IReadOnlyCollection<AnimalSpeciesViewModel> _animalSpecies = [];
 	private bool _isExternalUpdate;
 
 	public LabRequisitionViewModel(IMediator mediator, INotificationService notificationService, ILogger<LabRequisitionViewModel> logger)
@@ -86,7 +86,7 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		set => SetProperty(ref _tradeName, value);
 	}
 
-	public IReadOnlyCollection<LabResult.LabRequisition.AnimalSpeciesViewModel> AnimalSpecies
+	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies
 	{
 		get => _animalSpecies;
 		private set => SetProperty(ref _animalSpecies, value);
@@ -144,12 +144,7 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 	{
 		try
 		{
-			_isExternalUpdate = true;
-
-			var (labOrderNumber, labOrderDate) = message.Value;
-			await UpdateAsync(labOrderNumber);
-
-			_isExternalUpdate = false;
+			await UpdateExternal(message);
 		}
 		catch (Exception ex)
 		{
@@ -221,7 +216,7 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 
 		var animals = await _mediator.Send(new ListAnimalSpeciesQuery(null, null));
 		AnimalSpecies = animals.Value
-			.Select(a => new LabResult.LabRequisition.AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList()))
+			.Select(a => new AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList()))
 			.ToList();
 
 		await RestoreSessionAsync(LabOrderDate);
@@ -253,6 +248,14 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 
 		var labOrder = new LabOrder(LabOrderNumber, LabOrderDate);
 		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(labOrder), LabOrderSyncToken.FromPrimary);
+	}
+
+	private async Task UpdateExternal(LabOrderChangedMessage message)
+	{
+		_isExternalUpdate = true;
+		var (labOrderNumber, labOrderDate) = message.Value;
+		await UpdateAsync(labOrderNumber);
+		_isExternalUpdate = false;
 	}
 
 	private void SetLabRequisition(LabTestReportDto report)
