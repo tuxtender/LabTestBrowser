@@ -4,6 +4,7 @@ using LabTestBrowser.Infrastructure.Hl7;
 using Serilog;
 using Serilog.Extensions.Logging;
 using LabTestBrowser.UI;
+using LabTestBrowser.UI.CompleteBloodCount;
 using LabTestBrowser.UI.Configurations;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportExportDialog;

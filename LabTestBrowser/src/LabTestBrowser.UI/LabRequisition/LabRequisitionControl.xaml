@@ -7,14 +7,9 @@
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
+			 xmlns:labRequisition="clr-namespace:LabTestBrowser.UI.LabRequisition"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type local:LabRequisitionViewModel}}">
-
-	<b:Interaction.Triggers>
-		<b:EventTrigger EventName="Loaded">
-			<b:InvokeCommandAction Command="{Binding LoadCommand}" />
-		</b:EventTrigger>
-	</b:Interaction.Triggers>
 
 	<GroupBox Header="{x:Static localization:Strings.LabRequisition_Title}">
 
@@ -26,7 +21,7 @@
 						ui:ControlHelper.PlaceholderText="{x:Static localization:Strings.LabRequisition_PickDate}">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="CalendarClosed">
-						<b:InvokeCommandAction Command="{Binding UpdateByDateCommand}"
+						<b:InvokeCommandAction Command="{Binding RestoreSessionCommand}"
 											   CommandParameter="{Binding LabOrderDate}" />
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
@@ -37,9 +32,14 @@
 						  Value="{Binding LabOrderNumber, Mode=TwoWay}"
 						  Minimum="1"
 						  Maximum="1000">
-					<b:Interaction.Behaviors>
-						<local:NumberBoxCommandBehavior Command="{Binding UpdateByNumberCommand}" />
-					</b:Interaction.Behaviors>
+				<b:Interaction.Behaviors>
+					<labRequisition:NumberBoxCommandBehavior Command="{Binding UpdateCommand}" />
+				</b:Interaction.Behaviors>
+				<b:Interaction.Triggers>
+					<b:EventTrigger EventName="ValueChanged">
+						<b:InvokeCommandAction Command="{Binding NotifyCommand}" />
+					</b:EventTrigger>
+				</b:Interaction.Triggers>
 			</ui:NumberBox>
 
 			<ComboBox Name="FacilityComboBox"
@@ -56,11 +56,6 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 
-			<!-- <ui:AutoSuggestBox Text="{Binding Facility, Mode=TwoWay}" -->
-			<!-- 				   Width="200" -->
-			<!-- 				   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_HealthcareFacility}" /> -->
-			
-			
 			<ComboBox IsEditable="True"
 					  HorizontalAlignment="Left"
 					  ItemsSource="{Binding ElementName=FacilityComboBox, Path=SelectedItem.TradeNames}"

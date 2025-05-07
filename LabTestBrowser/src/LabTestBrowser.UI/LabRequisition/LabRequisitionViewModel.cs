@@ -1,7 +1,8 @@
-﻿using System.Windows.Data;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using LabTestBrowser.UI.LabResult;
+using LabTestBrowser.UI.Messages;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.AnimalSpecies.List;
 using LabTestBrowser.UseCases.LabTestReports;
@@ -13,14 +14,12 @@ using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 using LabTestBrowser.UseCases.LabTestReports.Save;
 using LabTestBrowser.UseCases.SpecimenCollectionCenters.List;
 using MediatR;
-using CommunityToolkit.Mvvm.Messaging.Messages;
-using LabTestBrowser.UI.RequestMessages;
 
 namespace LabTestBrowser.UI;
 
 using Localizations = Resources.Strings;
 
-public partial class LabRequisitionViewModel : ObservableObject
+public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabOrderChangedMessage>
 {
 	private readonly IMediator _mediator;
 	private readonly INotificationService _notificationService;
@@ -43,9 +42,7 @@ public partial class LabRequisitionViewModel : ObservableObject
 	private int? _ageInDays;
 	private IReadOnlyCollection<CollectionCenterViewModel> _collectionCenters = [];
 	private IReadOnlyCollection<AnimalSpeciesViewModel> _animalSpecies = [];
-	private bool _isExternalUpdated;
-	private readonly object _completeBloodCountLock = new();
-	private object _completedsBloodCountLock = new();
+	private bool _isExternalUpdate;
 
 	public LabRequisitionViewModel(IMediator mediator, INotificationService notificationService, ILogger<LabRequisitionViewModel> logger)
 	{
@@ -53,22 +50,10 @@ public partial class LabRequisitionViewModel : ObservableObject
 		_notificationService = notificationService;
 		_logger = logger;
 
-		// UpdateByDateAsync(LabOrderDate).GetAwaiter().GetResult();
-		
-		// LoadAsync().GetAwaiter().GetResult(); //TODO
-		
+		WeakReferenceMessenger.Default.Register(this, LabOrderSyncToken.FromSecondary);
 		WeakReferenceMessenger.Default.Register<LabRequisitionViewModel, LabOrderRequestMessage>(this,
-			(r, m) => { m.Reply(new LabOrderViewModel(LabOrderNumber, LabOrderDate)); });
-		
-		WeakReferenceMessenger.Default.Register<LabOrderNumberChangedMessage>(this, Update);
-		
-		// WeakReferenceMessenger.Default.Register<LabOrderDateChangedMessage>(this, Update);
-		
-		// WeakReferenceMessenger.Default.Register<SaveRequestedMessage>(this, Save);
-
+			(r, m) => { m.Reply(new LabOrder(LabOrderNumber, LabOrderDate)); });
 	}
-
-	
 
 	public int? Id { get; private set; }
 
@@ -156,17 +141,16 @@ public partial class LabRequisitionViewModel : ObservableObject
 		set => SetProperty(ref _ageInDays, value);
 	}
 
-	
-	
-	private async void Update(object recipient, LabOrderNumberChangedMessage message)
+	public async void Receive(LabOrderChangedMessage message)
 	{
 		try
 		{
-			_isExternalUpdated = true;
-			
-			await UpdateByNumberAsync(message.Value);
-			
-			_isExternalUpdated = false;
+			_isExternalUpdate = true;
+
+			var (labOrderNumber, labOrderDate) = message.Value;
+			await UpdateAsync(labOrderNumber);
+
+			_isExternalUpdate = false;
 		}
 		catch (Exception ex)
 		{
@@ -174,43 +158,11 @@ public partial class LabRequisitionViewModel : ObservableObject
 		}
 	}
 
-	[RelayCommand]
-	private async Task UpdateByNumberAsync(int labOrderNumber)
-	{
-	
-		var query = new GetLabTestReportQuery(labOrderNumber, LabOrderDate);
-		var result = await _mediator.Send(query);
-		SetLabRequisition(result.Value);
-		
-		if(_isExternalUpdated)
-			return;
-		
-		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(new LabOrderViewModel(LabOrderNumber, LabOrderDate)));
-
-	}
-
-	
-	[RelayCommand]
-	private async Task UpdateByDateAsync(DateOnly labOrderDate)
-	{
-		var query = new GetLastLabTestReportQuery(labOrderDate);
-		var result = await _mediator.Send(query);
-		SetLabRequisition(result.Value);
-
-		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(new LabOrderViewModel(LabOrderNumber, LabOrderDate)));
-
-		
-
-	}
-
-
 	public async Task CreateAsync()
 	{
 		var getEmptyLabTestReportQuery = new GetEmptyLabTestReportQuery(LabOrderDate);
 		var result = await _mediator.Send(getEmptyLabTestReportQuery);
 		SetLabRequisition(result.Value);
-		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(new LabOrderViewModel(LabOrderNumber, LabOrderDate)));
-
 	}
 
 	public async Task NextAsync()
@@ -218,8 +170,6 @@ public partial class LabRequisitionViewModel : ObservableObject
 		var getNextLabTestReportQuery = new GetNextLabTestReportQuery(LabOrderNumber, LabOrderDate);
 		var result = await _mediator.Send(getNextLabTestReportQuery);
 		SetLabRequisition(result.Value);
-		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(new LabOrderViewModel(LabOrderNumber, LabOrderDate)));
-
 	}
 
 	public async Task PreviousAsync()
@@ -227,13 +177,8 @@ public partial class LabRequisitionViewModel : ObservableObject
 		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(LabOrderNumber, LabOrderDate);
 		var result = await _mediator.Send(getPreviousLabTestReportQuery);
 		SetLabRequisition(result.Value);
-		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(new LabOrderViewModel(LabOrderNumber, LabOrderDate)));
-
 	}
-	
 
-	
-	
 	public async Task SaveAsync()
 	{
 		var saveLabTestReportCommand = new SaveLabTestReportCommand
@@ -253,8 +198,6 @@ public partial class LabRequisitionViewModel : ObservableObject
 			AgeInDays = AgeInDays
 		};
 
-		
-		
 		var result = await _mediator.Send(saveLabTestReportCommand);
 		var notification = result.ToNotification(Localizations.LabReport_ReportSavingFailed);
 
@@ -267,16 +210,9 @@ public partial class LabRequisitionViewModel : ObservableObject
 		await _notificationService.PublishAsync(notification);
 	}
 
-	// [RelayCommand]
+	[RelayCommand]
 	public async Task LoadAsync()
 	{
-		// BindingOperations.EnableCollectionSynchronization(CollectionCenters, _completeBloodCountLock);
-		// BindingOperations.EnableCollectionSynchronization(AnimalSpecies, _completedsBloodCountLock);
-
-
-		
-		
-		
 		var centers = await _mediator.Send(new ListSpecimenCollectionCentersQuery(null, null));
 		CollectionCenters = centers.Value.Select(center => new CollectionCenterViewModel
 			{
@@ -287,8 +223,34 @@ public partial class LabRequisitionViewModel : ObservableObject
 
 		var animals = await _mediator.Send(new ListAnimalSpeciesQuery(null, null));
 		AnimalSpecies = animals.Value.Select(a => new AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList())).ToList();
-		
-		await UpdateByDateAsync(LabOrderDate);
+
+		await RestoreSessionAsync(LabOrderDate);
+	}
+
+	[RelayCommand]
+	private async Task UpdateAsync(int labOrderNumber)
+	{
+		var query = new GetLabTestReportQuery(labOrderNumber, LabOrderDate);
+		var result = await _mediator.Send(query);
+		SetLabRequisition(result.Value);
+	}
+
+	[RelayCommand]
+	private async Task RestoreSessionAsync(DateOnly labOrderDate)
+	{
+		var query = new GetLastLabTestReportQuery(labOrderDate);
+		var result = await _mediator.Send(query);
+		SetLabRequisition(result.Value);
+	}
+
+	[RelayCommand]
+	private void Notify()
+	{
+		if (_isExternalUpdate)
+			return;
+
+		var labOrder = new LabOrder(LabOrderNumber, LabOrderDate);
+		WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(labOrder), LabOrderSyncToken.FromPrimary);
 	}
 
 	private void SetLabRequisition(LabTestReportDto report)
@@ -306,11 +268,5 @@ public partial class LabRequisitionViewModel : ObservableObject
 		AgeInYears = report.AgeInYears;
 		AgeInMonths = report.AgeInMonths;
 		AgeInDays = report.AgeInDays;
-		
-		// if(_isExternalUpdated)
-		// 	return;
-		//
-		// WeakReferenceMessenger.Default.Send(new LabOrderChangedMessage(new LabOrderViewModel(LabOrderNumber, LabOrderDate)));
-
 	}
 }

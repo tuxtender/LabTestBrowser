@@ -1,30 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
+using LabTestBrowser.UI.CompleteBloodCount;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Dialogs.ReportExportDialog;
 using LabTestBrowser.UI.Notification;
-using LabTestBrowser.UI.RequestMessages;
 
 namespace LabTestBrowser.UI.LabResult;
 
 using Localizations = Resources.Strings;
 
-public partial class LabResultViewModel: ObservableObject
+public partial class LabResultViewModel : ObservableObject
 {
 	private readonly ReportExportDialogViewModel _reportExportDialog;
 	private readonly INotificationService _notificationService;
+	private readonly DialogViewModel _dialog;
 
 	public LabResultViewModel(INotificationService notificationService,
 		ReportExportDialogViewModel reportExportDialog,
 		LabRequisitionViewModel labRequisition,
 		CompleteBloodCountViewModel completeBloodCountViewModel,
 		DialogViewModel dialogViewModel,
-		Navigation.StatusBarViewModel statusBar,
-		ILogger<LabResultViewModel> logger)
+		Navigation.StatusBarViewModel statusBar)
 	{
 		_reportExportDialog = reportExportDialog;
-		DialogViewModel = dialogViewModel;
+		_dialog = dialogViewModel;
 		StatusBar = statusBar;
 		LabRequisition = labRequisition;
 		CompleteBloodCount = completeBloodCountViewModel;
@@ -33,7 +32,6 @@ public partial class LabResultViewModel: ObservableObject
 
 	public LabRequisitionViewModel LabRequisition { get; }
 	public CompleteBloodCountViewModel CompleteBloodCount { get; }
-	public DialogViewModel DialogViewModel { get; private set; }
 	public Navigation.StatusBarViewModel StatusBar { get; private set; }
 
 	[RelayCommand]
@@ -41,37 +39,31 @@ public partial class LabResultViewModel: ObservableObject
 	{
 		await LabRequisition.CreateAsync();
 	}
-	
+
 	[RelayCommand]
 	private async Task NextAsync()
 	{
 		await LabRequisition.NextAsync();
 	}
-	
+
 	[RelayCommand]
 	private async Task PreviousAsync()
 	{
 		await LabRequisition.PreviousAsync();
 	}
-	
+
 	[RelayCommand]
 	private async Task SaveAsync()
 	{
-		// await LabRequisition.SaveAsync();
-		// await CompleteBloodCount.AssignAsync();
-		
-		await Task.WhenAll(LabRequisition.SaveAsync(), CompleteBloodCount.AssignAsync());
-		
-		// WeakReferenceMessenger.Default.Send(new SaveRequestedMessage());
-		// return Task.CompletedTask;
+		await LabRequisition.SaveAsync();
+		await CompleteBloodCount.AssignAsync();
 	}
 
 	[RelayCommand]
 	private async Task ExportAsync()
 	{
-		var labTestReportId = await WeakReferenceMessenger.Default.Send<LabTestReportIdRequestMessage>();
-		var dialogInput = new ReportExportDialogInput(labTestReportId);
-		await DialogViewModel.ShowAsync(_reportExportDialog, dialogInput);
+		var dialogInput = new ReportExportDialogInput(LabRequisition.Id);
+		await _dialog.ShowAsync(_reportExportDialog, dialogInput);
 	}
 
 	[RelayCommand]
@@ -84,7 +76,7 @@ public partial class LabResultViewModel: ObservableObject
 		await _notificationService.PublishAsync(notification);
 
 		await LabRequisition.LoadAsync();
-		CompleteBloodCount.Load();
+		await CompleteBloodCount.LoadAsync();
 
 		notification = new NotificationMessage
 		{

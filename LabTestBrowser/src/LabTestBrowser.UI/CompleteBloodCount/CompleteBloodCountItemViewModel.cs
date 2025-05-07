@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.UseCases.CompleteBloodCounts;
 
@@ -9,6 +8,11 @@ using Localizations = Resources.Strings;
 
 public class CompleteBloodCountItemViewModel: ObservableObject
 {
+	private int? _labOrderNumber;
+	private DateOnly? _labOrderDate;
+	private PriorityLevel _priorityLevel;
+	private string _description = string.Empty;
+
 	public CompleteBloodCountItemViewModel(CompleteBloodCountDto completeBloodCount)
 	{
 		Id = completeBloodCount.Id;
@@ -33,12 +37,33 @@ public class CompleteBloodCountItemViewModel: ObservableObject
 	}
 
 	public int? Id { get; set; }
-	public PriorityLevel PriorityLevel { get; init; }
+
+	public PriorityLevel PriorityLevel
+	{
+		get => _priorityLevel;
+		set => SetProperty(ref _priorityLevel, value);
+	}
+
 	public string ExternalId { get; init; }
 	public DateTime ObservationTimestamp { get; init; }
-	public string Description { get; init; }
-	public int? LabOrderNumber { get; init; }
-	public DateOnly? LabOrderDate { get; init; }
+
+	public string Description
+	{
+		get => _description;
+		set => SetProperty(ref _description, value);
+	}
+
+	public int? LabOrderNumber
+	{
+		get => _labOrderNumber;
+		set => SetProperty(ref _labOrderNumber, value);
+	}
+
+	public DateOnly? LabOrderDate
+	{
+		get => _labOrderDate;
+		set => SetProperty(ref _labOrderDate, value);
+	}
 	public string WhiteBloodCell { get; init; }
 	public string LymphocytePercent { get; init; }
 	public string MonocytePercent { get; init; }
@@ -51,6 +76,14 @@ public class CompleteBloodCountItemViewModel: ObservableObject
 	public string MeanCorpuscularHemoglobinConcentration { get; init; }
 	public string RedBloodCellDistributionWidth { get; init; }
 	public string Platelet { get; init; }
+
+	public void Update(CompleteBloodCountDto completeBloodCount)
+	{
+		PriorityLevel = ConvertToPriorityLevel(completeBloodCount.ReviewResult);
+		LabOrderNumber = completeBloodCount.LabOrderNumber;
+		LabOrderDate = completeBloodCount.LabOrderDate;
+		Description = Format(completeBloodCount.LabOrderNumber, completeBloodCount.ReviewResult);
+	}
 
 	private static string Format(int? sequenceNumber, ReviewResult reviewResult)
 	{

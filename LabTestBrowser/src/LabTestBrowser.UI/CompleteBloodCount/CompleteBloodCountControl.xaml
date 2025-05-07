@@ -7,16 +7,11 @@
 			 xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
-			 d:DataContext="{d:DesignInstance {x:Type local:CompleteBloodCountViewModel}}"
+			 xmlns:completeBloodCount="clr-namespace:LabTestBrowser.UI.CompleteBloodCount"
+			 d:DataContext="{d:DesignInstance {x:Type completeBloodCount:CompleteBloodCountViewModel}}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300">
-
-	<!-- <b:Interaction.Triggers> -->
-	<!-- 	<b:EventTrigger EventName="Loaded"> -->
-	<!-- 		<b:InvokeCommandAction Command="{Binding LoadCommand}" /> -->
-	<!-- 	</b:EventTrigger> -->
-	<!-- </b:Interaction.Triggers> -->
 
 	<UserControl.Resources>
 		<CollectionViewSource x:Key="SortedCompleteBloodCounts"

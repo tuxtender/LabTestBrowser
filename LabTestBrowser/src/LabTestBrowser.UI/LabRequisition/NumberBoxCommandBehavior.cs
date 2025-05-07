@@ -3,9 +3,9 @@ using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 using ModernWpf.Controls;
 
-namespace LabTestBrowser.UI;
+namespace LabTestBrowser.UI.LabRequisition;
 
-public class NumberBoxCommandBehavior: Behavior<NumberBox>
+public class NumberBoxCommandBehavior : Behavior<NumberBox>
 {
 	public static readonly DependencyProperty CommandProperty =
 		DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(NumberBoxCommandBehavior));
@@ -28,8 +28,6 @@ public class NumberBoxCommandBehavior: Behavior<NumberBox>
 		AssociatedObject.ValueChanged += OnValueChanged;
 	}
 
-
-
 	protected override void OnDetaching()
 	{
 		base.OnDetaching();
@@ -44,11 +42,11 @@ public class NumberBoxCommandBehavior: Behavior<NumberBox>
 	private void OnGotFocus(object sender, RoutedEventArgs e) => _isUserInteraction = true;
 	private void OnLostFocus(object sender, RoutedEventArgs e) => _isUserInteraction = false;
 
-	private void OnValueChanged(object sender, NumberBoxValueChangedEventArgs e)
+	private void OnValueChanged(object sender, NumberBoxValueChangedEventArgs args)
 	{
-		if (_isUserInteraction && Command?.CanExecute((int)e.NewValue) == true)
+		if (_isUserInteraction && Command?.CanExecute((int)args.NewValue) == true)
 		{
-			Command.Execute((int)e.NewValue);
+			Command.Execute((int)args.NewValue);
 		}
 	}
 }
