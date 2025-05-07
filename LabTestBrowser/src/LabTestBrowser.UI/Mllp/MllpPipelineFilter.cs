@@ -1,8 +1,7 @@
 ﻿using System.Buffers;
-using System.Text;
 using SuperSocket.ProtoBase;
 
-namespace LabTestBrowser.UI;
+namespace LabTestBrowser.UI.Mllp;
 
 public class MllpPipelineFilter() : BeginEndMarkPipelineFilter<MllpPackage>(BeginMark, EndMark)
 {
@@ -11,8 +10,6 @@ public class MllpPipelineFilter() : BeginEndMarkPipelineFilter<MllpPackage>(Begi
 
 	protected override MllpPackage DecodePackage(ref ReadOnlySequence<byte> buffer)
 	{
-		// var message = Encoding.UTF8.GetString(buffer);
-
 		return new MllpPackage
 		{
 			Content = buffer.ToArray()

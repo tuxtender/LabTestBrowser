@@ -4,9 +4,9 @@ using LabTestBrowser.Infrastructure.Email;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.UI.Localization;
+using LabTestBrowser.UI.Navigation;
 using LabTestBrowser.UseCases;
 using LabTestBrowser.UseCases.Hl7;
-using LabTestBrowser.UseCases.Hl7.LaboratoryEquipment.Urit5160;
 
 namespace LabTestBrowser.UI.Configurations;
 
@@ -14,7 +14,7 @@ public static class ServiceConfigs
 {
 	public static IServiceCollection AddServiceConfigs(this IServiceCollection services, 
 		ILogger logger,
-		WpfApplicationBuilder<App, Navigation.ShellWindow> builder)
+		WpfApplicationBuilder<App, MainWindow> builder)
 	{
 		services.AddInfrastructureServices(builder.Configuration, logger)
 			.AddUseCaseConfigs()

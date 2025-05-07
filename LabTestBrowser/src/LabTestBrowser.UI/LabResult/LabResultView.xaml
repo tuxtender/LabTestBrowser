@@ -4,8 +4,9 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-			 xmlns:local="clr-namespace:LabTestBrowser.UI"
 			 xmlns:labResult="clr-namespace:LabTestBrowser.UI.LabResult"
+			 xmlns:labRequisition="clr-namespace:LabTestBrowser.UI.LabResult.LabRequisition"
+			 xmlns:completeBloodCount="clr-namespace:LabTestBrowser.UI.LabResult.CompleteBloodCount"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type labResult:LabResultViewModel}}">
 
@@ -18,10 +19,10 @@
 	<DockPanel LastChildFill="True">
 		<labResult:LabResultCommandBar DockPanel.Dock="Top" />
 
-		<local:LabRequisitionControl DockPanel.Dock="Left"
+		<labRequisition:LabRequisitionView DockPanel.Dock="Left"
 									 Padding="5, 0"
 									 DataContext="{Binding Path= LabRequisition}" />
-		<local:CompleteBloodCountControl DockPanel.Dock="Right"
+		<completeBloodCount:CompleteBloodCountView DockPanel.Dock="Right"
 										 Padding="5, 0"
 										 DataContext="{Binding Path= CompleteBloodCount}" />
 	</DockPanel>

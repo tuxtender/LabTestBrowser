@@ -1,9 +1,6 @@
-﻿using LabTestBrowser.Core.Interfaces;
-using LabTestBrowser.Core.Services;
-using LabTestBrowser.Infrastructure.Data.Settings;
-using LabTestBrowser.Infrastructure.Email;
+﻿using LabTestBrowser.Infrastructure.Email;
 using LabTestBrowser.Infrastructure.Export;
-using LabTestBrowser.Infrastructure.Hl7;
+using LabTestBrowser.UI.Navigation;
 
 namespace LabTestBrowser.UI.Configurations;
 
@@ -12,7 +9,7 @@ public static class OptionConfigs
 	public static IServiceCollection AddOptionConfigs(this IServiceCollection services,
 		IConfiguration configuration,
 		ILogger logger,
-		WpfApplicationBuilder<App, Navigation.ShellWindow> builder)
+		WpfApplicationBuilder<App, MainWindow> builder)
 	{
 		builder.Configuration.AddJsonFile("labreportsettings.json");
 		builder.Configuration.AddJsonFile("animalsettings.json");

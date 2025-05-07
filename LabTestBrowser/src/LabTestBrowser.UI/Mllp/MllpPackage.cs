@@ -1,4 +1,4 @@
-﻿namespace LabTestBrowser.UI;
+﻿namespace LabTestBrowser.UI.Mllp;
 
 public class MllpPackage
 {

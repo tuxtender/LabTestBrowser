@@ -4,7 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:dialogs="clr-namespace:LabTestBrowser.UI.Dialogs"
-			 xmlns:reportExportDialog="clr-namespace:LabTestBrowser.UI.Dialogs.ReportExportDialog"
+			 xmlns:reportExportDialog1="clr-namespace:LabTestBrowser.UI.LabResult.ReportExportDialog"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type dialogs:DialogViewModel}}">
 
@@ -24,8 +24,8 @@
 							Content="{Binding DialogContentViewModel}">
 				<FrameworkElement.Resources>
 					<ResourceDictionary>
-						<DataTemplate DataType="{x:Type reportExportDialog:ReportExportDialogViewModel}">
-							<reportExportDialog:ReportExportDialogView />
+						<DataTemplate DataType="{x:Type reportExportDialog1:ReportExportDialogViewModel}">
+							<reportExportDialog1:ReportExportDialogView />
 						</DataTemplate>
 					</ResourceDictionary>
 				</FrameworkElement.Resources>

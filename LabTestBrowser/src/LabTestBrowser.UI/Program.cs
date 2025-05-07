@@ -1,28 +1,17 @@
-﻿using System.Text;
-using LabTestBrowser.Infrastructure.Data;
-using LabTestBrowser.Infrastructure.Hl7;
+﻿using LabTestBrowser.Infrastructure.Data;
 using Serilog;
 using Serilog.Extensions.Logging;
 using LabTestBrowser.UI;
-using LabTestBrowser.UI.CompleteBloodCount;
 using LabTestBrowser.UI.Configurations;
-using LabTestBrowser.UI.Dialogs;
-using LabTestBrowser.UI.Dialogs.ReportExportDialog;
-using LabTestBrowser.UI.LabResult;
+using LabTestBrowser.UI.Mllp;
 using LabTestBrowser.UI.Navigation;
-using LabTestBrowser.UI.Notification;
-using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.Hl7.ProcessHl7Request;
 using MediatR;
-using SuperSocket.ProtoBase;
 using SuperSocket.Server.Abstractions;
 using SuperSocket.Server.Host;
-using ShellViewModel = LabTestBrowser.UI.Navigation.ShellViewModel;
-using ShellWindow = LabTestBrowser.UI.Navigation.ShellWindow;
-using StatusBarViewModel = LabTestBrowser.UI.Navigation.StatusBarViewModel;
 
 // Create a builder by specifying the application and main window.
-var builder = WpfApplication<App, ShellWindow>.CreateBuilder(args);
+var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
 
 var logger = Log.Logger = new LoggerConfiguration()
 	.Enrich.FromLogContext()
@@ -39,17 +28,7 @@ var appLogger = new SerilogLoggerFactory(logger)
 
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
-
-builder.Services.AddSingleton<DialogViewModel>();
-builder.Services.AddSingleton<ReportExportDialogViewModel>();
-builder.Services.AddSingleton<LabRequisitionViewModel>();
-builder.Services.AddSingleton<CompleteBloodCountViewModel>();
-builder.Services.AddSingleton<StatusBarViewModel>();
-builder.Services.AddSingleton<INotificationService, NotificationService>();
-builder.Services.AddSingleton<ShellViewModel>();
-builder.Services.AddSingleton<INavigationService, NavigationService>();
-builder.Services.AddSingleton<LabResultViewModel>();
-builder.Services.AddSingleton<SearchLabResultViewModel>();
+builder.Services.AddPresentationConfigs();
 
 // Build and run the application.
 var app = builder.Build();

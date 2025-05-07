@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LabTestBrowser.UI.CompleteBloodCount;
 using LabTestBrowser.UI.Dialogs;
-using LabTestBrowser.UI.Dialogs.ReportExportDialog;
+using LabTestBrowser.UI.LabResult.ReportExportDialog;
 using LabTestBrowser.UI.Notification;
+using CompleteBloodCountViewModel = LabTestBrowser.UI.LabResult.CompleteBloodCount.CompleteBloodCountViewModel;
+using ReportExportDialogViewModel = LabTestBrowser.UI.LabResult.ReportExportDialog.ReportExportDialogViewModel;
 
 namespace LabTestBrowser.UI.LabResult;
 
@@ -17,10 +18,10 @@ public partial class LabResultViewModel : ObservableObject
 
 	public LabResultViewModel(INotificationService notificationService,
 		ReportExportDialogViewModel reportExportDialog,
-		LabRequisitionViewModel labRequisition,
+		LabRequisition.LabRequisitionViewModel labRequisition,
 		CompleteBloodCountViewModel completeBloodCountViewModel,
 		DialogViewModel dialogViewModel,
-		Navigation.StatusBarViewModel statusBar)
+		StatusBarViewModel statusBar)
 	{
 		_reportExportDialog = reportExportDialog;
 		_dialog = dialogViewModel;
@@ -30,9 +31,9 @@ public partial class LabResultViewModel : ObservableObject
 		_notificationService = notificationService;
 	}
 
-	public LabRequisitionViewModel LabRequisition { get; }
+	public LabRequisition.LabRequisitionViewModel LabRequisition { get; }
 	public CompleteBloodCountViewModel CompleteBloodCount { get; }
-	public Navigation.StatusBarViewModel StatusBar { get; private set; }
+	public StatusBarViewModel StatusBar { get; private set; }
 
 	[RelayCommand]
 	private async Task CreateAsync()
