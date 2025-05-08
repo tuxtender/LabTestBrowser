@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UI.Dialogs;
 using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.Export;
+using LabTestBrowser.UseCases.LabTestReportTemplates.List;
 using LabTestBrowser.UseCases.LabTestReportTemplates.ListRegistered;
 using MediatR;
 
@@ -18,6 +19,7 @@ public partial class ReportExportDialogViewModel : ObservableObject,
 	private TaskCompletionSource<ReportExportDialogOutput>? _tcs;
 	private IReadOnlyCollection<LabTestReportTemplateViewModel> _reportTemplates = [];
 	private int? _labTestReportId;
+	private bool _isFiltered;
 
 	public ReportExportDialogViewModel(IMediator mediator, INotificationService notificationService)
 	{
@@ -31,12 +33,18 @@ public partial class ReportExportDialogViewModel : ObservableObject,
 		private set => SetProperty(ref _reportTemplates, value);
 	}
 
+	public bool IsFilterEnabled
+	{
+		get => _isFiltered;
+		set => SetProperty(ref _isFiltered, value);
+	}
+
 	public async Task InitializeAsync(ReportExportDialogInput parameters,
 		TaskCompletionSource<ReportExportDialogOutput> taskCompletionSource)
 	{
 		_labTestReportId = parameters.LabTestReportId;
 		_tcs = taskCompletionSource;
-
+		IsFilterEnabled = true;
 		LabTestReportTemplates = await GetTemplatesAsync(parameters.LabTestReportId);
 	}
 
@@ -84,6 +92,28 @@ public partial class ReportExportDialogViewModel : ObservableObject,
 
 		await _notificationService.PublishAsync(notification);
 		_tcs?.SetResult(dialogOutput);
+	}
+
+	[RelayCommand]
+	private async Task FilterAsync()
+	{
+		if (IsFilterEnabled)
+		{
+			LabTestReportTemplates = await GetTemplatesAsync(_labTestReportId);
+			return;
+		}
+
+		var query = new ListLabTestReportTemplatesQuery(null, null);
+		var result = await _mediator.Send(query);
+
+		LabTestReportTemplates = result.Value
+			.Select(template => new LabTestReportTemplateViewModel
+			{
+				Id = template.Id,
+				Path = template.Path,
+				Title = template.Title
+			})
+			.ToList();
 	}
 
 	[RelayCommand]

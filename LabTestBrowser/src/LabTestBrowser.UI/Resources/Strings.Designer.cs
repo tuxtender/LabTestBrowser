@@ -445,5 +445,32 @@ namespace LabTestBrowser.UI.Resources {
                 return ResourceManager.GetString("ReportTemplateDialog_Export", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Скрыть.
+        /// </summary>
+        public static string ReportTemplateDialog_Hide {
+            get {
+                return ResourceManager.GetString("ReportTemplateDialog_Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все зарегистрированные шаблоны.
+        /// </summary>
+        public static string ReportTemplateDialog_RegisteredTemplates {
+            get {
+                return ResourceManager.GetString("ReportTemplateDialog_RegisteredTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Показать.
+        /// </summary>
+        public static string ReportTemplateDialog_Show {
+            get {
+                return ResourceManager.GetString("ReportTemplateDialog_Show", resourceCulture);
+            }
+        }
     }
 }

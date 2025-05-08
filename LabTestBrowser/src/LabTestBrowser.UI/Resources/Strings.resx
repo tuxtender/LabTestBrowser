@@ -147,4 +147,13 @@
     <data name="CompleteBloodCount_Suppressed" xml:space="preserve">
         <value>Отложен</value>
     </data>
+    <data name="ReportTemplateDialog_Hide" xml:space="preserve">
+        <value>Скрыть</value>
+    </data>
+    <data name="ReportTemplateDialog_Show" xml:space="preserve">
+        <value>Показать</value>
+    </data>
+    <data name="ReportTemplateDialog_RegisteredTemplates" xml:space="preserve">
+        <value>Все зарегистрированные шаблоны</value>
+    </data>
 </root>
