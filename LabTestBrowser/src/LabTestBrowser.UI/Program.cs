@@ -21,7 +21,6 @@ var logger = Log.Logger = new LoggerConfiguration()
 logger.Information("Starting application");
 
 builder.AddLoggerConfigs();
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 var appLogger = new SerilogLoggerFactory(logger)
 	.CreateLogger<Program>();
@@ -29,6 +28,7 @@ var appLogger = new SerilogLoggerFactory(logger)
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
 builder.Services.AddPresentationConfigs();
+builder.Services.AddLocalizationConfigs();
 
 // Build and run the application.
 var app = builder.Build();
