@@ -1,4 +1,6 @@
-﻿namespace LabTestBrowser.Core.CompleteBloodCountAggregate;
+﻿using LabTestBrowser.Core.Common;
+
+namespace LabTestBrowser.Core.CompleteBloodCountAggregate;
 
 public class AccessionNumber : ValueObject
 {
@@ -13,10 +15,13 @@ public class AccessionNumber : ValueObject
 
 	public static Result<AccessionNumber> Create(int sequenceNumber, DateOnly date)
 	{
-		if (sequenceNumber < 1)
-			return Result.Invalid(new ValidationError("AccessionNumber.SequenceNumber", "Sequence number must be greater than or equal to 1"));
+		if (sequenceNumber > 0)
+			return new AccessionNumber(sequenceNumber, date);
 
-		return new AccessionNumber(sequenceNumber, date);
+		return Result.Invalid(new ValidationError
+		{
+			ErrorCode = ValidationErrorCode.OutOfRange(nameof(AccessionNumber), nameof(SequenceNumber)).Code
+		});
 	}
 
 	protected override IEnumerable<object> GetEqualityComponents()

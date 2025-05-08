@@ -62,36 +62,36 @@ namespace LabTestBrowser.UI.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Номер образца меньше 1.
         /// </summary>
-        internal static string AccessionNumber_SequenceNumber {
+        internal static string AccessionNumber_SequenceNumber_OutOfRange {
             get {
-                return ResourceManager.GetString("AccessionNumber.SequenceNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не указано животное.
-        /// </summary>
-        internal static string Patient_Animal {
-            get {
-                return ResourceManager.GetString("Patient.Animal", resourceCulture);
+                return ResourceManager.GetString("AccessionNumber.SequenceNumber.OutOfRange", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Недостаточно сведений о пациенте (возраст, владелец, имя питомца).
         /// </summary>
-        internal static string Patient_IncompleteDetails {
+        internal static string Patient_AgeOrHealthcareProxyOrName_InsufficientData {
             get {
-                return ResourceManager.GetString("Patient.IncompleteDetails", resourceCulture);
+                return ResourceManager.GetString("Patient.AgeOrHealthcareProxyOrName.InsufficientData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не указано животное.
+        /// </summary>
+        internal static string Patient_Animal_Required {
+            get {
+                return ResourceManager.GetString("Patient.Animal.Required", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Не указано медучреждение.
         /// </summary>
-        internal static string SpecimenCollectionCenter_Facility {
+        internal static string SpecimenCollectionCenter_Facility_Required {
             get {
-                return ResourceManager.GetString("SpecimenCollectionCenter.Facility", resourceCulture);
+                return ResourceManager.GetString("SpecimenCollectionCenter.Facility.Required", resourceCulture);
             }
         }
     }

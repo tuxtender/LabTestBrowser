@@ -1,4 +1,6 @@
-﻿namespace LabTestBrowser.Core.LabTestReportAggregate;
+﻿using LabTestBrowser.Core.Common;
+
+namespace LabTestBrowser.Core.LabTestReportAggregate;
 
 public class SpecimenCollectionCenter : ValueObject
 {
@@ -14,7 +16,10 @@ public class SpecimenCollectionCenter : ValueObject
 	public static Result<SpecimenCollectionCenter> Create(string? facility, string? tradeName)
 	{
 		if (string.IsNullOrWhiteSpace(facility))
-			return Result.Invalid(new ValidationError("SpecimenCollectionCenter.Facility", "No healthcare facility specified"));
+			return Result.Invalid(new ValidationError
+			{
+				ErrorCode = ValidationErrorCode.Required(nameof(SpecimenCollectionCenter), nameof(Facility)).Code
+			});
 
 		return new SpecimenCollectionCenter(facility, tradeName);
 	}

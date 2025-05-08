@@ -18,16 +18,16 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="AccessionNumber.SequenceNumber" xml:space="preserve">
+    <data name="AccessionNumber.SequenceNumber.OutOfRange" xml:space="preserve">
         <value>Номер образца меньше 1</value>
     </data>
-    <data name="SpecimenCollectionCenter.Facility" xml:space="preserve">
+    <data name="SpecimenCollectionCenter.Facility.Required" xml:space="preserve">
         <value>Не указано медучреждение</value>
     </data>
-    <data name="Patient.Animal" xml:space="preserve">
+    <data name="Patient.Animal.Required" xml:space="preserve">
         <value>Не указано животное</value>
     </data>
-    <data name="Patient.IncompleteDetails" xml:space="preserve">
+    <data name="Patient.AgeOrHealthcareProxyOrName.InsufficientData" xml:space="preserve">
         <value>Недостаточно сведений о пациенте (возраст, владелец, имя питомца)</value>
     </data>
 </root>

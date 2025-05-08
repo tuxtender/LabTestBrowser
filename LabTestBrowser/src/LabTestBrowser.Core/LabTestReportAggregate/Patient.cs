@@ -1,3 +1,5 @@
+using LabTestBrowser.Core.Common;
+
 namespace LabTestBrowser.Core.LabTestReportAggregate;
 
 public class Patient : ValueObject
@@ -14,12 +16,17 @@ public class Patient : ValueObject
 	public static Result<Patient> Create(string? animal, Age age, string? healthcareProxy, string? name, string? category, string? breed)
 	{
 		if (string.IsNullOrWhiteSpace(animal))
-			return Result.Invalid(new ValidationError("Patient.Animal", "No animal specified"));
+			return Result.Invalid(new ValidationError
+			{
+				ErrorCode = ValidationErrorCode.Required(nameof(Patient), nameof(Animal)).Code
+			});
 
 		var isIncomplete = age == Age.None && string.IsNullOrEmpty(healthcareProxy) && string.IsNullOrEmpty(name);
-
 		if (isIncomplete)
-			return Result.Invalid(new ValidationError("Patient.IncompleteDetails", "Incomplete patient details"));
+			return Result.Invalid(new ValidationError
+			{
+				ErrorCode = ValidationErrorCode.InsufficientData(nameof(Patient), FieldGroups.AgeOrHealthcareProxyOrName).Code,
+			});
 
 		var patient = new Patient
 		{
