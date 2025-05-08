@@ -1,10 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.UI.Dialogs;
+using LabTestBrowser.UI.LabResult.CompleteBloodCount;
 using LabTestBrowser.UI.LabResult.ReportExportDialog;
 using LabTestBrowser.UI.Notification;
-using CompleteBloodCountViewModel = LabTestBrowser.UI.LabResult.CompleteBloodCount.CompleteBloodCountViewModel;
-using ReportExportDialogViewModel = LabTestBrowser.UI.LabResult.ReportExportDialog.ReportExportDialogViewModel;
+using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
+using LabTestBrowser.UseCases.LabTestReports.GetNext;
+using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
+using LabTestBrowser.UseCases.LabTestReports.Save;
+using MediatR;
 
 namespace LabTestBrowser.UI.LabResult;
 
@@ -12,20 +16,21 @@ using Localizations = Resources.Strings;
 
 public partial class LabResultViewModel : ObservableObject
 {
+	private readonly IMediator _mediator;
 	private readonly ReportExportDialogViewModel _reportExportDialog;
 	private readonly INotificationService _notificationService;
 	private readonly DialogViewModel _dialog;
 
-	public LabResultViewModel(INotificationService notificationService,
+	public LabResultViewModel(IMediator mediator,
+		INotificationService notificationService,
 		ReportExportDialogViewModel reportExportDialog,
 		LabRequisition.LabRequisitionViewModel labRequisition,
 		CompleteBloodCountViewModel completeBloodCountViewModel,
-		DialogViewModel dialogViewModel,
-		StatusBarViewModel statusBar)
+		DialogViewModel dialogViewModel)
 	{
+		_mediator = mediator;
 		_reportExportDialog = reportExportDialog;
 		_dialog = dialogViewModel;
-		StatusBar = statusBar;
 		LabRequisition = labRequisition;
 		CompleteBloodCount = completeBloodCountViewModel;
 		_notificationService = notificationService;
@@ -33,31 +38,62 @@ public partial class LabResultViewModel : ObservableObject
 
 	public LabRequisition.LabRequisitionViewModel LabRequisition { get; }
 	public CompleteBloodCountViewModel CompleteBloodCount { get; }
-	public StatusBarViewModel StatusBar { get; private set; }
 
 	[RelayCommand]
 	private async Task CreateAsync()
 	{
-		await LabRequisition.CreateAsync();
+		var getEmptyLabTestReportQuery = new GetEmptyLabTestReportQuery(LabRequisition.LabOrderDate);
+		var result = await _mediator.Send(getEmptyLabTestReportQuery);
+		LabRequisition.SetLabRequisition(result.Value);
 	}
 
 	[RelayCommand]
 	private async Task NextAsync()
 	{
-		await LabRequisition.NextAsync();
+		var getNextLabTestReportQuery = new GetNextLabTestReportQuery(LabRequisition.LabOrderNumber, LabRequisition.LabOrderDate);
+		var result = await _mediator.Send(getNextLabTestReportQuery);
+		LabRequisition.SetLabRequisition(result.Value);
 	}
 
 	[RelayCommand]
 	private async Task PreviousAsync()
 	{
-		await LabRequisition.PreviousAsync();
+		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(LabRequisition.LabOrderNumber, LabRequisition.LabOrderDate);
+		var result = await _mediator.Send(getPreviousLabTestReportQuery);
+		LabRequisition.SetLabRequisition(result.Value);
 	}
 
 	[RelayCommand]
 	private async Task SaveAsync()
 	{
-		await LabRequisition.SaveAsync();
-		await CompleteBloodCount.AssignAsync();
+		var saveLabTestReportCommand = new SaveLabTestReportCommand
+		{
+			Id = LabRequisition.Id,
+			OrderNumber = LabRequisition.LabOrderNumber,
+			OrderDate = LabRequisition.LabOrderDate,
+			Facility = LabRequisition.Facility,
+			TradeName = LabRequisition.TradeName,
+			PetOwner = LabRequisition.PetOwner,
+			Nickname = LabRequisition.Nickname,
+			Animal = LabRequisition.Animal,
+			Category = LabRequisition.Category,
+			Breed = LabRequisition.Breed,
+			AgeInYears = LabRequisition.AgeInYears,
+			AgeInMonths = LabRequisition.AgeInMonths,
+			AgeInDays = LabRequisition.AgeInDays,
+			CompleteBloodCountId = CompleteBloodCount.SelectedCompleteBloodCount?.Id
+		};
+
+		var result = await _mediator.Send(saveLabTestReportCommand);
+		var notification = result.ToNotification(Localizations.LabReport_ReportSavingFailed);
+
+		if (result.IsSuccess)
+		{
+			LabRequisition.SetLabRequisition(result);
+			notification = result.ToNotification(Localizations.LabReport_ReportSaved);
+		}
+
+		await _notificationService.PublishAsync(notification);
 	}
 
 	[RelayCommand]

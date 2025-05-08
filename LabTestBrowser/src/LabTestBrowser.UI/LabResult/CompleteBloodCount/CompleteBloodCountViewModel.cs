@@ -65,7 +65,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 	}
 
 	[RelayCommand]
-	public async Task AssignAsync()
+	private async Task AssignAsync()
 	{
 		var labOrder = await WeakReferenceMessenger.Default.Send<LabOrderRequestMessage>();
 		var command = new ReviewCompleteBloodCountCommand(SelectedCompleteBloodCount?.Id, labOrder.Number, labOrder.Date);

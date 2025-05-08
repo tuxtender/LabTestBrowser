@@ -2,26 +2,18 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using LabTestBrowser.UI.LabResult.Messages;
-using LabTestBrowser.UI.Notification;
 using LabTestBrowser.UseCases.AnimalSpecies.List;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Get;
-using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
-using LabTestBrowser.UseCases.LabTestReports.GetNext;
-using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
-using LabTestBrowser.UseCases.LabTestReports.Save;
 using LabTestBrowser.UseCases.SpecimenCollectionCenters.List;
 using MediatR;
 
 namespace LabTestBrowser.UI.LabResult.LabRequisition;
 
-using Localizations = Resources.Strings;
-
 public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabOrderChangedMessage>
 {
 	private readonly IMediator _mediator;
-	private readonly INotificationService _notificationService;
 	private readonly ILogger<LabRequisitionViewModel> _logger;
 
 	private DateOnly _labOrderDate = DateOnly.FromDateTime(DateTime.Now);
@@ -43,15 +35,14 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 	private IReadOnlyCollection<AnimalSpeciesViewModel> _animalSpecies = [];
 	private bool _isExternalUpdate;
 
-	public LabRequisitionViewModel(IMediator mediator, INotificationService notificationService, ILogger<LabRequisitionViewModel> logger)
+	public LabRequisitionViewModel(IMediator mediator, ILogger<LabRequisitionViewModel> logger)
 	{
 		_mediator = mediator;
-		_notificationService = notificationService;
 		_logger = logger;
 
 		WeakReferenceMessenger.Default.Register(this, LabOrderSyncToken.FromSecondary);
 		WeakReferenceMessenger.Default.Register<LabRequisitionViewModel, LabOrderRequestMessage>(this,
-			(r, m) => { m.Reply(new LabOrder(LabOrderNumber, LabOrderDate)); });
+			(viewModel, message) => message.Reply(viewModel.LabOrder));
 	}
 
 	public int? Id { get; private set; }
@@ -140,6 +131,8 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		set => SetProperty(ref _ageInDays, value);
 	}
 
+	private LabOrder LabOrder => new(LabOrderNumber, LabOrderDate);
+
 	public async void Receive(LabOrderChangedMessage message)
 	{
 		try
@@ -150,58 +143,6 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		{
 			_logger.LogError(ex, "Error updating lab requisition");
 		}
-	}
-
-	public async Task CreateAsync()
-	{
-		var getEmptyLabTestReportQuery = new GetEmptyLabTestReportQuery(LabOrderDate);
-		var result = await _mediator.Send(getEmptyLabTestReportQuery);
-		SetLabRequisition(result.Value);
-	}
-
-	public async Task NextAsync()
-	{
-		var getNextLabTestReportQuery = new GetNextLabTestReportQuery(LabOrderNumber, LabOrderDate);
-		var result = await _mediator.Send(getNextLabTestReportQuery);
-		SetLabRequisition(result.Value);
-	}
-
-	public async Task PreviousAsync()
-	{
-		var getPreviousLabTestReportQuery = new GetPreviousLabTestReportQuery(LabOrderNumber, LabOrderDate);
-		var result = await _mediator.Send(getPreviousLabTestReportQuery);
-		SetLabRequisition(result.Value);
-	}
-
-	public async Task SaveAsync()
-	{
-		var saveLabTestReportCommand = new SaveLabTestReportCommand
-		{
-			Id = Id,
-			OrderNumber = LabOrderNumber,
-			OrderDate = LabOrderDate,
-			Facility = Facility,
-			TradeName = TradeName,
-			PetOwner = PetOwner,
-			Nickname = Nickname,
-			Animal = Animal,
-			Category = Category,
-			Breed = Breed,
-			AgeInYears = AgeInYears,
-			AgeInMonths = AgeInMonths,
-			AgeInDays = AgeInDays
-		};
-
-		var result = await _mediator.Send(saveLabTestReportCommand);
-		var notification = result.ToNotification(Localizations.LabReport_ReportSavingFailed);
-
-		if (result.IsSuccess)
-		{
-			SetLabRequisition(result);
-			notification = result.ToNotification(Localizations.LabReport_ReportSaved);
-		}
-
-		await _notificationService.PublishAsync(notification);
 	}
 
 	public async Task LoadAsync()
@@ -222,6 +163,23 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		await RestoreSessionAsync(LabOrderDate);
 
 		Notify();
+	}
+
+	public void SetLabRequisition(LabTestReportDto report)
+	{
+		Id = report.Id;
+		LabOrderDate = report.OrderDate;
+		LabOrderNumber = report.OrderNumber;
+		Facility = report.Facility;
+		TradeName = report.TradeName;
+		Animal = report.Animal;
+		PetOwner = report.HealthcareProxy;
+		Nickname = report.Name;
+		Breed = report.Breed;
+		Category = report.Category;
+		AgeInYears = report.AgeInYears;
+		AgeInMonths = report.AgeInMonths;
+		AgeInDays = report.AgeInDays;
 	}
 
 	[RelayCommand]
@@ -256,22 +214,5 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		var (labOrderNumber, labOrderDate) = message.Value;
 		await UpdateAsync(labOrderNumber);
 		_isExternalUpdate = false;
-	}
-
-	private void SetLabRequisition(LabTestReportDto report)
-	{
-		Id = report.Id;
-		LabOrderDate = report.OrderDate;
-		LabOrderNumber = report.OrderNumber;
-		Facility = report.Facility;
-		TradeName = report.TradeName;
-		Animal = report.Animal;
-		PetOwner = report.HealthcareProxy;
-		Nickname = report.Name;
-		Breed = report.Breed;
-		Category = report.Category;
-		AgeInYears = report.AgeInYears;
-		AgeInMonths = report.AgeInMonths;
-		AgeInDays = report.AgeInDays;
 	}
 }
