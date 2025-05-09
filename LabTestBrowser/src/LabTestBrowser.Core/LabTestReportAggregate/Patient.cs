@@ -21,7 +21,7 @@ public class Patient : ValueObject
 				ErrorCode = ValidationErrorCode.Required(nameof(Patient), nameof(Animal)).Code
 			});
 
-		var isIncomplete = age == Age.None && string.IsNullOrEmpty(healthcareProxy) && string.IsNullOrEmpty(name);
+		var isIncomplete = age.IsEmpty && string.IsNullOrEmpty(healthcareProxy) && string.IsNullOrEmpty(name);
 		if (isIncomplete)
 			return Result.Invalid(new ValidationError
 			{
