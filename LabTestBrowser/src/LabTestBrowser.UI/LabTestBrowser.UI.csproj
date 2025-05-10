@@ -36,20 +36,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="appsettings.json">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	  <None Remove="appsettings.json" />
 	  <Content Include="appsettings.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <None Remove="labreportsettings.json" />
 	  <Content Include="labreportsettings.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <None Remove="animalsettings.json" />
 	  <Content Include="animalsettings.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
@@ -106,18 +98,12 @@
 	  </Page>
 	  <Page Update="SearchLabResult\SearchLabResultView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
-	    <XamlRuntime>Wpf</XamlRuntime>
-	    <SubType>Designer</SubType>
 	  </Page>
 	  <Page Update="Shell\StatusBarControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
-	    <XamlRuntime>Wpf</XamlRuntime>
-	    <SubType>Designer</SubType>
 	  </Page>
 	  <Page Update="Notification\StatusBarControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
-	    <XamlRuntime>Wpf</XamlRuntime>
-	    <SubType>Designer</SubType>
 	  </Page>
 	</ItemGroup>
 </Project>
