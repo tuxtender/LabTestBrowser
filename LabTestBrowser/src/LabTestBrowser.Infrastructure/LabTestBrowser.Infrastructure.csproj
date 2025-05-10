@@ -18,6 +18,7 @@
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
 		<PackageReference Include="NPOI" />
 		<PackageReference Include="SQLite" />
+		<PackageReference Include="SuperSocket.Server" />
 	</ItemGroup>
 
 	<ItemGroup>

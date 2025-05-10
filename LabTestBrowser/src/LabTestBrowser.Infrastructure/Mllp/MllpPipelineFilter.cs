@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using SuperSocket.ProtoBase;
 
-namespace LabTestBrowser.Desktop.Mllp;
+namespace LabTestBrowser.Infrastructure.Mllp;
 
 public class MllpPipelineFilter() : BeginEndMarkPipelineFilter<MllpPackage>(BeginMark, EndMark)
 {
