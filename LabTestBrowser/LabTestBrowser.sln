@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabTestBrowser.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabTestBrowser.UseCases", "src\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj", "{B74A78FF-B79E-4C38-A9C7-084A90990CAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.UI", "src\LabTestBrowser.UI\LabTestBrowser.UI.csproj", "{91C89662-B240-4078-870A-080B7912015F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.Desktop", "src\LabTestBrowser.Desktop\LabTestBrowser.Desktop.csproj", "{91C89662-B240-4078-870A-080B7912015F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

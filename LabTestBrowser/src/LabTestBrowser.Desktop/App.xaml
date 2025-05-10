@@ -1,0 +1,22 @@
+﻿<Application x:Class="LabTestBrowser.Desktop.App"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:ui="http://schemas.modernwpf.com/2019"
+			 xmlns:converters1="clr-namespace:LabTestBrowser.Desktop.Converters">
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ui:ThemeResources />
+				<ui:XamlControlsResources />
+				<ResourceDictionary Source="Resources/Icons.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<converters1:AgeConverter x:Key="AgeConverter" />
+			<converters1:DateConverter x:Key="DateConverter" />
+			<converters1:NotificationIconConverter x:Key="NotificationIconConverter" />
+			<converters1:ApplicationThemeConverter x:Key="ApplicationThemeConverter" />
+			<converters1:DoubleToIntConverter x:Key="DoubleToIntConverter" />
+			<converters1:BooleanInverterConverter x:Key="BooleanInverterConverter" />
+			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>
