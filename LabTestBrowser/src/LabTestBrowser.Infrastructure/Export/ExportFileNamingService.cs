@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using LabTestBrowser.UseCases.Export;
-using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.Infrastructure.Export;
 
@@ -8,21 +7,21 @@ public class ExportFileNamingService : IExportFileNamingService
 {
 	private readonly ITextTemplateEngine _textTemplateEngine;
 	private readonly IDefaultPathProvider _defaultPathProvider;
-	private readonly ExportSettings _exportSettings;
+	private readonly ExportOptions _settings;
 	private readonly ILogger<ExportFileNamingService> _logger;
 
 	public ExportFileNamingService(ITextTemplateEngine textTemplateEngine, IDefaultPathProvider defaultPathProvider,
-		IOptions<ExportSettings> exportSettings, ILogger<ExportFileNamingService> logger)
+		IOptions<ExportOptions> exportOptions, ILogger<ExportFileNamingService> logger)
 	{
 		_textTemplateEngine = textTemplateEngine;
 		_defaultPathProvider = defaultPathProvider;
-		_exportSettings = exportSettings.Value;
+		_settings = exportOptions.Value;
 		_logger = logger;
 	}
 
 	public Task<string> GetExportPathAsync(Dictionary<string, string> tokens, string fileExtension)
 	{
-		var pathTemplate = Path.Combine(_exportSettings.Directory, _exportSettings.Filename);
+		var pathTemplate = Path.Combine(_settings.Directory, _settings.Filename);
 		var fullPath = Path.GetFullPath(pathTemplate);
 		var rootPath = Path.GetPathRoot(fullPath) ?? string.Empty;
 		var pathItems = Path.GetRelativePath(rootPath, fullPath)

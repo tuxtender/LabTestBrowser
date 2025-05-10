@@ -4,13 +4,10 @@ using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
-using LabTestBrowser.UseCases.AnimalSpecies;
+using LabTestBrowser.Infrastructure.Mllp;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Export;
-using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
-using LabTestBrowser.UseCases.LabTestReportTemplates;
-using LabTestBrowser.UseCases.SpecimenCollectionCenters;
 
 namespace LabTestBrowser.Infrastructure;
 
@@ -43,6 +40,10 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton(queryServiceFactory.CreateListSpecimenCollectionCentersQueryService());
 		services.AddSingleton(queryServiceFactory.CreateListAnimalSpeciesQueryService());
 
+		var exportSettingsSection = config.GetSection(ExportOptions.SectionName);
+		var exportSettings = exportSettingsSection.Get<ExportOptions>();
+		Guard.Against.Null(exportSettings);
+		services.Configure<ExportOptions>(exportSettingsSection);
 		services.AddScoped<IExportService, ExportService>();
 		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
@@ -50,6 +51,13 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
 		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
+
+		var mllpSettingsSection = config.GetSection(MllpOptions.SectionName);
+		var mllpSettings = mllpSettingsSection.Get<MllpOptions>();
+		Guard.Against.Null(mllpSettings);
+		services.Configure<MllpOptions>(mllpSettingsSection);
+		services.AddSingleton<IMllpHostBuilder, MllpHostBuilder>();
+		services.AddHostedService<MllpHostedService>();
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 

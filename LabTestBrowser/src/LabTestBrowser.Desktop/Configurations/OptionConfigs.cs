@@ -1,6 +1,5 @@
 ﻿using LabTestBrowser.Desktop.Navigation;
 using LabTestBrowser.Infrastructure.Email;
-using LabTestBrowser.Infrastructure.Export;
 
 namespace LabTestBrowser.Desktop.Configurations;
 
@@ -16,7 +15,6 @@ public static class OptionConfigs
 
 		// builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
 		services.Configure<MailserverConfiguration>(configuration.GetSection("Mailserver"));
-		builder.Services.Configure<ExportSettings>(builder.Configuration.GetSection(nameof(ExportSettings)));
 
 		if (builder.Environment.IsDevelopment())
 		{
