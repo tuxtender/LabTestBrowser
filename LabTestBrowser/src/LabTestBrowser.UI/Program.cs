@@ -43,7 +43,7 @@ using (var scope = app.Services.CreateScope())
 var mllpHostBuilder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
 	.UsePackageHandler(async (s, p) =>
 	{
-		//TODO: Shared service collection
+		//TODO: Refactor to BackgroundService
 		using var serviceScope = app.Services.CreateScope();
 		var services = serviceScope.ServiceProvider;
 		var mediator = services.GetRequiredService<IMediator>();
