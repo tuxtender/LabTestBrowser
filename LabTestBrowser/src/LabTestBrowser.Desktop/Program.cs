@@ -2,7 +2,6 @@
 using LabTestBrowser.Desktop.Configurations;
 using LabTestBrowser.Desktop.Navigation;
 using LabTestBrowser.Infrastructure;
-using LabTestBrowser.Infrastructure.Data;
 using Serilog;
 using Serilog.Extensions.Logging;
 
@@ -28,13 +27,7 @@ builder.Services.AddPresentationConfigs();
 builder.Services.AddLocalizationConfigs();
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-	var services = scope.ServiceProvider;
-	var context = services.GetRequiredService<AppDbContext>();
-	context.Database.EnsureCreated();
-}
+app.EnsureDatabaseCreated();
 
 await app.RunAsync();
 
