@@ -22,7 +22,7 @@ public class MllpServerFactory : IMllpServerFactory
 	public IHost Create()
 	{
 		return SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
-			.UsePackageHandler(async (s, p) =>
+			.UsePackageHandler(async (s, p) => //TODO: Move use case using in Desktop. Architecture violation
 			{
 				var response = await _mediator.Send(new ProcessHl7RequestCommand(p.Content));
 				await s.SendAsync(response);
