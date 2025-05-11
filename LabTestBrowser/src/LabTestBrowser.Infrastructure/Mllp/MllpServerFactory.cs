@@ -6,20 +6,20 @@ using SuperSocket.Server.Host;
 
 namespace LabTestBrowser.Infrastructure.Mllp;
 
-public class MllpHostBuilder : IMllpHostBuilder
+public class MllpServerFactory : IMllpServerFactory
 {
 	private readonly IMediator _mediator;
 	private readonly ILogger<MllpHostedService> _logger;
 	private readonly MllpOptions _settings;
 
-	public MllpHostBuilder(IMediator mediator, IOptions<MllpOptions> settings, ILogger<MllpHostedService> logger)
+	public MllpServerFactory(IMediator mediator, IOptions<MllpOptions> settings, ILogger<MllpHostedService> logger)
 	{
 		_mediator = mediator;
 		_logger = logger;
 		_settings = settings.Value;
 	}
 
-	public IHost Build()
+	public IHost Create()
 	{
 		return SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
 			.UsePackageHandler(async (s, p) =>
@@ -29,7 +29,7 @@ public class MllpHostBuilder : IMllpHostBuilder
 			})
 			.ConfigureSuperSocket(options =>
 			{
-				options.Name = "Echo Server";
+				options.Name = "MLLP Server";
 				options.Listeners =
 				[
 					new ListenOptions
@@ -41,21 +41,21 @@ public class MllpHostBuilder : IMllpHostBuilder
 			})
 			.ConfigureErrorHandler((app, error) =>
 			{
-				_logger.LogError(error, "MLLP service failed");
+				_logger.LogError(error, "MLLP server error");
 				return new ValueTask<bool>();
 			})
-			.UseSessionHandler((session) =>
+			.UseSessionHandler(session =>
 				{
-					_logger.LogInformation("Session {ArgSessionId} opened from {ArgRemoteEndPoint}", session.SessionID,
-						session.RemoteEndPoint);
+					_logger.LogInformation("Medical device connected: {RemoteEndPoint}", session.RemoteEndPoint);
 					return ValueTask.CompletedTask;
 				},
 				(session, args) =>
 				{
-					_logger.LogInformation("Session {SessionSessionId} closed because of {Reason} ", session.SessionID, args.Reason);
+					_logger.LogInformation("Medical device disconnected: {RemoteEndPoint}, reason: {Reason}", session.RemoteEndPoint,
+						args.Reason);
 					return ValueTask.CompletedTask;
 				})
-			.ConfigureLogging((hostCtx, loggingBuilder) => { loggingBuilder.AddConsole(); })
+			.ConfigureLogging(builder => builder.ConfigureMllpLogging())
 			.Build();
 	}
 }

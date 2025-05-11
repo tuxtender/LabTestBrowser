@@ -2,7 +2,7 @@
 
 namespace LabTestBrowser.Infrastructure.Mllp;
 
-public interface IMllpHostBuilder
+public interface IMllpServerFactory
 {
-	IHost Build();
+	IHost Create();
 }

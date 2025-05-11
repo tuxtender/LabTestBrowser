@@ -2,7 +2,6 @@
 using LabTestBrowser.Desktop.Configurations;
 using LabTestBrowser.Desktop.Navigation;
 using LabTestBrowser.Infrastructure.Data;
-using LabTestBrowser.Infrastructure.Mllp;
 using Serilog;
 using Serilog.Extensions.Logging;
 
@@ -24,7 +23,6 @@ builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
 builder.Services.AddPresentationConfigs();
 builder.Services.AddLocalizationConfigs();
-builder.Services.AddHostedService<MllpHostedService>();
 
 var app = builder.Build();
 

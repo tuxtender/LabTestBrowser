@@ -2,11 +2,11 @@
 
 namespace LabTestBrowser.Infrastructure.Mllp;
 
-public class MllpHostedService(IMllpHostBuilder builder) : BackgroundService
+public class MllpHostedService(IMllpServerFactory serverFactory) : BackgroundService
 {
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
-		var mllpHost = builder.Build();
-		await mllpHost.RunAsync(stoppingToken);
+		var mllpServer = serverFactory.Create();
+		await mllpServer.RunAsync(stoppingToken);
 	}
 }

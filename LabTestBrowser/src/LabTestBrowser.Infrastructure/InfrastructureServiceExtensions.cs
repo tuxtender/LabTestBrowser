@@ -56,7 +56,7 @@ public static class InfrastructureServiceExtensions
 		var mllpSettings = mllpSettingsSection.Get<MllpOptions>();
 		Guard.Against.Null(mllpSettings);
 		services.Configure<MllpOptions>(mllpSettingsSection);
-		services.AddSingleton<IMllpHostBuilder, MllpHostBuilder>();
+		services.AddSingleton<IMllpServerFactory, MllpServerFactory>();
 		services.AddHostedService<MllpHostedService>();
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
