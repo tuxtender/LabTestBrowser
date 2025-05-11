@@ -1,6 +1,7 @@
 ﻿using LabTestBrowser.Desktop;
 using LabTestBrowser.Desktop.Configurations;
 using LabTestBrowser.Desktop.Navigation;
+using LabTestBrowser.Infrastructure;
 using LabTestBrowser.Infrastructure.Data;
 using Serilog;
 using Serilog.Extensions.Logging;
@@ -20,7 +21,9 @@ var appLogger = new SerilogLoggerFactory(logger)
 	.CreateLogger<Program>();
 
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
-builder.Services.AddServiceConfigs(appLogger, builder);
+builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
+builder.Services.AddUseCaseConfigs();
+builder.Services.AddMediatrConfigs();
 builder.Services.AddPresentationConfigs();
 builder.Services.AddLocalizationConfigs();
 

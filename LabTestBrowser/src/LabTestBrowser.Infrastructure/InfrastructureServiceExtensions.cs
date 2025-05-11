@@ -4,9 +4,11 @@ using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
+using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.Mllp;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Export;
+using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
 
 namespace LabTestBrowser.Infrastructure;
@@ -58,6 +60,10 @@ public static class InfrastructureServiceExtensions
 		services.Configure<MllpOptions>(mllpSettingsSection);
 		services.AddSingleton<IMllpServerFactory, MllpServerFactory>();
 		services.AddHostedService<MllpHostedService>();
+
+		services.AddSingleton<IV231OruR01Converter, V231OruR01Converter>();
+		services.AddSingleton<IHl7AcknowledgmentService, Hl7AcknowledgmentService>();
+		services.AddSingleton<ICompleteBloodCountUpdateChannel, CompleteBloodCountUpdateChannel>();
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
