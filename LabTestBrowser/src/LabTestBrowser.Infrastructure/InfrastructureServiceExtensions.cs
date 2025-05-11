@@ -42,10 +42,6 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton(queryServiceFactory.CreateListSpecimenCollectionCentersQueryService());
 		services.AddSingleton(queryServiceFactory.CreateListAnimalSpeciesQueryService());
 
-		var exportSettingsSection = config.GetSection(ExportOptions.SectionName);
-		var exportSettings = exportSettingsSection.Get<ExportOptions>();
-		Guard.Against.Null(exportSettings);
-		services.Configure<ExportOptions>(exportSettingsSection);
 		services.AddScoped<IExportService, ExportService>();
 		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
@@ -54,10 +50,6 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
 		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
 
-		var mllpSettingsSection = config.GetSection(MllpOptions.SectionName);
-		var mllpSettings = mllpSettingsSection.Get<MllpOptions>();
-		Guard.Against.Null(mllpSettings);
-		services.Configure<MllpOptions>(mllpSettingsSection);
 		services.AddSingleton<IMllpServerFactory, MllpServerFactory>();
 		services.AddHostedService<MllpHostedService>();
 
