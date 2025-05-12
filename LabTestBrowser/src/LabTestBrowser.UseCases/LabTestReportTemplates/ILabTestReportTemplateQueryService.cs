@@ -1,8 +1,10 @@
-﻿namespace LabTestBrowser.UseCases.LabTestReportTemplates;
+﻿using LabTestBrowser.Core.LabTestReportTemplateAggregate;
+
+namespace LabTestBrowser.UseCases.LabTestReportTemplates;
 
 public interface ILabTestReportTemplateQueryService
 {
-	Task<LabTestReportTemplateDto?> FindById(int labTestReportTemplateId);
-	Task<IEnumerable<LabTestReportTemplateDto>> ListAsync(string facility, string? tradeName, string animal);
-	Task<IEnumerable<LabTestReportTemplateDto>> ListAsync();
+	Task<LabTestReportTemplate?> FindById(int labTestReportTemplateId);
+	Task<IEnumerable<LabTestReportTemplate>> ListAsync(string facility, string? tradeName, string animal);
+	Task<IEnumerable<LabTestReportTemplate>> ListAsync();
 }

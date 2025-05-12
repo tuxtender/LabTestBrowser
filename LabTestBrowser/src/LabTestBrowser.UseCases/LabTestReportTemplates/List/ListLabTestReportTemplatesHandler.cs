@@ -8,7 +8,8 @@ public class ListLabTestReportTemplatesHandler(ILabTestReportTemplateQueryServic
 		CancellationToken cancellationToken)
 	{
 		var templates = await _queryService.ListAsync();
+		var templatesDto = templates.Select(template => template.ConvertToLabTestReportTemplateDto());
 
-		return Result.Success(templates);
+		return Result.Success(templatesDto);
 	}
 }

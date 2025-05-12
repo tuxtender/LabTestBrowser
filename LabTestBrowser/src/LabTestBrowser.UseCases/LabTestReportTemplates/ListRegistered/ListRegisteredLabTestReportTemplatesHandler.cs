@@ -19,7 +19,7 @@ public class ListRegisteredLabTestReportTemplatesHandler(
 		var report = await _repository.GetByIdAsync(query.LabTestReportId.Value, cancellationToken);
 		if (report == null)
 		{
-			_logger.LogWarning("LabTestReport id: {labTestReportId} not found", query.LabTestReportId);
+			_logger.LogWarning("LabTestReport id: {LabTestReportId} not found", query.LabTestReportId);
 			return Result.CriticalError(_errorLocalizer.ApplicationFault);
 		}
 
@@ -28,7 +28,8 @@ public class ListRegisteredLabTestReportTemplatesHandler(
 		var animal = report.Patient.Animal;
 
 		var templates = await _queryService.ListAsync(facility, tradeName, animal);
+		var templatesDto = templates.Select(template => template.ConvertToLabTestReportTemplateDto());
 
-		return Result.Success(templates);
+		return Result.Success(templatesDto);
 	}
 }
