@@ -1,6 +1,4 @@
-﻿using LabTestBrowser.UseCases.Hl7.ProcessHl7Request;
-using MediatR;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using SuperSocket.Server.Abstractions;
 using SuperSocket.Server.Host;
 
@@ -8,24 +6,22 @@ namespace LabTestBrowser.Infrastructure.Mllp;
 
 public class MllpServerFactory : IMllpServerFactory
 {
-	private readonly IMediator _mediator;
 	private readonly ILogger<MllpHostedService> _logger;
 	private readonly MllpOptions _settings;
 
-	public MllpServerFactory(IMediator mediator, IOptions<MllpOptions> settings, ILogger<MllpHostedService> logger)
+	public MllpServerFactory(IOptions<MllpOptions> settings, ILogger<MllpHostedService> logger)
 	{
-		_mediator = mediator;
 		_logger = logger;
 		_settings = settings.Value;
 	}
 
-	public IHost Create()
+	public IMllpHost Create(Func<byte[], Task<byte[]>> messageHandler)
 	{
-		return SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
-			.UsePackageHandler(async (s, p) => //TODO: Move use case using in Desktop. Architecture violation
+		var builder = SuperSocketHostBuilder.Create<MllpPackage, MllpPipelineFilter>()
+			.UsePackageHandler(async (session, package) =>
 			{
-				var response = await _mediator.Send(new ProcessHl7RequestCommand(p.Content));
-				await s.SendAsync(response);
+				var response = await messageHandler(package.Content);
+				await session.SendAsync(response);
 			})
 			.ConfigureSuperSocket(options =>
 			{
@@ -55,7 +51,9 @@ public class MllpServerFactory : IMllpServerFactory
 						args.Reason);
 					return ValueTask.CompletedTask;
 				})
-			.ConfigureLogging(builder => builder.ConfigureMllpLogging())
-			.Build();
+			.ConfigureLogging(builder => builder.ConfigureMllpLogging());
+
+		var mllpHost = builder.Build();
+		return new MllpHost(mllpHost);
 	}
 }

@@ -7,15 +7,15 @@ using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.Hl7.ProcessHl7Request;
 
-public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand, byte[]>
+public class ProcessHl7RequestUseCase : IProcessHl7RequestUseCase
 {
 	private readonly IV231OruR01Converter _converter;
 	private readonly IHl7AcknowledgmentService _acknowledgmentService;
 	private readonly IMediator _mediator;
-	private readonly ILogger<ProcessHl7RequestHandler> _logger;
+	private readonly ILogger<ProcessHl7RequestUseCase> _logger;
 
-	public ProcessHl7RequestHandler(IV231OruR01Converter converter, IHl7AcknowledgmentService acknowledgmentService, IMediator mediator,
-		ILogger<ProcessHl7RequestHandler> logger)
+	public ProcessHl7RequestUseCase(IV231OruR01Converter converter, IHl7AcknowledgmentService acknowledgmentService, IMediator mediator,
+		ILogger<ProcessHl7RequestUseCase> logger)
 	{
 		_converter = converter;
 		_acknowledgmentService = acknowledgmentService;
@@ -23,11 +23,11 @@ public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand
 		_logger = logger;
 	}
 
-	public async Task<byte[]> Handle(ProcessHl7RequestCommand request, CancellationToken cancellationToken)
+	public async Task<byte[]> ExecuteAsync(byte[] hl7Message, CancellationToken cancellationToken = default)
 	{
 		try
 		{
-			var response = await ProcessRequestAsync(request, cancellationToken);
+			var response = await ProcessRequestAsync(hl7Message, cancellationToken);
 			return response;
 		}
 
@@ -48,11 +48,11 @@ public class ProcessHl7RequestHandler : ICommandHandler<ProcessHl7RequestCommand
 		}
 	}
 
-	private async Task<byte[]> ProcessRequestAsync(ProcessHl7RequestCommand request, CancellationToken cancellationToken)
+	private async Task<byte[]> ProcessRequestAsync(byte[] hl7Message, CancellationToken cancellationToken)
 	{
 		const string universalServiceId = "URIT^URIT-5160";
 
-		var oruR01 = _converter.Convert(request.Hl7Message);
+		var oruR01 = _converter.Convert(hl7Message);
 		if (universalServiceId != oruR01.Obr.UniversalServiceId)
 		{
 			_logger.LogWarning("Unsupported lab equipment. Sending service: {UniversalServiceId} ", oruR01.Obr.UniversalServiceId);

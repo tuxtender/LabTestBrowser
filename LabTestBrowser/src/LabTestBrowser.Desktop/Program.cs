@@ -21,6 +21,7 @@ var appLogger = new SerilogLoggerFactory(logger)
 
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
+builder.Services.AddMllpServerConfigs();
 builder.Services.AddUseCaseConfigs();
 builder.Services.AddMediatrConfigs();
 builder.Services.AddPresentationConfigs();

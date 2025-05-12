@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace LabTestBrowser.Infrastructure.Mllp;
+﻿namespace LabTestBrowser.Infrastructure.Mllp;
 
 public interface IMllpServerFactory
 {
-	IHost Create();
+	IMllpHost Create(Func<byte[], Task<byte[]>> messageHandler);
 }
