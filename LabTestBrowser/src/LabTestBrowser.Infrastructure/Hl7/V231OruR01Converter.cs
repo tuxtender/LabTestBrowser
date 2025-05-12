@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Efferent.HL7.V2;
 using LabTestBrowser.UseCases.Hl7;
+using LabTestBrowser.UseCases.Hl7.Exceptions;
 using LabTestBrowser.UseCases.Hl7.Messaging.v231;
 using LabTestBrowser.UseCases.Hl7.Messaging.v231.Segment;
 
@@ -12,18 +13,43 @@ public class V231OruR01Converter : IV231OruR01Converter
 	{
 		var encodedHl7Message = Encoding.UTF8.GetString(hl7Message);
 		var message = new Message(encodedHl7Message);
-		message.ParseMessage();
+		ParseMessage(message);
+		var oruR01 = ConvertToOruR01(message);
 
-		var msh = GetMessageHeader(message);
-		var obr = GetObservationRequest(message);
-		var obxList = GetObservationResults(message);
+		return oruR01;
+	}
 
-		return new OruR01
+	private static OruR01 ConvertToOruR01(Message message)
+	{
+		try
 		{
-			Msh = msh,
-			Obr = obr,
-			ObxList = obxList
-		};
+			var msh = GetMessageHeader(message);
+			var obr = GetObservationRequest(message);
+			var obxList = GetObservationResults(message);
+
+			return new OruR01
+			{
+				Msh = msh,
+				Obr = obr,
+				ObxList = obxList
+			};
+		}
+		catch (Exception)
+		{
+			throw new UnsupportedHl7MessageException(message.MessageControlID, message.MessageStructure);
+		}
+	}
+
+	private static void ParseMessage(Message message)
+	{
+		try
+		{
+			message.ParseMessage();
+		}
+		catch (Exception ex)
+		{
+			throw new Hl7ParsingException("Parsing error", ex);
+		}
 	}
 
 	private static List<Obx> GetObservationResults(Message message)
