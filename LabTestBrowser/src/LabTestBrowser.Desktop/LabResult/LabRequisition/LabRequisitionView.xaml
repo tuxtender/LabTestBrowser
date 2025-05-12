@@ -20,8 +20,12 @@
 						ui:ControlHelper.PlaceholderText="{x:Static localization:Strings.LabRequisition_PickDate}">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="CalendarClosed">
+						<!-- TODO: Change to SelectedDateChanged -->
 						<b:InvokeCommandAction Command="{Binding RestoreSessionCommand}"
 											   CommandParameter="{Binding LabOrderDate}" />
+					</b:EventTrigger>
+					<b:EventTrigger EventName="SelectedDateChanged">
+						<b:InvokeCommandAction Command="{Binding NotifyCommand}" />
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 			</DatePicker>
