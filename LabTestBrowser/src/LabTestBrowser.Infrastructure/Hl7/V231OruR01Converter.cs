@@ -34,9 +34,10 @@ public class V231OruR01Converter : IV231OruR01Converter
 				ObxList = obxList
 			};
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			throw new UnsupportedHl7MessageException(message.MessageControlID, message.MessageStructure);
+			throw new UnsupportedHl7MessageException(message.MessageControlID, message.MessageStructure,
+				$"HL7 message '{message.MessageStructure}' is not supported. Expected message type: ORU_R01", ex);
 		}
 	}
 
