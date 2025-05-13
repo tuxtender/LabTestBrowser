@@ -1,6 +1,10 @@
-﻿namespace LabTestBrowser.UseCases.Export;
+﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
+using LabTestBrowser.Core.LabTestReportAggregate;
+using LabTestBrowser.Core.LabTestReportTemplateAggregate;
+
+namespace LabTestBrowser.UseCases.Export;
 
 public interface IExportService
 {
-	Task<Result> ExportAsync(int labTestReportId, int labTestReportTemplateId);
+	Task ExportAsync(LabTestReportTemplate reportTemplate, LabTestReport report, CompleteBloodCount? completeBloodCount);
 }

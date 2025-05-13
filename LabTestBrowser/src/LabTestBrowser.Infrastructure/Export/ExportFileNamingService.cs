@@ -41,7 +41,7 @@ public class ExportFileNamingService : IExportFileNamingService
 		var defaultPath = Path.ChangeExtension(defaultPathTemplate, fileExtension);
 		defaultPath = _textTemplateEngine.Render(defaultPath, tokens);
 		defaultPath = Path.GetFullPath(defaultPath);
-		_logger.LogWarning("Unsupported file system path characters. Default template applied: {defaultPath}", defaultPathTemplate);
+		_logger.LogWarning("Unsupported file system path characters. Default template applied: {DefaultPath}", defaultPathTemplate);
 
 		return Task.FromResult(defaultPath);
 	}

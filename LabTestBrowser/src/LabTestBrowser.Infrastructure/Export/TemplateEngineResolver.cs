@@ -1,4 +1,5 @@
 ﻿using LabTestBrowser.Core.LabTestReportTemplateAggregate;
+using LabTestBrowser.UseCases.Export.Exceptions;
 
 namespace LabTestBrowser.Infrastructure.Export;
 
@@ -20,7 +21,6 @@ public class TemplateEngineResolver(IExcelTemplateEngine excelTemplateEngine, IW
 		if (_templateEngines.TryGetValue(templateFileFormat, out var templateEngine))
 			return templateEngine;
 
-		//TODO: Add custom exception
-		throw new Exception($"Template engine not found for file format {templateFileFormat}");
+		throw new TemplateEngineNotFoundException();
 	}
 }
