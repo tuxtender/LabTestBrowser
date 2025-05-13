@@ -8,7 +8,8 @@ public class WordTemplateEngine : IWordTemplateEngine
 
 	public Task<MemoryStream> RenderAsync(FileStream fileStream, Dictionary<string, string> tokens)
 	{
-		var doc = new XWPFDocument(fileStream);
+		using var doc = new XWPFDocument(fileStream);
+		using var tempStream = new MemoryStream();
 
 		foreach (var (token, value) in tokens)
 		{
@@ -16,11 +17,12 @@ public class WordTemplateEngine : IWordTemplateEngine
 			doc.FindAndReplaceText(templateToken, value);
 		}
 
-		var memoryStream = new MemoryStream();
-		doc.Write(memoryStream);
+		doc.Write(tempStream);
 		doc.Close();
-		memoryStream.Position = 0;
+		tempStream.Position = 0;
 
+		var memoryStream = new MemoryStream(tempStream.ToArray());
+		// memoryStream.Position = 0;
 		return Task.FromResult(memoryStream);
 	}
 }

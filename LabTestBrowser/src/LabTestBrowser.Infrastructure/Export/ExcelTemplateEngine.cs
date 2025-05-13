@@ -14,7 +14,9 @@ public class ExcelTemplateEngine : IExcelTemplateEngine
 
 	public Task<MemoryStream> RenderAsync(FileStream fileStream, Dictionary<string, string> tokens)
 	{
-		var workbook = new XSSFWorkbook(fileStream);
+		using var workbook = new XSSFWorkbook(fileStream);
+		using var tempStream = new MemoryStream();
+
 		var sheet = workbook.GetSheetAt(0);
 
 		foreach (IRow row in sheet)
@@ -35,11 +37,11 @@ public class ExcelTemplateEngine : IExcelTemplateEngine
 			}
 		}
 
-		var memoryStream = new MemoryStream();
-		workbook.Write(memoryStream, leaveOpen: true);
+		workbook.Write(tempStream, leaveOpen: true);
 		workbook.Close();
-		memoryStream.Position = 0;
+		tempStream.Position = 0;
 
+		var memoryStream = new MemoryStream(tempStream.ToArray());
 		return Task.FromResult(memoryStream);
 	}
 }
