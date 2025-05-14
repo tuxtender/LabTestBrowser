@@ -1,6 +1,7 @@
 ﻿using LabTestBrowser.Core.CompleteBloodCountAggregate;
 using LabTestBrowser.Core.LabTestReportAggregate;
 using LabTestBrowser.Core.LabTestReportTemplateAggregate;
+using LabTestBrowser.Infrastructure.Templating.Tokens;
 using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.Export.Exceptions;
 
@@ -10,14 +11,17 @@ public class ExportService : IExportService
 {
 	private readonly IExportFileNamingService _exportFileNamingService;
 	private readonly ITemplateEngineResolver _templateEngineResolver;
+	private readonly ITokenDictionaryFactory _tokenDictionaryFactory;
 	private readonly ILogger<ExportService> _logger;
 
 	public ExportService(IExportFileNamingService exportFileNamingService,
 		ITemplateEngineResolver templateEngineResolver,
+		ITokenDictionaryFactory tokenDictionaryFactory,
 		ILogger<ExportService> logger)
 	{
 		_exportFileNamingService = exportFileNamingService;
 		_templateEngineResolver = templateEngineResolver;
+		_tokenDictionaryFactory = tokenDictionaryFactory;
 		_logger = logger;
 	}
 
@@ -25,10 +29,7 @@ public class ExportService : IExportService
 	{
 		_logger.LogInformation("Exporting template: {TemplateFilePath}", reportTemplate.Path);
 
-		//TODO: refactor LabTestReportTokens
-		var reportTokens = new LabTestReportTokens(report, completeBloodCount, reportTemplate.Title);
-		var tokens = reportTokens.Tokens.ToDictionary(token => token.GetName(), token => token.GetValue());
-
+		var tokens = _tokenDictionaryFactory.Create(report, completeBloodCount, reportTemplate.Title);
 		await using var memoryStream = await RenderTemplateAsync(reportTemplate, tokens);
 		var exportPath = await _exportFileNamingService.GetExportPathAsync(tokens, reportTemplate.TemplateFileExtension.FileExtension);
 		CreateExportDirectory(exportPath);
@@ -51,7 +52,7 @@ public class ExportService : IExportService
 		}
 	}
 
-	private async Task<MemoryStream> RenderTemplateAsync(LabTestReportTemplate reportTemplate, Dictionary<string, string> tokens)
+	private async Task<MemoryStream> RenderTemplateAsync(LabTestReportTemplate reportTemplate, IReadOnlyDictionary<string, string> tokens)
 	{
 		try
 		{

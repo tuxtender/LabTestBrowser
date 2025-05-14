@@ -2,5 +2,5 @@
 
 public interface ITextTemplateEngine
 {
-	string Render(string template, Dictionary<string, string> tokens);
+	string Render(string template, IReadOnlyDictionary<string, string> tokens);
 }

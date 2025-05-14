@@ -2,5 +2,5 @@
 
 public interface IExportFileNamingService
 {
-	Task<string> GetExportPathAsync(Dictionary<string, string> tokens, string fileExtension);
+	Task<string> GetExportPathAsync(IReadOnlyDictionary<string, string> tokens, string fileExtension);
 }

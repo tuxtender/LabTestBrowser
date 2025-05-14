@@ -19,7 +19,7 @@ public class ExportFileNamingService : IExportFileNamingService
 		_logger = logger;
 	}
 
-	public Task<string> GetExportPathAsync(Dictionary<string, string> tokens, string fileExtension)
+	public Task<string> GetExportPathAsync(IReadOnlyDictionary<string, string> tokens, string fileExtension)
 	{
 		var pathTemplate = Path.Combine(_settings.Directory, _settings.Filename);
 		var fullPath = Path.GetFullPath(pathTemplate);

@@ -6,6 +6,7 @@ using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.Mllp;
+using LabTestBrowser.Infrastructure.Templating.Tokens;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.Hl7;
@@ -49,6 +50,8 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
 		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
+		services.AddSingleton(new LabTestReportTokensFactory());
+		services.AddSingleton<ITokenDictionaryFactory, TokenDictionaryFactory>();
 
 		services.AddSingleton<IMllpServerFactory, MllpServerFactory>();
 		services.AddHostedService<MllpHostedService>();

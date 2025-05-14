@@ -12,7 +12,7 @@ public class ExcelTemplateEngine : IExcelTemplateEngine
 		_templateEngine = templateEngine;
 	}
 
-	public Task<MemoryStream> RenderAsync(FileStream fileStream, Dictionary<string, string> tokens)
+	public Task<MemoryStream> RenderAsync(FileStream fileStream, IReadOnlyDictionary<string, string> tokens)
 	{
 		using var workbook = new XSSFWorkbook(fileStream);
 		using var tempStream = new MemoryStream();

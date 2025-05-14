@@ -2,5 +2,5 @@
 
 public interface IFileTemplateEngine
 {
-	Task<MemoryStream> RenderAsync(FileStream fileStream, Dictionary<string, string> tokens);
+	Task<MemoryStream> RenderAsync(FileStream fileStream, IReadOnlyDictionary<string, string> tokens);
 }

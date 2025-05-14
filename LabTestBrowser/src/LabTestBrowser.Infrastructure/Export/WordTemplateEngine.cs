@@ -6,7 +6,7 @@ public class WordTemplateEngine : IWordTemplateEngine
 {
 	private const string TokenPattern = "{{{{{0}}}}}";
 
-	public Task<MemoryStream> RenderAsync(FileStream fileStream, Dictionary<string, string> tokens)
+	public Task<MemoryStream> RenderAsync(FileStream fileStream, IReadOnlyDictionary<string, string> tokens)
 	{
 		using var doc = new XWPFDocument(fileStream);
 		using var tempStream = new MemoryStream();
@@ -22,7 +22,6 @@ public class WordTemplateEngine : IWordTemplateEngine
 		tempStream.Position = 0;
 
 		var memoryStream = new MemoryStream(tempStream.ToArray());
-		// memoryStream.Position = 0;
 		return Task.FromResult(memoryStream);
 	}
 }
