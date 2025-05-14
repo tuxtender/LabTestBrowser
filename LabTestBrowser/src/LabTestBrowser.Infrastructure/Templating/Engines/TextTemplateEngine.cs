@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace LabTestBrowser.Infrastructure.Export;
+namespace LabTestBrowser.Infrastructure.Templating.Engines;
 
 public class TextTemplateEngine(ILogger<TextTemplateEngine> _logger) : ITextTemplateEngine
 {

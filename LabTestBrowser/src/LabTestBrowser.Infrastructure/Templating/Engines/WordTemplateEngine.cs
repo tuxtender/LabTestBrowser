@@ -1,6 +1,6 @@
 ﻿using NPOI.XWPF.UserModel;
 
-namespace LabTestBrowser.Infrastructure.Export;
+namespace LabTestBrowser.Infrastructure.Templating.Engines;
 
 public class WordTemplateEngine : IWordTemplateEngine
 {

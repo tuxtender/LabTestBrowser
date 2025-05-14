@@ -6,6 +6,7 @@ using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.Mllp;
+using LabTestBrowser.Infrastructure.Templating.Engines;
 using LabTestBrowser.Infrastructure.Templating.Tokens;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Export;

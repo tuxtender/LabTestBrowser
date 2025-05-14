@@ -1,7 +1,7 @@
 ﻿using LabTestBrowser.Core.LabTestReportTemplateAggregate;
 using LabTestBrowser.UseCases.Export.Exceptions;
 
-namespace LabTestBrowser.Infrastructure.Export;
+namespace LabTestBrowser.Infrastructure.Templating.Engines;
 
 public class TemplateEngineResolver(IExcelTemplateEngine excelTemplateEngine, IWordTemplateEngine wordTemplateEngine)
 	: ITemplateEngineResolver
