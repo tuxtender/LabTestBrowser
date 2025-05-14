@@ -51,7 +51,7 @@ public static class InfrastructureServiceExtensions
 		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
 		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
-		services.AddSingleton(new LabTestReportTokensFactory());
+		services.AddSingleton<LabTestReportTokensFactory>();
 		services.AddSingleton<ITokenDictionaryFactory, TokenDictionaryFactory>();
 
 		services.AddSingleton<IMllpServerFactory, MllpServerFactory>();

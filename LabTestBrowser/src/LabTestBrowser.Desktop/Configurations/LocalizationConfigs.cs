@@ -1,5 +1,6 @@
 ﻿using LabTestBrowser.Desktop.Localization;
 using LabTestBrowser.Infrastructure.Export;
+using LabTestBrowser.Infrastructure.Templating.Tokens.Formatters;
 using LabTestBrowser.UseCases;
 using Microsoft.Extensions.Localization;
 
@@ -20,6 +21,7 @@ public static class LocalizationConfigs
 
 			return new ValidationLocalizationService(stringLocalizer);
 		});
+		services.AddSingleton<IAgeLocalizationService, AgeLocalizationService>();
 
 		return services;
 	}

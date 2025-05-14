@@ -186,6 +186,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to д.
+        /// </summary>
+        public static string Day_Short {
+            get {
+                return ResourceManager.GetString("Day_Short", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ./Лабораторные отчеты/{{DATE}}/Отчет № {{SAMPLE}} от {{DATE}}.
         /// </summary>
         public static string Export_DefaultPath {
@@ -429,6 +438,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to м.
+        /// </summary>
+        public static string Month_Short {
+            get {
+                return ResourceManager.GetString("Month_Short", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Отмена.
         /// </summary>
         public static string ReportTemplateDialog_Cancel {
@@ -470,6 +488,24 @@ namespace LabTestBrowser.UI.Resources {
         public static string ReportTemplateDialog_Show {
             get {
                 return ResourceManager.GetString("ReportTemplateDialog_Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to л.
+        /// </summary>
+        public static string Years_Plural_Short {
+            get {
+                return ResourceManager.GetString("Years_Plural_Short", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to г.
+        /// </summary>
+        public static string Years_Singular_Short {
+            get {
+                return ResourceManager.GetString("Years_Singular_Short", resourceCulture);
             }
         }
     }

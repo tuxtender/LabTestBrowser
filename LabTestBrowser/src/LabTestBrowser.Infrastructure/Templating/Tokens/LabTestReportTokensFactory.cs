@@ -4,12 +4,12 @@ using LabTestBrowser.Infrastructure.Templating.Tokens.Formatters;
 
 namespace LabTestBrowser.Infrastructure.Templating.Tokens;
 
-public class LabTestReportTokensFactory
+public class LabTestReportTokensFactory(IAgeLocalizationService ageLocalizationService)
 {
 	private readonly ITokenFormatter<DateOnly> _dateFormatter = new DateTokenFormatter();
 	private readonly ITokenFormatter<string?> _textFormatter = new TextTokenFormatter();
 	private readonly ITokenFormatter<int?> _numberFormatter = new NumberTokenFormatter();
-	private readonly IAgeTokenFormatter _ageFormatter = new AgeTokenFormatter();
+	private readonly IAgeTokenFormatter _ageFormatter = new AgeTokenFormatter(ageLocalizationService);
 	private readonly IPersonNameTokenFormatter _nameFormatter = new PersonNameTokenFormatter();
 
 	public IReadOnlyList<ITemplateToken> Create(LabTestReport report, CompleteBloodCount? cbc, string? testName)

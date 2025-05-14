@@ -156,4 +156,16 @@
     <data name="ReportTemplateDialog_RegisteredTemplates" xml:space="preserve">
         <value>Все зарегистрированные шаблоны</value>
     </data>
+    <data name="Years_Plural_Short" xml:space="preserve">
+        <value>л</value>
+    </data>
+    <data name="Years_Singular_Short" xml:space="preserve">
+        <value>г</value>
+    </data>
+    <data name="Month_Short" xml:space="preserve">
+        <value>м</value>
+    </data>
+    <data name="Day_Short" xml:space="preserve">
+        <value>д</value>
+    </data>
 </root>

@@ -2,23 +2,20 @@
 
 namespace LabTestBrowser.Infrastructure.Templating.Tokens.Formatters;
 
-public class AgeTokenFormatter : IAgeTokenFormatter
+public class AgeTokenFormatter(IAgeLocalizationService localization) : IAgeTokenFormatter
 {
 	public string Format(Age age)
 	{
 		var value = string.Empty;
-		var yearIdentifier = age.Years > 4 ? "л" : "г";
-		var monthIdentifier = "м";
-		var dayIdentifier = "д";
 
 		if (age.Years.HasValue)
-			value += $"{age.Years}{yearIdentifier}";
+			value += $"{age.Years}{localization.GetYearShort(age.Years.Value)}";
 
 		if (age.Months.HasValue)
-			value += $" {age.Months}{monthIdentifier}";
+			value += $" {age.Months}{localization.MonthShort}";
 
 		if (age.Days.HasValue)
-			value += $" {age.Days}{dayIdentifier}";
+			value += $" {age.Days}{localization.DayShort}";
 
 		return value.Trim();
 	}
