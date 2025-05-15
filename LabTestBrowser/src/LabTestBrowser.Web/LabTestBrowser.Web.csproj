@@ -5,6 +5,7 @@
 		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<OutputType>Exe</OutputType>
 		<WebProjectMode>true</WebProjectMode>
+		<TargetFramework>net9.0</TargetFramework>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
