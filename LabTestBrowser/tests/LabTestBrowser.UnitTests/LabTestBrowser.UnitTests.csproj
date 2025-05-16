@@ -39,6 +39,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\LabTestBrowser.Core\LabTestBrowser.Core.csproj" />
+		<ProjectReference Include="..\..\src\LabTestBrowser.Infrastructure\LabTestBrowser.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\src\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj" />
 	</ItemGroup>
 
