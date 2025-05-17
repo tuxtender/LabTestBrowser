@@ -10,7 +10,7 @@ public class TextTemplateEngine(ILogger<TextTemplateEngine> _logger) : ITextTemp
 	{
 		return Regex.Replace(template, TokenPattern, match =>
 		{
-			var token = match.Value[2..^2];
+			var token = match.Groups[1].Value;
 
 			if (tokens.TryGetValue(token, out var value))
 			{
