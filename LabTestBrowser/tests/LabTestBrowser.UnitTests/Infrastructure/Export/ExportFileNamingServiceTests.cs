@@ -1,24 +1,19 @@
 ﻿using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Export.PathSanitizer;
 using LabTestBrowser.Infrastructure.Templating.Engines;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace LabTestBrowser.UnitTests.Infrastructure.Export;
 
 public class ExportFileNamingServiceTests
 {
-	private readonly ITextTemplateEngine _textTemplateEngine;
-	private readonly IDefaultPathProvider _defaultPathProvider = Substitute.For<IDefaultPathProvider>();
+	private readonly ITextTemplateEngine _textTemplateEngine = new TextTemplateEngine(NullLogger<TextTemplateEngine>.Instance);
+	private readonly IDefaultPathProvider _defaultPathProvider = new StubDefaultPathProvider(string.Empty);
 	private readonly IBasePathProvider _basePathProvider = new BasePathProvider();
 	private readonly IDirectoryNameSanitizer _directoryNameSanitizer = new WindowsPathSanitizer();
 	private readonly IFileNameSanitizer _fileNameSanitizer = new WindowsPathSanitizer();
-	private readonly ILogger<ExportFileNamingService> _logger = Substitute.For<ILogger<ExportFileNamingService>>();
-
-	public ExportFileNamingServiceTests()
-	{
-		var engineLogger = Substitute.For<ILogger<TextTemplateEngine>>();
-		_textTemplateEngine = new TextTemplateEngine(engineLogger);
-	}
+	private readonly ILogger<ExportFileNamingService> _logger = NullLogger<ExportFileNamingService>.Instance;
 
 	private static IEnumerable<string> InvalidFileNameCharStrings => Path.GetInvalidFileNameChars().Select(c => c.ToString());
 	private static IEnumerable<string> InvalidPathCharStrings => Path.GetInvalidPathChars().Select(c => c.ToString());
@@ -87,8 +82,7 @@ public class ExportFileNamingServiceTests
 			Directory = "{{EMPTY_TOKEN}}",
 			Filename = "{{EMPTY_TOKEN}}"
 		});
-		var defaultPathProvider = Substitute.For<IDefaultPathProvider>();
-		defaultPathProvider.GetDefaultPath().Returns(fallbackRelativePath);
+		var defaultPathProvider = new StubDefaultPathProvider(fallbackRelativePath);
 		var namingService =
 			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
@@ -99,7 +93,7 @@ public class ExportFileNamingServiceTests
 	}
 
 	[Fact]
-	public async Task GetExportPathAsync_WhenEmptyAfterSanitization_ReturnsTemplatedFallback()
+	public async Task GetExportPathAsync_WhenEmptyAfterRender_ReturnsTemplatedFallback()
 	{
 		var tokens = new Dictionary<string, string>
 		{
@@ -115,8 +109,7 @@ public class ExportFileNamingServiceTests
 		var templatedFallbackRelativePath = "./Reports/{{TOKEN0}}/Test # {{TOKEN1}}";
 		var fallbackPath = _textTemplateEngine.Render(templatedFallbackRelativePath, tokens);
 		var expected = Path.GetFullPath(fallbackPath, _basePathProvider.GetBasePath());
-		var defaultPathProvider = Substitute.For<IDefaultPathProvider>();
-		defaultPathProvider.GetDefaultPath().Returns(fallbackPath);
+		var defaultPathProvider = new StubDefaultPathProvider(templatedFallbackRelativePath);
 		var namingService =
 			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
