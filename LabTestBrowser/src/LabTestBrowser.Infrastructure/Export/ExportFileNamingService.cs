@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using LabTestBrowser.Infrastructure.Export.PathSanitizer;
 using LabTestBrowser.Infrastructure.Templating.Engines;
 using LabTestBrowser.UseCases.Export;
 
@@ -6,56 +7,82 @@ namespace LabTestBrowser.Infrastructure.Export;
 
 public class ExportFileNamingService : IExportFileNamingService
 {
+	private readonly IFileNameSanitizer _fileNameSanitizer;
+	private readonly IDirectoryNameSanitizer _directoryNameSanitizer;
 	private readonly ITextTemplateEngine _textTemplateEngine;
 	private readonly IDefaultPathProvider _defaultPathProvider;
+	private readonly IBasePathProvider _basePathProvider;
 	private readonly ExportOptions _settings;
 	private readonly ILogger<ExportFileNamingService> _logger;
 
-	public ExportFileNamingService(ITextTemplateEngine textTemplateEngine, IDefaultPathProvider defaultPathProvider,
-		IOptions<ExportOptions> exportOptions, ILogger<ExportFileNamingService> logger)
+	public ExportFileNamingService(IFileNameSanitizer fileNameSanitizer, IDirectoryNameSanitizer directoryNameSanitizer,
+		ITextTemplateEngine textTemplateEngine, IDefaultPathProvider defaultPathProvider,
+		IOptions<ExportOptions> exportOptions, IBasePathProvider basePathProvider, ILogger<ExportFileNamingService> logger)
 	{
+		_fileNameSanitizer = fileNameSanitizer;
+		_directoryNameSanitizer = directoryNameSanitizer;
 		_textTemplateEngine = textTemplateEngine;
 		_defaultPathProvider = defaultPathProvider;
+		_basePathProvider = basePathProvider;
 		_settings = exportOptions.Value;
 		_logger = logger;
 	}
 
 	public Task<string> GetExportPathAsync(IReadOnlyDictionary<string, string> tokens, string fileExtension)
 	{
-		var pathTemplate = Path.Combine(_settings.Directory, _settings.Filename);
-		var fullPath = Path.GetFullPath(pathTemplate);
-		var rootPath = Path.GetPathRoot(fullPath) ?? string.Empty;
-		var pathItems = Path.GetRelativePath(rootPath, fullPath)
+		var normalizedAbsolutePath = Path.GetFullPath(_settings.Directory, _basePathProvider.GetBasePath());
+		var pathComponents = Path.GetRelativePath(_basePathProvider.GetBasePath(), normalizedAbsolutePath)
 			.Split(Path.DirectorySeparatorChar)
-			.Select(pathItem => _textTemplateEngine.Render(pathItem, tokens))
+			.Select(pathComponent => _textTemplateEngine.Render(pathComponent, tokens))
 			.Select(Sanitize)
-			.Select(CollapseWhitespace);
+			.Select(CollapseWhitespace)
+			.Where(pathComponent => !string.IsNullOrEmpty(pathComponent));
 
-		var path = Path.Combine([rootPath, ..pathItems]);
-		var filename = Path.GetFileName(path);
-		path = Path.ChangeExtension(path, fileExtension);
+		var directory = Path.Combine([..pathComponents]);
+		if (string.IsNullOrEmpty(directory))
+			directory = GetFallbackDirectory(tokens);
 
-		if (!string.IsNullOrEmpty(filename))
-			return Task.FromResult(path);
+		var renderedFilename = _textTemplateEngine.Render(_settings.Filename, tokens);
+		var sanitizedFilename = _fileNameSanitizer.Sanitize(renderedFilename);
+		var filename = CollapseWhitespace(sanitizedFilename);
+		if (string.IsNullOrEmpty(filename))
+			filename = GetFallbackFilename(tokens);
 
-		var defaultPathTemplate = _defaultPathProvider.GetDefaultPath();
-		var defaultPath = Path.ChangeExtension(defaultPathTemplate, fileExtension);
-		defaultPath = _textTemplateEngine.Render(defaultPath, tokens);
-		defaultPath = Path.GetFullPath(defaultPath);
-		_logger.LogWarning("Unsupported file system path characters. Default template applied: {DefaultPath}", defaultPathTemplate);
+		var relativePath = Path.Combine(directory, filename);
+		relativePath = Path.ChangeExtension(relativePath, fileExtension);
+		var absolutePath = Path.GetFullPath(relativePath, _basePathProvider.GetBasePath());
 
-		return Task.FromResult(defaultPath);
+		return Task.FromResult(absolutePath);
 	}
 
-	private static string Sanitize(string path)
+	private string Sanitize(string pathComponent)
 	{
-		var normalizedPathChars = path.Split(Path.GetInvalidFileNameChars());
-		var normalizedPath = string.Concat(normalizedPathChars);
-		var trimmedPath = normalizedPath
-			.TrimStart(' ')
-			.TrimEnd(' ', '.');
+		if (pathComponent is "." or "..")
+			return pathComponent;
 
-		return trimmedPath;
+		var sanitized = _directoryNameSanitizer.Sanitize(pathComponent);
+
+		return sanitized;
+	}
+
+	private string GetFallbackDirectory(IReadOnlyDictionary<string, string> tokens)
+	{
+		var templatedPath = _defaultPathProvider.GetDefaultPath();
+		var templatedDirectory = Path.GetDirectoryName(templatedPath) ?? string.Empty;
+		var directory = _textTemplateEngine.Render(templatedDirectory, tokens);
+		_logger.LogWarning("Fallback directory applied: {FallbackExportDirectoryTemplate}", templatedDirectory);
+
+		return directory;
+	}
+
+	private string GetFallbackFilename(IReadOnlyDictionary<string, string> tokens)
+	{
+		var templatedPath = _defaultPathProvider.GetDefaultPath();
+		var templatedFilename = Path.GetFileName(templatedPath);
+		var filename = _textTemplateEngine.Render(templatedFilename, tokens);
+		_logger.LogWarning("Fallback filename applied: {FallbackExportFilenameTemplate}", templatedFilename);
+
+		return filename;
 	}
 
 	private static string CollapseWhitespace(string filename) => Regex.Replace(filename, @"\s\s+", " ");
