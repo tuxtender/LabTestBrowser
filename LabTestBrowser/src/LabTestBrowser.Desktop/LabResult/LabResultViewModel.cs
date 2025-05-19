@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.Desktop.Dialogs;
+using LabTestBrowser.Desktop.LabResult.CompleteBloodCount;
 using LabTestBrowser.Desktop.LabResult.LabRequisition;
 using LabTestBrowser.Desktop.LabResult.ReportExportDialog;
 using LabTestBrowser.Desktop.Notification;
@@ -9,8 +10,6 @@ using LabTestBrowser.UseCases.LabTestReports.GetNext;
 using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 using LabTestBrowser.UseCases.LabTestReports.Save;
 using MediatR;
-using CompleteBloodCountViewModel = LabTestBrowser.Desktop.LabResult.CompleteBloodCount.CompleteBloodCountViewModel;
-using ReportExportDialogViewModel = LabTestBrowser.Desktop.LabResult.ReportExportDialog.ReportExportDialogViewModel;
 
 namespace LabTestBrowser.Desktop.LabResult;
 
