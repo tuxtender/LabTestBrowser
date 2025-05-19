@@ -3,7 +3,6 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:local="clr-namespace:LabTestBrowser.UI"
 		xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 		xmlns:ui="http://schemas.modernwpf.com/2019"
 		xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
@@ -12,14 +11,16 @@
 		xmlns:navigation="clr-namespace:LabTestBrowser.Desktop.Navigation"
 		xmlns:notification="clr-namespace:LabTestBrowser.Desktop.Notification"
 		xmlns:searchLabResult="clr-namespace:LabTestBrowser.Desktop.SearchLabResult"
-		mc:Ignorable="d"
 		Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 		d:DataContext="{d:DesignInstance {x:Type navigation:MainWindowViewModel}}"
+		mc:Ignorable="d"
 		Title="{x:Static localization:Strings.ApplicationTitle}"
 		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		MinHeight="640"
 		MinWidth="480"
-		SizeToContent="WidthAndHeight">
+		Height="800"
+		SizeToContent="Width"
+		ResizeMode="CanResize">
 
 	<Window.Resources>
 		<DataTemplate DataType="{x:Type labResult:LabResultViewModel}">
@@ -70,7 +71,7 @@
 			</ui:NavigationView>
 
 			<notification:StatusBarControl Grid.Row="1"
-									DataContext="{Binding StatusBar}" />
+										   DataContext="{Binding StatusBar}" />
 		</Grid>
 
 		<dialogs:DialogView DataContext="{Binding Dialog}" />

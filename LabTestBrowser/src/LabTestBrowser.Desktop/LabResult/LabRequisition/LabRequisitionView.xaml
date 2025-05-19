@@ -12,9 +12,22 @@
 
 	<GroupBox Header="{x:Static localization:Strings.LabRequisition_Title}">
 
-		<StackPanel>
-			<DatePicker HorizontalAlignment="Left"
-						Width="200"
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<DatePicker Grid.Row="0"
+						HorizontalAlignment="Stretch"
 						SelectedDate="{Binding LabOrderDate, Converter={StaticResource DateConverter}}"
 						ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_DateOfService}"
 						ui:ControlHelper.PlaceholderText="{x:Static localization:Strings.LabRequisition_PickDate}">
@@ -27,8 +40,9 @@
 				</b:Interaction.Triggers>
 			</DatePicker>
 
-			<ui:NumberBox Header="{x:Static localization:Strings.LabRequisition_SpecimenNumber}"
-						  Width="200"
+			<ui:NumberBox Grid.Row="1"
+						  HorizontalAlignment="Stretch"
+						  Header="{x:Static localization:Strings.LabRequisition_SpecimenNumber}"
 						  Value="{Binding LabOrderNumber, Mode=TwoWay}"
 						  Minimum="1"
 						  Maximum="1000">
@@ -42,13 +56,13 @@
 				</b:Interaction.Triggers>
 			</ui:NumberBox>
 
-			<ComboBox Name="FacilityComboBox"
-					  HorizontalAlignment="Left"
+			<ComboBox Grid.Row="2"
+					  HorizontalAlignment="Stretch"
+					  Name="FacilityComboBox"
 					  ItemsSource="{Binding CollectionCenters}"
 					  Text="{Binding Facility, Mode=TwoWay}"
 					  TextSearch.TextPath="Facility"
-					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_HealthcareFacility}"
-					  Width="200">
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_HealthcareFacility}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Facility}" />
@@ -56,41 +70,42 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 
-			<ComboBox IsEditable="True"
-					  HorizontalAlignment="Left"
+			<ComboBox Grid.Row="3"
+					  HorizontalAlignment="Stretch"
+					  IsEditable="True"
 					  ItemsSource="{Binding ElementName=FacilityComboBox, Path=SelectedItem.TradeNames}"
 					  Text="{Binding  TradeName}"
-					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_SatelliteFacility}"
-					  Width="200" />
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_SatelliteFacility}" />
 
-			<ComboBox Name="AnimalSpeciesComboBox"
-					  HorizontalAlignment="Left"
+			<ComboBox Grid.Row="4"
+					  HorizontalAlignment="Stretch"
+					  Name="AnimalSpeciesComboBox"
 					  ItemsSource="{Binding AnimalSpecies}"
 					  Text="{Binding Animal}"
 					  TextSearch.TextPath="Name"
-					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Animal}"
-					  Width="200">
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Animal}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			
-			<ui:AutoSuggestBox Text="{Binding PetOwner, Mode=TwoWay}"
-							   Width="200"
+
+			<ui:AutoSuggestBox Grid.Row="5"
+							   HorizontalAlignment="Stretch"
+							   Text="{Binding PetOwner, Mode=TwoWay}"
 							   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_PetOwner}" />
 
-
-			<ui:AutoSuggestBox Text="{Binding Nickname, Mode=TwoWay}"
-							   Width="200"
+			<ui:AutoSuggestBox Grid.Row="6"
+							   HorizontalAlignment="Stretch"
+							   Text="{Binding Nickname, Mode=TwoWay}"
 							   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Nickname}" />
 
-
-			<ui:AutoSuggestBox Name="BreedSuggestionBox"
+			<ui:AutoSuggestBox Grid.Row="7"
+							   HorizontalAlignment="Stretch"
+							   Name="BreedSuggestionBox"
 							   Text="{Binding Breed, Mode=TwoWay}"
 							   ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.SuggestedBreeds}"
-							   Width="200"
 							   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Breed}">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="TextChanged">
@@ -100,14 +115,16 @@
 				</b:Interaction.Triggers>
 			</ui:AutoSuggestBox>
 
-			<ComboBox IsEditable="True"
-					  HorizontalAlignment="Left"
+			<ComboBox Grid.Row="8"
+					  HorizontalAlignment="Stretch"
+					  IsEditable="True"
 					  ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.Categories}"
 					  Text="{Binding Category}"
-					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_CategoryAndSex}"
-					  Width="200" />
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_CategoryAndSex}" />
 
-			<Grid Width="200">
+			<Grid Grid.Row="9"
+				  HorizontalAlignment="Stretch">
+
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
@@ -142,6 +159,9 @@
 							  AcceptsExpression="False" />
 
 			</Grid>
-		</StackPanel>
+
+		</Grid>
+
 	</GroupBox>
+
 </UserControl>

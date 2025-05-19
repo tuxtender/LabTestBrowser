@@ -19,12 +19,32 @@
 	<DockPanel LastChildFill="True">
 		<labResult:LabResultCommandBar DockPanel.Dock="Top" />
 
-		<labRequisition:LabRequisitionView DockPanel.Dock="Left"
-									 Padding="5, 0"
-									 DataContext="{Binding Path= LabRequisition}" />
-		<completeBloodCount:CompleteBloodCountView DockPanel.Dock="Right"
-										 Padding="5, 0"
-										 DataContext="{Binding Path= CompleteBloodCount}" />
+		<Grid DockPanel.Dock="Left">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="5" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<labRequisition:LabRequisitionView Grid.Column="0"
+											   Margin="5"
+											   DataContext="{Binding Path= LabRequisition}" />
+
+			<GridSplitter Grid.Column="1"
+						  Width="5"
+						  Background="Transparent"
+						  HorizontalAlignment="Stretch"
+						  VerticalAlignment="Stretch"
+						  ResizeBehavior="PreviousAndNext"
+						  ShowsPreview="False"
+						  Cursor="SizeWE" />
+
+			<completeBloodCount:CompleteBloodCountView Grid.Column="2"
+													   Margin="5"
+													   DataContext="{Binding Path= CompleteBloodCount}" />
+
+		</Grid>
+
 	</DockPanel>
 
 </UserControl>

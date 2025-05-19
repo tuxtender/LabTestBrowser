@@ -173,40 +173,51 @@
 	</UserControl.Resources>
 
 	<GroupBox Header="{x:Static localization:Strings.CompleteBloodCount_Title}">
-		<StackPanel>
-		<DataGrid Padding="5"
-				  Height="470"
-				  AutoGenerateColumns="False"
-				  IsReadOnly="True"
-				  HeadersVisibility="Column"
-				  GridLinesVisibility="Horizontal"
-				  RowDetailsVisibilityMode="VisibleWhenSelected"
-				  BorderThickness="1"
-				  BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
-				  VerticalScrollBarVisibility="Visible"
-				  RowDetailsTemplate="{StaticResource CompleteBloodCountItemTemplate}"
-				  ItemsSource="{Binding Source={StaticResource SortedCompleteBloodCounts}}"
-				  SelectedItem="{Binding SelectedCompleteBloodCount}"
-				  VirtualizingPanel.VirtualizationMode="Recycling"
-				  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
-			<b:Interaction.Triggers>
-				<b:EventTrigger EventName="SelectionChanged">
-					<b:InvokeCommandAction Command="{Binding NotifyCommand}" />
-				</b:EventTrigger>
-			</b:Interaction.Triggers>
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_SpecimenDescription}"
-									Width="110"
-									Binding="{Binding Description}" />
-				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ExternalId}"
-									Width="110"
-									Binding="{Binding ExternalId}" />
-				<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ObservationTimestamp}"
-									Width="130"
-									Binding="{Binding ObservationTimestamp, StringFormat={}{0:HH:mm:ss dd.MM.yy}}" />
-			</DataGrid.Columns>
-		</DataGrid>
-			<StackPanel Margin="5"
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<DataGrid Grid.Row="0"
+					  ScrollViewer.VerticalScrollBarVisibility="Auto"
+					  ScrollViewer.CanContentScroll="True"
+					  AutoGenerateColumns="False"
+					  IsReadOnly="True"
+					  HeadersVisibility="Column"
+					  GridLinesVisibility="Horizontal"
+					  RowDetailsVisibilityMode="VisibleWhenSelected"
+					  BorderThickness="1"
+					  BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+					  VerticalScrollBarVisibility="Visible"
+					  RowDetailsTemplate="{StaticResource CompleteBloodCountItemTemplate}"
+					  ItemsSource="{Binding Source={StaticResource SortedCompleteBloodCounts}}"
+					  SelectedItem="{Binding SelectedCompleteBloodCount}"
+					  VirtualizingPanel.VirtualizationMode="Recycling"
+					  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+				<b:Interaction.Triggers>
+					<b:EventTrigger EventName="SelectionChanged">
+						<b:InvokeCommandAction Command="{Binding NotifyCommand}" />
+					</b:EventTrigger>
+				</b:Interaction.Triggers>
+
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_SpecimenDescription}"
+										Width="110"
+										Binding="{Binding Description}" />
+					<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ExternalId}"
+										Width="110"
+										Binding="{Binding ExternalId}" />
+					<DataGridTextColumn Header="{x:Static localization:Strings.CompleteBloodCount_ObservationTimestamp}"
+										Width="130"
+										Binding="{Binding ObservationTimestamp, StringFormat={}{0:HH:mm:ss dd.MM.yy}}" />
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<StackPanel Grid.Row="1"
+						Margin="0,10,0,10"
 						Orientation="Horizontal"
 						HorizontalAlignment="Right">
 				<Button Command="{Binding ResetCommand}"
@@ -220,6 +231,9 @@
 						Margin="2, 0,0,0"
 						Content="{x:Static localization:Strings.CompleteBloodCount_Report}" />
 			</StackPanel>
-		</StackPanel>
+
+		</Grid>
+
 	</GroupBox>
+
 </UserControl>
