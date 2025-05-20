@@ -168,4 +168,7 @@
     <data name="Day_Short" xml:space="preserve">
         <value>д</value>
     </data>
+    <data name="LabReport_DataNotSaved" xml:space="preserve">
+        <value>Данные не сохранены</value>
+    </data>
 </root>

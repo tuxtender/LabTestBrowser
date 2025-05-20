@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Ardalis.Result;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LabTestBrowser.Desktop.Dialogs;
 using LabTestBrowser.Desktop.LabResult.CompleteBloodCount;
@@ -8,6 +9,7 @@ using LabTestBrowser.Desktop.Notification;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
 using LabTestBrowser.UseCases.LabTestReports.GetPrevious;
+using LabTestBrowser.UseCases.LabTestReports.Match;
 using LabTestBrowser.UseCases.LabTestReports.Save;
 using MediatR;
 
@@ -100,8 +102,37 @@ public partial class LabResultViewModel : ObservableObject
 	[RelayCommand]
 	private async Task ExportAsync()
 	{
-		var dialogInput = new ReportExportDialogInput(LabRequisition.Id);
-		await _dialog.ShowAsync(_reportExportDialog, dialogInput);
+		var matchCommand = new MatchLabTestReportCommand
+		{
+			Id = LabRequisition.Id,
+			OrderNumber = LabRequisition.LabOrderNumber,
+			OrderDate = LabRequisition.LabOrderDate,
+			Facility = LabRequisition.Facility,
+			TradeName = LabRequisition.TradeName,
+			PetOwner = LabRequisition.PetOwner,
+			Nickname = LabRequisition.Nickname,
+			Animal = LabRequisition.Animal,
+			Category = LabRequisition.Category,
+			Breed = LabRequisition.Breed,
+			AgeInYears = LabRequisition.AgeInYears,
+			AgeInMonths = LabRequisition.AgeInMonths,
+			AgeInDays = LabRequisition.AgeInDays,
+		};
+
+		var result = await _mediator.Send(matchCommand);
+		if (result.IsSuccess)
+		{
+			var dialogInput = new ReportExportDialogInput(LabRequisition.Id);
+			await _dialog.ShowAsync(_reportExportDialog, dialogInput);
+			return;
+		}
+
+		var notification = result.ToNotification();
+
+		if (result.IsError())
+			notification.Level = NotificationLevel.Warning;
+
+		await _notificationService.PublishAsync(notification);
 	}
 
 	[RelayCommand]

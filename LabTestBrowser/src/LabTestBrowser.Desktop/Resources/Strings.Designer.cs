@@ -204,6 +204,15 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Данные не сохранены.
+        /// </summary>
+        public static string LabReport_DataNotSaved {
+            get {
+                return ResourceManager.GetString("LabReport_DataNotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ошибка экспорта.
         /// </summary>
         public static string LabReport_ExportFailed {
