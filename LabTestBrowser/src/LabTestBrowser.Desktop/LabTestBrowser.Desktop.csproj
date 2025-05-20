@@ -9,101 +9,57 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Ardalis.Result" />
-	  <PackageReference Include="CommunityToolkit.Mvvm" />
-	  <PackageReference Include="MediatR" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Microsoft.Extensions.Localization" />
-	  <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
-	  <PackageReference Include="ModernWpfUI" />
-	  <PackageReference Include="Serilog" />
-	  <PackageReference Include="Serilog.Extensions.Hosting" />
-	  <PackageReference Include="Serilog.Extensions.Logging" />
-	  <PackageReference Include="Serilog.Settings.Configuration" />
-	  <PackageReference Include="Serilog.Sinks.Console" />
-	  <PackageReference Include="Serilog.Sinks.File" />
-	  <PackageReference Include="SuperSocket.Server" />
-	  <PackageReference Include="System.Reactive" />
-	  <PackageReference Include="Wpf.Extensions.Hosting" />
+		<PackageReference Include="Ardalis.Result" />
+		<PackageReference Include="CommunityToolkit.Mvvm" />
+		<PackageReference Include="MediatR" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Localization" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+		<PackageReference Include="ModernWpfUI" />
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.Extensions.Hosting" />
+		<PackageReference Include="Serilog.Extensions.Logging" />
+		<PackageReference Include="Serilog.Settings.Configuration" />
+		<PackageReference Include="Serilog.Sinks.Console" />
+		<PackageReference Include="Serilog.Sinks.File" />
+		<PackageReference Include="SuperSocket.Server" />
+		<PackageReference Include="System.Reactive" />
+		<PackageReference Include="Wpf.Extensions.Hosting" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\LabTestBrowser.Infrastructure\LabTestBrowser.Infrastructure.csproj" />
-	  <ProjectReference Include="..\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj" />
+		<ProjectReference Include="..\LabTestBrowser.Infrastructure\LabTestBrowser.Infrastructure.csproj" />
+		<ProjectReference Include="..\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="labreportsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="animalsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="labreportsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="animalsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
+
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Strings.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Messages.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\ValidationErrors.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>ValidationErrors.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Errors.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Errors.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Messages.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\ValidationErrors.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Errors.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
 	</ItemGroup>
-	<ItemGroup>
-	  <Compile Update="Resources\Strings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Strings.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Messages.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Messages.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\ValidationErrors.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ValidationErrors.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Errors.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Errors.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-	<ItemGroup>
-	  <Page Update="LabResult\LabRequisition\LabRequisitionView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="LabResult\CompleteBloodCount\CompleteBloodCountView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="LabResult\ReportExportDialog\ReportExportDialogView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="SearchLabResult\SearchLabResultView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="Shell\StatusBarControl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="Notification\StatusBarControl.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
+
 </Project>

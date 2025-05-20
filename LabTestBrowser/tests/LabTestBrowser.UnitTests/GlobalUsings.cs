@@ -1,7 +1,5 @@
 ﻿global using System.Runtime.CompilerServices;
 global using Ardalis.SharedKernel;
-global using LabTestBrowser.Core.ContributorAggregate;
-global using LabTestBrowser.UseCases.Contributors.Create;
 global using FluentAssertions;
 global using MediatR;
 global using Microsoft.Extensions.Logging;

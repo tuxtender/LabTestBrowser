@@ -5,8 +5,8 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 xmlns:labRequisition="clr-namespace:LabTestBrowser.Desktop.LabResult.LabRequisition"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type labRequisition:LabRequisitionViewModel}}">
 

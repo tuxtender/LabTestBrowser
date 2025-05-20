@@ -3,10 +3,10 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:dialogs1="clr-namespace:LabTestBrowser.Desktop.Dialogs"
+			 xmlns:dialogs="clr-namespace:LabTestBrowser.Desktop.Dialogs"
 			 xmlns:reportExportDialog="clr-namespace:LabTestBrowser.Desktop.LabResult.ReportExportDialog"
 			 mc:Ignorable="d"
-			 d:DataContext="{d:DesignInstance {x:Type dialogs1:DialogViewModel}}">
+			 d:DataContext="{d:DesignInstance {x:Type dialogs:DialogViewModel}}">
 
 	<Grid Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
 		<Grid.Background>
@@ -18,8 +18,7 @@
 				VerticalAlignment="Center"
 				Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 				BorderBrush="DarkGray"
-				BorderThickness="1"
-				Padding="20">
+				BorderThickness="1">
 			<ContentControl Focusable="False"
 							Content="{Binding DialogContentViewModel}">
 				<FrameworkElement.Resources>
@@ -33,4 +32,5 @@
 		</Border>
 
 	</Grid>
+
 </UserControl>

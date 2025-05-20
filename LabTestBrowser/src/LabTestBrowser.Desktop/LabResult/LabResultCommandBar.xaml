@@ -4,8 +4,8 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
-			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 xmlns:labResult="clr-namespace:LabTestBrowser.Desktop.LabResult"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 d:DataContext="{d:DesignInstance {x:Type labResult:LabResultViewModel}}"
 			 mc:Ignorable="d">
 	<ui:CommandBar>

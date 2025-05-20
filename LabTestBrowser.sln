@@ -6,12 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.UseCases", "LabTestBrowser\src\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj", "{DB6B8AD2-A502-4843-A14A-16D9F744ECD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.Web", "LabTestBrowser\src\LabTestBrowser.Web\LabTestBrowser.Web.csproj", "{4715D87B-6269-46AA-AE6C-0A707B820603}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.FunctionalTests", "LabTestBrowser\tests\LabTestBrowser.FunctionalTests\LabTestBrowser.FunctionalTests.csproj", "{7580C39D-1EEE-4D96-A116-5033A3376EEC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.IntegrationTests", "LabTestBrowser\tests\LabTestBrowser.IntegrationTests\LabTestBrowser.IntegrationTests.csproj", "{A7F39242-7B91-4BCA-824F-E8A35A0E40DB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.UnitTests", "LabTestBrowser\tests\LabTestBrowser.UnitTests\LabTestBrowser.UnitTests.csproj", "{71A6544D-31D7-47F9-8AB1-3F3EF3F0CABC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabTestBrowser.Desktop", "LabTestBrowser\src\LabTestBrowser.Desktop\LabTestBrowser.Desktop.csproj", "{0FF6198A-0016-452D-867A-5C1D45D0EF03}"
@@ -36,18 +30,6 @@ Global
 		{DB6B8AD2-A502-4843-A14A-16D9F744ECD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB6B8AD2-A502-4843-A14A-16D9F744ECD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB6B8AD2-A502-4843-A14A-16D9F744ECD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4715D87B-6269-46AA-AE6C-0A707B820603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4715D87B-6269-46AA-AE6C-0A707B820603}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4715D87B-6269-46AA-AE6C-0A707B820603}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4715D87B-6269-46AA-AE6C-0A707B820603}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7580C39D-1EEE-4D96-A116-5033A3376EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7580C39D-1EEE-4D96-A116-5033A3376EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7580C39D-1EEE-4D96-A116-5033A3376EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7580C39D-1EEE-4D96-A116-5033A3376EEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7F39242-7B91-4BCA-824F-E8A35A0E40DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7F39242-7B91-4BCA-824F-E8A35A0E40DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7F39242-7B91-4BCA-824F-E8A35A0E40DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7F39242-7B91-4BCA-824F-E8A35A0E40DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{71A6544D-31D7-47F9-8AB1-3F3EF3F0CABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{71A6544D-31D7-47F9-8AB1-3F3EF3F0CABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71A6544D-31D7-47F9-8AB1-3F3EF3F0CABC}.Release|Any CPU.ActiveCfg = Release|Any CPU

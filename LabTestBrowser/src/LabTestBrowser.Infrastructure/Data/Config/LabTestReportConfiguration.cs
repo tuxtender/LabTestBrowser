@@ -6,21 +6,8 @@ public class LabTestReportConfiguration : IEntityTypeConfiguration<LabTestReport
 {
 	public void Configure(EntityTypeBuilder<LabTestReport> builder)
 	{
-
 		builder.OwnsOne(r => r.AccessionNumber);
 		builder.OwnsOne(r => r.SpecimenCollectionCenter);
-		builder.OwnsOne(r => r.Patient, patient => 
-			{
-				patient.OwnsOne(p => p.Age); 
-			});
+		builder.OwnsOne(r => r.Patient, patient => { patient.OwnsOne(p => p.Age); });
 	}
-
-	// modelBuilder.Entity<DetailedOrder>().OwnsOne(
-	// 	p => p.OrderDetails, od =>
-	// {
-	// 	od.WithOwner(d => d.Order);
-	// 	od.Navigation(d => d.Order).UsePropertyAccessMode(PropertyAccessMode.Property);
-	// 	od.OwnsOne(c => c.BillingAddress);
-	// 	od.OwnsOne(c => c.ShippingAddress);
-	// });
 }

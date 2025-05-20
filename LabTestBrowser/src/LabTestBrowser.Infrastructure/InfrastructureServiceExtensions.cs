@@ -1,5 +1,4 @@
 ﻿using LabTestBrowser.Core.Interfaces;
-using LabTestBrowser.Core.Services;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Data.Settings;
@@ -10,7 +9,6 @@ using LabTestBrowser.Infrastructure.Mllp;
 using LabTestBrowser.Infrastructure.Templating.Engines;
 using LabTestBrowser.Infrastructure.Templating.Tokens;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
-using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
@@ -30,11 +28,8 @@ public static class InfrastructureServiceExtensions
 
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
-			.AddScoped<IListContributorsQueryService, ListContributorsQueryService>()
-			.AddScoped<IDeleteContributorService, DeleteContributorService>()
 			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
 
-		
 		var labReportSection = config.GetSection(nameof(LabReportSettings));
 		var labReportSettings = labReportSection.Get<LabReportSettings>();
 		Guard.Against.Null(labReportSettings);
