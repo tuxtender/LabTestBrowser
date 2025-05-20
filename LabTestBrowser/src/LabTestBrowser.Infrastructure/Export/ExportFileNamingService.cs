@@ -7,20 +7,18 @@ namespace LabTestBrowser.Infrastructure.Export;
 
 public class ExportFileNamingService : IExportFileNamingService
 {
-	private readonly IFileNameSanitizer _fileNameSanitizer;
-	private readonly IDirectoryNameSanitizer _directoryNameSanitizer;
+	private readonly IPathSanitizer _pathSanitizer;
 	private readonly ITextTemplateEngine _textTemplateEngine;
 	private readonly IDefaultPathProvider _defaultPathProvider;
 	private readonly IBasePathProvider _basePathProvider;
 	private readonly ExportOptions _settings;
 	private readonly ILogger<ExportFileNamingService> _logger;
 
-	public ExportFileNamingService(IFileNameSanitizer fileNameSanitizer, IDirectoryNameSanitizer directoryNameSanitizer,
+	public ExportFileNamingService(IPathSanitizer pathSanitizer,
 		ITextTemplateEngine textTemplateEngine, IDefaultPathProvider defaultPathProvider,
 		IOptions<ExportOptions> exportOptions, IBasePathProvider basePathProvider, ILogger<ExportFileNamingService> logger)
 	{
-		_fileNameSanitizer = fileNameSanitizer;
-		_directoryNameSanitizer = directoryNameSanitizer;
+		_pathSanitizer = pathSanitizer;
 		_textTemplateEngine = textTemplateEngine;
 		_defaultPathProvider = defaultPathProvider;
 		_basePathProvider = basePathProvider;
@@ -43,7 +41,7 @@ public class ExportFileNamingService : IExportFileNamingService
 			directory = GetFallbackDirectory(tokens);
 
 		var renderedFilename = _textTemplateEngine.Render(_settings.Filename, tokens);
-		var sanitizedFilename = _fileNameSanitizer.Sanitize(renderedFilename);
+		var sanitizedFilename = _pathSanitizer.Sanitize(renderedFilename);
 		var filename = CollapseWhitespace(sanitizedFilename);
 		if (string.IsNullOrEmpty(filename))
 			filename = GetFallbackFilename(tokens);
@@ -60,7 +58,7 @@ public class ExportFileNamingService : IExportFileNamingService
 		if (pathComponent is "." or "..")
 			return pathComponent;
 
-		var sanitized = _directoryNameSanitizer.Sanitize(pathComponent);
+		var sanitized = _pathSanitizer.Sanitize(pathComponent);
 
 		return sanitized;
 	}

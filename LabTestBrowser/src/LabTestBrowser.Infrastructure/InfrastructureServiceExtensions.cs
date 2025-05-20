@@ -49,16 +49,15 @@ public static class InfrastructureServiceExtensions
 		services.AddScoped<IExportService, ExportService>();
 		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
 		services.AddSingleton<IBasePathProvider, BasePathProvider>();
-		
+
 		if (OperatingSystem.IsWindows())
 		{
-			services.AddSingleton<IFileNameSanitizer, WindowsPathSanitizer>();
-			services.AddSingleton<IDirectoryNameSanitizer, WindowsPathSanitizer>();
+			services.AddSingleton<IPathSanitizer, WindowsPathSanitizer>();
 		}
 		else
 		{
 			throw new PlatformNotSupportedException(
-				"Path sanitization not implemented for this OS. Please provide an IFileNameSanitizer and IDirectoryNameSanitizer implementation");
+				"Path sanitization not implemented for this OS. Please provide an IPathSanitizer implementation");
 		}
 
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();

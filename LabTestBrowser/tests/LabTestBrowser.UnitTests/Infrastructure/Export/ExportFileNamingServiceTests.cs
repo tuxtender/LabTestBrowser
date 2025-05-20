@@ -11,8 +11,7 @@ public class ExportFileNamingServiceTests
 	private readonly ITextTemplateEngine _textTemplateEngine = new TextTemplateEngine(NullLogger<TextTemplateEngine>.Instance);
 	private readonly IDefaultPathProvider _defaultPathProvider = new StubDefaultPathProvider(string.Empty);
 	private readonly IBasePathProvider _basePathProvider = new BasePathProvider();
-	private readonly IDirectoryNameSanitizer _directoryNameSanitizer = new WindowsPathSanitizer();
-	private readonly IFileNameSanitizer _fileNameSanitizer = new WindowsPathSanitizer();
+	private readonly IPathSanitizer _pathSanitizer = new WindowsPathSanitizer();
 	private readonly ILogger<ExportFileNamingService> _logger = NullLogger<ExportFileNamingService>.Instance;
 
 	private static IEnumerable<string> InvalidFileNameCharStrings => Path.GetInvalidFileNameChars().Select(c => c.ToString());
@@ -34,7 +33,7 @@ public class ExportFileNamingServiceTests
 			Filename = "report_{{REPORT_NAME}}"
 		});
 		var namingService =
-			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, _defaultPathProvider,
+			new ExportFileNamingService(_pathSanitizer, _textTemplateEngine, _defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
 
 		var path = await namingService.GetExportPathAsync(tokens, string.Empty);
@@ -58,7 +57,7 @@ public class ExportFileNamingServiceTests
 			Filename = "{{INVALID_FILENAME_CHARS_TOKEN}}"
 		});
 		var namingService =
-			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, _defaultPathProvider,
+			new ExportFileNamingService(_pathSanitizer, _textTemplateEngine, _defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
 
 		var path = await namingService.GetExportPathAsync(tokens, string.Empty);
@@ -84,7 +83,7 @@ public class ExportFileNamingServiceTests
 		});
 		var defaultPathProvider = new StubDefaultPathProvider(fallbackRelativePath);
 		var namingService =
-			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, defaultPathProvider,
+			new ExportFileNamingService(_pathSanitizer, _textTemplateEngine, defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
 
 		var path = await namingService.GetExportPathAsync(tokens, string.Empty);
@@ -111,7 +110,7 @@ public class ExportFileNamingServiceTests
 		var expected = Path.GetFullPath(fallbackPath, _basePathProvider.GetBasePath());
 		var defaultPathProvider = new StubDefaultPathProvider(templatedFallbackRelativePath);
 		var namingService =
-			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, defaultPathProvider,
+			new ExportFileNamingService(_pathSanitizer, _textTemplateEngine, defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
 
 		var path = await namingService.GetExportPathAsync(tokens, string.Empty);
@@ -135,7 +134,7 @@ public class ExportFileNamingServiceTests
 			Filename = "file-{{TOKEN1}}"
 		});
 		var namingService =
-			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, _defaultPathProvider,
+			new ExportFileNamingService(_pathSanitizer, _textTemplateEngine, _defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
 
 		var path = await namingService.GetExportPathAsync(tokens, string.Empty);
@@ -159,7 +158,7 @@ public class ExportFileNamingServiceTests
 			Filename = "{{TOKEN1}}"
 		});
 		var namingService =
-			new ExportFileNamingService(_fileNameSanitizer, _directoryNameSanitizer, _textTemplateEngine, _defaultPathProvider,
+			new ExportFileNamingService(_pathSanitizer, _textTemplateEngine, _defaultPathProvider,
 				exportOptions, _basePathProvider, _logger);
 
 		var path = await namingService.GetExportPathAsync(tokens, string.Empty);

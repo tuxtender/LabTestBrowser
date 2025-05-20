@@ -3,6 +3,7 @@ using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.Hl7.LaboratoryEquipment;
 using LabTestBrowser.UseCases.Hl7.ProcessHl7Request;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LabTestBrowser.UnitTests.UseCases.ProcessHl7Request;
 
@@ -10,7 +11,7 @@ public class ProcessHl7RequestUseCaseTests
 {
 	private readonly IMediator _mediator = Substitute.For<IMediator>();
 	private readonly IHl7AcknowledgmentService _acknowledgmentService = Substitute.For<IHl7AcknowledgmentService>();
-	private readonly ILogger<ProcessHl7RequestUseCase> _logger = Substitute.For<ILogger<ProcessHl7RequestUseCase>>();
+	private readonly ILogger<ProcessHl7RequestUseCase> _logger = NullLogger<ProcessHl7RequestUseCase>.Instance; 
 	private readonly V231OruR01Converter _converter = new();
 	private readonly ProcessHl7RequestUseCase _processHl7RequestUseCase;
 

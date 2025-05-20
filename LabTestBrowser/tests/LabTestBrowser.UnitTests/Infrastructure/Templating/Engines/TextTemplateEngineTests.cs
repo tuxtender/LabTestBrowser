@@ -1,16 +1,11 @@
 ﻿using LabTestBrowser.Infrastructure.Templating.Engines;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LabTestBrowser.UnitTests.Infrastructure.Templating.Engines;
 
 public class TextTemplateEngineTests
 {
-	private readonly ITextTemplateEngine _engine;
-
-	public TextTemplateEngineTests()
-	{
-		var logger = new LoggerFactory().CreateLogger<TextTemplateEngine>();
-		_engine = new TextTemplateEngine(logger);
-	}
+	private readonly ITextTemplateEngine _engine = new TextTemplateEngine(NullLogger<TextTemplateEngine>.Instance);
 
 	[Theory]
 	[InlineData("Hello, {{name}}!", "Hello, John!", "name", "John")]

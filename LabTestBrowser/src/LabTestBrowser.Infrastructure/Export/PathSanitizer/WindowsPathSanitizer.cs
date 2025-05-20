@@ -1,21 +1,19 @@
 ﻿namespace LabTestBrowser.Infrastructure.Export.PathSanitizer;
 
-public class WindowsPathSanitizer : IFileNameSanitizer, IDirectoryNameSanitizer
+public class WindowsPathSanitizer : IPathSanitizer
 {
-	string IFileNameSanitizer.Sanitize(string name) => Sanitize(name, Path.GetInvalidFileNameChars());
+	private readonly char[] _invalidChars = Path.GetInvalidFileNameChars();
 
-	string IDirectoryNameSanitizer.Sanitize(string name) => Sanitize(name, Path.GetInvalidPathChars());
-
-	private static string Sanitize(string name, char[] invalidChars)
+	public string Sanitize(string pathComponent)
 	{
-		if (string.IsNullOrWhiteSpace(name))
+		if (string.IsNullOrWhiteSpace(pathComponent))
 			return string.Empty;
 
-		var trimmed = name
+		var trimmed = pathComponent
 			.TrimStart(' ')
 			.TrimEnd(' ', '.');
 
-		var sanitizedChars = trimmed.Split(invalidChars, StringSplitOptions.RemoveEmptyEntries);
+		var sanitizedChars = trimmed.Split(_invalidChars, StringSplitOptions.RemoveEmptyEntries);
 		var sanitized = string.Concat(sanitizedChars);
 
 		if (IsReservedName(sanitized))
