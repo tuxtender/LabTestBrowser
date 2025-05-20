@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using LabTestBrowser.Core.CompleteBloodCountAggregate;
-using LabTestBrowser.Core.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
@@ -8,15 +7,15 @@ namespace LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
 public class GetUpdatedCompleteBloodCountsUseCase : IGetUpdatedCompleteBloodCountsUseCase
 {
 	private readonly IReadRepository<CompleteBloodCount> _repository;
-	private readonly ICompleteBloodCountUpdateChannel _updateChannel;
+	private readonly ICompleteBloodCountUpdateReader _reader;
 	private readonly ILogger<GetUpdatedCompleteBloodCountsUseCase> _logger;
 
 	public GetUpdatedCompleteBloodCountsUseCase(IReadRepository<CompleteBloodCount> repository,
-		ICompleteBloodCountUpdateChannel updateChannel,
+		ICompleteBloodCountUpdateReader reader,
 		ILogger<GetUpdatedCompleteBloodCountsUseCase> logger)
 	{
 		_repository = repository;
-		_updateChannel = updateChannel;
+		_reader = reader;
 		_logger = logger;
 	}
 
@@ -24,19 +23,16 @@ public class GetUpdatedCompleteBloodCountsUseCase : IGetUpdatedCompleteBloodCoun
 	{
 		_logger.LogInformation("Complete blood count stream started");
 
-		while (!cancellationToken.IsCancellationRequested)
+		await foreach (var id in _reader.ReadUpdatesAsync(cancellationToken))
 		{
-			var completeBloodCountId = await _updateChannel.ReadAsync();
-			var cbc = await _repository.GetByIdAsync(completeBloodCountId, cancellationToken);
+			var cbc = await _repository.GetByIdAsync(id, cancellationToken);
 			if (cbc == null)
 			{
-				_logger.LogWarning("Inconsistent data. Complete blood count id: {completeBloodCountId} hasn't been saved yet",
-					completeBloodCountId);
+				_logger.LogWarning("Inconsistent data. Complete blood count id: {CompleteBloodCountId} hasn't been saved yet", id);
 				continue;
 			}
 
 			yield return cbc.ConvertToCompleteBloodCountDto();
-			_logger.LogDebug("Complete blood count id: {completeBloodCountId} yielded into the sequence", completeBloodCountId);
 		}
 
 		_logger.LogInformation("Complete blood count stream canceled");

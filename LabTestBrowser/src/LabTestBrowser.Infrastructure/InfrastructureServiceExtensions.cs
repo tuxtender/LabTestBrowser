@@ -9,6 +9,7 @@ using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.Mllp;
 using LabTestBrowser.Infrastructure.Templating.Engines;
 using LabTestBrowser.Infrastructure.Templating.Tokens;
+using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
 using LabTestBrowser.UseCases.Contributors.List;
 using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.Hl7;
@@ -73,7 +74,10 @@ public static class InfrastructureServiceExtensions
 
 		services.AddSingleton<IV231OruR01Converter, V231OruR01Converter>();
 		services.AddSingleton<IHl7AcknowledgmentService, Hl7AcknowledgmentService>();
-		services.AddSingleton<ICompleteBloodCountUpdateChannel, CompleteBloodCountUpdateChannel>();
+
+		services.AddSingleton<CompleteBloodCountUpdateChannel>();
+		services.AddSingleton<ICompleteBloodCountUpdateNotifier>(provider => provider.GetRequiredService<CompleteBloodCountUpdateChannel>());
+		services.AddSingleton<ICompleteBloodCountUpdateReader>(provider => provider.GetRequiredService<CompleteBloodCountUpdateChannel>());
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
