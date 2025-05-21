@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LabTestBrowser.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250417144815_ReplaceCbcIdWithAccessionNumber")]
-    partial class ReplaceCbcIdWithAccessionNumber
+    [Migration("20250521230844_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,25 +44,6 @@ namespace LabTestBrowser.Infrastructure.Data.Migrations
                     b.ToTable("CompleteBloodCounts");
                 });
 
-            modelBuilder.Entity("LabTestBrowser.Core.ContributorAggregate.Contributor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contributors");
-                });
-
             modelBuilder.Entity("LabTestBrowser.Core.LabTestReportAggregate.LabTestReport", b =>
                 {
                     b.Property<int>("Id")
@@ -88,6 +69,9 @@ namespace LabTestBrowser.Infrastructure.Data.Migrations
                                 .HasColumnType("INTEGER");
 
                             b1.HasKey("CompleteBloodCountId");
+
+                            b1.HasIndex("SequenceNumber", "Date")
+                                .IsUnique();
 
                             b1.ToTable("CompleteBloodCounts");
 
@@ -383,35 +367,6 @@ namespace LabTestBrowser.Infrastructure.Data.Migrations
                     b.Navigation("WhiteBloodCell");
                 });
 
-            modelBuilder.Entity("LabTestBrowser.Core.ContributorAggregate.Contributor", b =>
-                {
-                    b.OwnsOne("LabTestBrowser.Core.ContributorAggregate.PhoneNumber", "PhoneNumber", b1 =>
-                        {
-                            b1.Property<int>("ContributorId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<string>("CountryCode")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Extension")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Number")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("ContributorId");
-
-                            b1.ToTable("Contributors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ContributorId");
-                        });
-
-                    b.Navigation("PhoneNumber");
-                });
-
             modelBuilder.Entity("LabTestBrowser.Core.LabTestReportAggregate.LabTestReport", b =>
                 {
                     b.OwnsOne("LabTestBrowser.Core.CompleteBloodCountAggregate.AccessionNumber", "AccessionNumber", b1 =>
@@ -467,6 +422,9 @@ namespace LabTestBrowser.Infrastructure.Data.Migrations
                                         .HasColumnType("INTEGER");
 
                                     b2.Property<int?>("Days")
+                                        .HasColumnType("INTEGER");
+
+                                    b2.Property<bool>("IsEmpty")
                                         .HasColumnType("INTEGER");
 
                                     b2.Property<int?>("Months")

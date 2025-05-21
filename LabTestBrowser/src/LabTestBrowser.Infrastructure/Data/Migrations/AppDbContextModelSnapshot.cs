@@ -41,25 +41,6 @@ namespace LabTestBrowser.Infrastructure.Data.Migrations
                     b.ToTable("CompleteBloodCounts");
                 });
 
-            modelBuilder.Entity("LabTestBrowser.Core.ContributorAggregate.Contributor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contributors");
-                });
-
             modelBuilder.Entity("LabTestBrowser.Core.LabTestReportAggregate.LabTestReport", b =>
                 {
                     b.Property<int>("Id")
@@ -381,35 +362,6 @@ namespace LabTestBrowser.Infrastructure.Data.Migrations
                     b.Navigation("RedBloodCellDistributionWidth");
 
                     b.Navigation("WhiteBloodCell");
-                });
-
-            modelBuilder.Entity("LabTestBrowser.Core.ContributorAggregate.Contributor", b =>
-                {
-                    b.OwnsOne("LabTestBrowser.Core.ContributorAggregate.PhoneNumber", "PhoneNumber", b1 =>
-                        {
-                            b1.Property<int>("ContributorId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<string>("CountryCode")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Extension")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Number")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("ContributorId");
-
-                            b1.ToTable("Contributors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ContributorId");
-                        });
-
-                    b.Navigation("PhoneNumber");
                 });
 
             modelBuilder.Entity("LabTestBrowser.Core.LabTestReportAggregate.LabTestReport", b =>
