@@ -7,8 +7,6 @@ namespace LabTestBrowser.UseCases.LabTestReports.Create;
 
 public class CreateLabTestReportHandler(
 	IRepository<LabTestReport> _repository,
-	IErrorLocalizationService _errorLocalizer,
-	IValidationLocalizationService _validationLocalizer,
 	ILogger<CreateLabTestReportHandler> _logger)
 	: ICommandHandler<CreateLabTestReportCommand, Result<LabTestReportDto>>
 {
@@ -18,7 +16,7 @@ public class CreateLabTestReportHandler(
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
-			return Result.Invalid(_validationLocalizer.Localize(accessionNumber.ValidationErrors));
+			return Result.Invalid(accessionNumber.ValidationErrors);
 		}
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);
@@ -26,12 +24,12 @@ public class CreateLabTestReportHandler(
 		if (labTestReport != null)
 		{
 			_logger.LogWarning("LabTestReport id: {labTestReportId} is already created", labTestReport.Id);
-			return Result.Conflict(_errorLocalizer.LabTestReportIdConflict);
+			return Result.Conflict("LabTestReportIdConflict");
 		}
 
 		var specimenCollectionCenter = SpecimenCollectionCenter.Create(request.Facility, request.TradeName!);
 		if (!specimenCollectionCenter.IsSuccess)
-			return Result.Invalid(_validationLocalizer.Localize(specimenCollectionCenter.ValidationErrors));
+			return Result.Invalid(specimenCollectionCenter.ValidationErrors);
 
 		var age = Age.Create(request.AgeInYears, request.AgeInMonths, request.AgeInDays);
 		if (!age.IsSuccess)
@@ -39,7 +37,7 @@ public class CreateLabTestReportHandler(
 
 		var patient = Patient.Create(request.Animal, age, request.PetOwner, request.Nickname, request.Category, request.Breed);
 		if (!patient.IsSuccess)
-			return Result.Invalid(_validationLocalizer.Localize(patient.ValidationErrors));
+			return Result.Invalid(patient.ValidationErrors);
 
 		labTestReport = new LabTestReport(accessionNumber, specimenCollectionCenter, patient);
 		await _repository.AddAsync(labTestReport, cancellationToken);

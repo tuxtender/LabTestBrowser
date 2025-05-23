@@ -8,7 +8,6 @@ namespace LabTestBrowser.UseCases.LabTestReports.GetPrevious;
 public class GetPreviousLabTestReportHandler(
 	ILabTestReportQueryService _query,
 	IReadRepository<LabTestReport> _repository,
-	IValidationLocalizationService _validationLocalizer,
 	ILogger<GetPreviousLabTestReportHandler> _logger)
 	: IQueryHandler<GetPreviousLabTestReportQuery, Result<LabTestReportDto>>
 {
@@ -18,7 +17,7 @@ public class GetPreviousLabTestReportHandler(
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
-			return Result.Invalid(_validationLocalizer.Localize(accessionNumber.ValidationErrors));
+			return Result.Invalid(accessionNumber.ValidationErrors);
 		}
 
 		var lastLabTestReportDto = await _query.FindLastLabTestReportAsync(request.OrderDate);

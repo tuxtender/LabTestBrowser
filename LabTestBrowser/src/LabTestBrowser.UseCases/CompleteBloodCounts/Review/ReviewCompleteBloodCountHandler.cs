@@ -6,21 +6,19 @@ namespace LabTestBrowser.UseCases.CompleteBloodCounts.Review;
 
 public class ReviewCompleteBloodCountHandler(
 	IRepository<CompleteBloodCount> _repository,
-	IErrorLocalizationService _errorLocalizer,
-	IValidationLocalizationService _validationLocalizer,
 	ILogger<ReviewCompleteBloodCountHandler> _logger)
 	: ICommandHandler<ReviewCompleteBloodCountCommand, Result>
 {
 	public async Task<Result> Handle(ReviewCompleteBloodCountCommand request, CancellationToken cancellationToken)
 	{
 		if (!request.CompleteBloodCountId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.TestNotSelected));
+			return Result.Invalid(new ValidationError("TestNotSelected"));
 
 		var accessionNumber = AccessionNumber.Create(request.LabOrderNumber, request.LabOrderDate);
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.LabOrderNumber, request.LabOrderDate);
-			return Result.Invalid(_validationLocalizer.Localize(accessionNumber.ValidationErrors));
+			return Result.Invalid(accessionNumber.ValidationErrors);
 		}
 
 		var spec = new CompleteBloodCountByAccessionNumberSpec(accessionNumber);
@@ -37,7 +35,7 @@ public class ReviewCompleteBloodCountHandler(
 		{
 			_logger.LogWarning("Missing required complete blood count id: {completeBloodCountId} in database",
 				request.CompleteBloodCountId.Value);
-			return Result.CriticalError(_errorLocalizer.ApplicationFault);
+			return Result.CriticalError("ApplicationFault");
 		}
 
 		cbc.Review(accessionNumber);

@@ -36,4 +36,10 @@
 		<ProjectReference Include="..\LabTestBrowser.UseCases\LabTestBrowser.UseCases.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 </Project>
