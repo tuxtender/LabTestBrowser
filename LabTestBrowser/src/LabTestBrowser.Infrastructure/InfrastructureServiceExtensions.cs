@@ -1,6 +1,7 @@
 ﻿using LabTestBrowser.Core.Interfaces;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
+using LabTestBrowser.Infrastructure.Data.Settings;
 using LabTestBrowser.Infrastructure.Export;
 using LabTestBrowser.Infrastructure.Export.PathSanitizer;
 using LabTestBrowser.Infrastructure.Hl7;
@@ -28,6 +29,17 @@ public static class InfrastructureServiceExtensions
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
 			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
+
+		var labReportSection = config.GetSection(nameof(LabReportSettings));
+		var labReportSettings = labReportSection.Get<LabReportSettings>();
+		Guard.Against.Null(labReportSettings);
+		var section = config.GetSection(nameof(AnimalSettings));
+		var animalSettings = section.Get<AnimalSettings>();
+		Guard.Against.Null(animalSettings);
+		var queryServiceFactory = new QueryServicesFromConfigFactory(labReportSettings, animalSettings);
+		services.AddSingleton(queryServiceFactory.CreateLabTestReportTemplateQueryService());
+		services.AddSingleton(queryServiceFactory.CreateListSpecimenCollectionCentersQueryService());
+		services.AddSingleton(queryServiceFactory.CreateListAnimalSpeciesQueryService());
 
 		services.AddScoped<IExportService, ExportService>();
 		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
