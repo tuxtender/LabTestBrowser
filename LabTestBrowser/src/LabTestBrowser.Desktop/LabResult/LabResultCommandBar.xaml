@@ -5,23 +5,24 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 xmlns:labResult="clr-namespace:LabTestBrowser.Desktop.LabResult"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 d:DataContext="{d:DesignInstance {x:Type labResult:LabResultViewModel}}"
 			 mc:Ignorable="d">
 	<ui:CommandBar>
 		<ui:AppBarButton Icon="Back"
 						 Command="{Binding  Path=PreviousCommand}"
-						 Label="CommandBar_Back" />
+						 Label="{x:Static localization:Strings.CommandBar_Back}" />
 		<ui:AppBarButton Icon="Forward"
 						 Command="{Binding  Path=NextCommand}"
-						 Label="CommandBar_Forward" />
+						 Label="{x:Static localization:Strings.CommandBar_Forward}" />
 		<ui:AppBarButton Icon="Add"
 						 Command="{Binding  Path=CreateCommand}"
-						 Label="CommandBar_New" />
+						 Label="{x:Static localization:Strings.CommandBar_New}" />
 		<ui:AppBarButton Icon="Save"
 						 Command="{Binding  Path=SaveCommand}"
-						 Label="CommandBar_Save" />
+						 Label="{x:Static localization:Strings.CommandBar_Save}" />
 		<ui:AppBarButton Icon="Download"
 						 Command="{Binding  Path=ExportCommand}"
-						 Label="CommandBar_Export" />
+						 Label="{x:Static localization:Strings.CommandBar_Export}" />
 	</ui:CommandBar>
 </UserControl>

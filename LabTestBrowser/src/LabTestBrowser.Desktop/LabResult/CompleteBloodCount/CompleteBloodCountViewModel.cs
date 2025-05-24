@@ -16,6 +16,8 @@ using MediatR;
 
 namespace LabTestBrowser.Desktop.LabResult.CompleteBloodCount;
 
+using Localizations = UI.Resources.Strings;
+
 public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<LabOrderChangedMessage>
 {
 	private readonly Lazy<Task> _runUpdateTask;
@@ -71,7 +73,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 		var notification = result.ToNotification();
 
 		if (result.IsSuccess)
-			notification = result.ToNotification("LabReport_TestReported");
+			notification = result.ToNotification(Localizations.LabReport_TestReported);
 
 		await _notificationService.PublishAsync(notification);
 	}
@@ -84,7 +86,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 		var notification = result.ToNotification();
 
 		if (result.IsSuccess)
-			notification = result.ToNotification("LabReport_TestReset");
+			notification = result.ToNotification(Localizations.LabReport_TestReset);
 
 		await _notificationService.PublishAsync(notification);
 	}
@@ -98,7 +100,7 @@ public partial class CompleteBloodCountViewModel : ObservableObject, IRecipient<
 		var notification = result.ToNotification();
 
 		if (result.IsSuccess)
-			notification = result.ToNotification("LabReport_TestSuppressed");
+			notification = result.ToNotification(Localizations.LabReport_TestSuppressed);
 
 		await _notificationService.PublishAsync(notification);
 	}

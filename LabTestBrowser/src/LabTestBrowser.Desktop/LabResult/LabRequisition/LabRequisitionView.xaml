@@ -6,10 +6,11 @@
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 			 xmlns:labRequisition="clr-namespace:LabTestBrowser.Desktop.LabResult.LabRequisition"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type labRequisition:LabRequisitionViewModel}}">
 
-	<GroupBox Header="LabRequisition_Title">
+	<GroupBox Header="{x:Static localization:Strings.LabRequisition_Title}">
 
 		<Grid>
 			<Grid.RowDefinitions>
@@ -28,8 +29,8 @@
 			<DatePicker Grid.Row="0"
 						HorizontalAlignment="Stretch"
 						SelectedDate="{Binding LabOrderDate, Converter={StaticResource DateConverter}}"
-						ui:ControlHelper.Header="LabRequisition_DateOfService"
-						ui:ControlHelper.PlaceholderText="LabRequisition_PickDate">
+						ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_DateOfService}"
+						ui:ControlHelper.PlaceholderText="{x:Static localization:Strings.LabRequisition_PickDate}">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="SelectedDateChanged">
 						<b:InvokeCommandAction Command="{Binding RestoreSessionCommand}"
@@ -41,7 +42,7 @@
 
 			<ui:NumberBox Grid.Row="1"
 						  HorizontalAlignment="Stretch"
-						  Header="LabRequisition_SpecimenNumber"
+						  Header="{x:Static localization:Strings.LabRequisition_SpecimenNumber}"
 						  Value="{Binding LabOrderNumber, Mode=TwoWay}"
 						  Minimum="1"
 						  Maximum="1000">
@@ -62,7 +63,7 @@
 					  ItemsSource="{Binding CollectionCenters}"
 					  Text="{Binding Facility, Mode=TwoWay}"
 					  TextSearch.TextPath="Facility"
-					  ui:ControlHelper.Header="LabRequisition_HealthcareFacility">
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_HealthcareFacility}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Facility}" />
@@ -75,7 +76,7 @@
 					  IsEditable="True"
 					  ItemsSource="{Binding ElementName=FacilityComboBox, Path=SelectedItem.TradeNames}"
 					  Text="{Binding  TradeName}"
-					  ui:ControlHelper.Header="LabRequisition_SatelliteFacility" />
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_SatelliteFacility}" />
 
 			<ComboBox Grid.Row="4"
 					  IsEditable="True"
@@ -84,7 +85,7 @@
 					  ItemsSource="{Binding AnimalSpecies}"
 					  Text="{Binding Animal}"
 					  TextSearch.TextPath="Name"
-					  ui:ControlHelper.Header="Strings.LabRequisition_Animal">
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Animal}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
@@ -95,19 +96,19 @@
 			<ui:AutoSuggestBox Grid.Row="5"
 							   HorizontalAlignment="Stretch"
 							   Text="{Binding PetOwner, Mode=TwoWay}"
-							   ui:ControlHelper.Header="LabRequisition_PetOwner" />
+							   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_PetOwner}" />
 
 			<ui:AutoSuggestBox Grid.Row="6"
 							   HorizontalAlignment="Stretch"
 							   Text="{Binding Nickname, Mode=TwoWay}"
-							   ui:ControlHelper.Header="LabRequisition_Nickname" />
+							   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Nickname}" />
 
 			<ui:AutoSuggestBox Grid.Row="7"
 							   HorizontalAlignment="Stretch"
 							   Name="BreedSuggestionBox"
 							   Text="{Binding Breed, Mode=TwoWay}"
 							   ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.SuggestedBreeds}"
-							   ui:ControlHelper.Header="LabRequisition_Breed">
+							   ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_Breed}">
 				<b:Interaction.Triggers>
 					<b:EventTrigger EventName="TextChanged">
 						<b:InvokeCommandAction Command="{Binding ElementName=AnimalSpeciesComboBox, Path= SelectedItem.SuggestBreedCommand}"
@@ -121,7 +122,7 @@
 					  IsEditable="True"
 					  ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.Categories}"
 					  Text="{Binding Category}"
-					  ui:ControlHelper.Header="LabRequisition_CategoryAndSex" />
+					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_CategoryAndSex}" />
 
 			<Grid Grid.Row="9"
 				  HorizontalAlignment="Stretch">
@@ -136,11 +137,11 @@
 				</Grid.ColumnDefinitions>
 
 				<ui:NumberBox Grid.Column="0"
-							  Header="LabRequisition_Age"
+							  Header="{x:Static localization:Strings.LabRequisition_Age}"
 							  Value="{Binding AgeInYears, Converter={StaticResource AgeConverter}}"
 							  Minimum="0"
 							  Margin="0,0,1,0"
-							  PlaceholderText="LabRequisition_AgeInYears"
+							  PlaceholderText="{x:Static localization:Strings.LabRequisition_AgeInYears}"
 							  AcceptsExpression="False" />
 
 				<ui:NumberBox Grid.Column="1"
@@ -148,7 +149,7 @@
 							  Value="{Binding AgeInMonths,  Converter={StaticResource AgeConverter}}"
 							  Minimum="0"
 							  Margin="1,0,1,0"
-							  PlaceholderText="LabRequisition_AgeInMonths"
+							  PlaceholderText="{x:Static localization:Strings.LabRequisition_AgeInMonths}"
 							  AcceptsExpression="False" />
 
 				<ui:NumberBox Grid.Column="2"
@@ -156,7 +157,7 @@
 							  Value="{Binding AgeInDays, Converter={StaticResource AgeConverter}}"
 							  Minimum="0"
 							  Margin="1,0,0,0"
-							  PlaceholderText="LabRequisition_AgeInDays"
+							  PlaceholderText="{x:Static localization:Strings.LabRequisition_AgeInDays}"
 							  AcceptsExpression="False" />
 
 			</Grid>

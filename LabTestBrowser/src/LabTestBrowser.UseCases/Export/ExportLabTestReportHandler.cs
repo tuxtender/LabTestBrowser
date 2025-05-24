@@ -11,6 +11,7 @@ namespace LabTestBrowser.UseCases.Export;
 public class ExportLabTestReportHandler : ICommandHandler<ExportLabTestReportCommand, Result>
 {
 	private readonly IExportService _exportService;
+	private readonly IErrorLocalizationService _errorLocalizer;
 	private readonly ILogger<ExportLabTestReportHandler> _logger;
 
 	private readonly IRepository<LabTestReport> _reportRepository;
@@ -18,11 +19,13 @@ public class ExportLabTestReportHandler : ICommandHandler<ExportLabTestReportCom
 	private readonly IRepository<CompleteBloodCount> _cbcRepository;
 
 	public ExportLabTestReportHandler(IExportService exportService,
+		IErrorLocalizationService errorLocalizer,
 		ILogger<ExportLabTestReportHandler> logger, IRepository<LabTestReport> reportRepository,
 		ILabTestReportTemplateQueryService templateQueryService, IRepository<CompleteBloodCount> cbcRepository,
 		IExportFileNamingService exportFileNamingService)
 	{
 		_exportService = exportService;
+		_errorLocalizer = errorLocalizer;
 		_logger = logger;
 		_reportRepository = reportRepository;
 		_templateQueryService = templateQueryService;
@@ -32,13 +35,13 @@ public class ExportLabTestReportHandler : ICommandHandler<ExportLabTestReportCom
 	public async Task<Result> Handle(ExportLabTestReportCommand request, CancellationToken cancellationToken)
 	{
 		if (!request.LabTestReportId.HasValue)
-			return Result.Invalid(new ValidationError("LabTestReportNotSaved"));
+			return Result.Invalid(new ValidationError(_errorLocalizer.LabTestReportNotSaved));
 
 		var report = await _reportRepository.GetByIdAsync(request.LabTestReportId.Value, cancellationToken);
 		if (report == null)
 		{
 			_logger.LogWarning("Missing required LabTestReport id: {LabTestReportId}", request.LabTestReportId.Value);
-			return Result.CriticalError("ExportFailed");
+			return Result.CriticalError(_errorLocalizer.ExportFailed);
 		}
 
 		var spec = new CompleteBloodCountByAccessionNumberSpec(report.AccessionNumber);
@@ -49,7 +52,7 @@ public class ExportLabTestReportHandler : ICommandHandler<ExportLabTestReportCom
 		if (reportTemplates.Contains(null))
 		{
 			_logger.LogWarning("Some LabTestReportTemplate could not be found");
-			return Result.CriticalError("ExportFailed");
+			return Result.CriticalError(_errorLocalizer.ExportFailed);
 		}
 
 		var exportTasks = reportTemplates
@@ -61,7 +64,7 @@ public class ExportLabTestReportHandler : ICommandHandler<ExportLabTestReportCom
 		if (results.All(result => result.IsSuccess))
 			return Result.Success();
 
-		return Result.Error("ExportFailed");
+		return Result.Error(_errorLocalizer.ExportFailed);
 	}
 
 	private async Task<Result> ExportAsync(LabTestReportTemplate template, LabTestReport report, CompleteBloodCount? completeBloodCount)

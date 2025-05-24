@@ -8,6 +8,7 @@ namespace LabTestBrowser.UseCases.LabTestReports.GetNext;
 public class GetNextLabTestReportHandler(
 	ILabTestReportQueryService _query,
 	IReadRepository<LabTestReport> _repository,
+	IValidationLocalizationService _validationLocalizer,
 	ILogger<GetNextLabTestReportHandler> _logger)
 	: IQueryHandler<GetNextLabTestReportQuery, Result<LabTestReportDto>>
 {
@@ -17,7 +18,7 @@ public class GetNextLabTestReportHandler(
 		if (!accessionNumber.IsSuccess)
 		{
 			_logger.LogWarning("Invalid values for AccessionNumber: {sequenceNumber} {date}", request.OrderNumber, request.OrderDate);
-			return Result.Invalid(accessionNumber.ValidationErrors);
+			return Result.Invalid(_validationLocalizer.Localize(accessionNumber.ValidationErrors));
 		}
 
 		var spec = new LabTestReportByAccessionNumberSpec(accessionNumber);

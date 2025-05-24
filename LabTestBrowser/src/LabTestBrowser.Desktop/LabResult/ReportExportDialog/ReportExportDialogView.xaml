@@ -6,6 +6,7 @@
 			 xmlns:ui="http://schemas.modernwpf.com/2019"
 			 xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
 			 xmlns:reportExportDialog="clr-namespace:LabTestBrowser.Desktop.LabResult.ReportExportDialog"
+			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance {x:Type reportExportDialog:ReportExportDialogViewModel}}"
 			 Width="{Binding MinWidth, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -13,7 +14,7 @@
 
 	<UserControl.Resources>
 
-		<DataTemplate x:Key="ReportDescriptionTemplate"
+		<DataTemplate x:Key="ExportListViewTemplate"
 					  DataType="{x:Type reportExportDialog:LabTestReportTemplateViewModel}">
 			<Grid Visibility="Visible"
 				  IsEnabled="True">
@@ -69,9 +70,9 @@
 		</ui:ListView>
 
 		<ui:ToggleSwitch Grid.Row="1"
-						 Header="ReportTemplateDialog_RegisteredTemplates"
-						 OnContent="ReportTemplateDialog_Hide"
-						 OffContent="ReportTemplateDialog_Show"
+						 Header="{x:Static localization:Strings.ReportTemplateDialog_RegisteredTemplates}"
+						 OnContent="{x:Static localization:Strings.ReportTemplateDialog_Hide}"
+						 OffContent="{x:Static localization:Strings.ReportTemplateDialog_Show}"
 						 IsOn="{Binding IsFilterEnabled, Converter={StaticResource BooleanInverterConverter}}">
 			<b:Interaction.Triggers>
 				<b:EventTrigger EventName="Toggled">
@@ -87,13 +88,13 @@
 			</Grid.ColumnDefinitions>
 
 			<Button Grid.Column="0"
-					Content="ReportTemplateDialog_Export"
+					Content="{x:Static localization:Strings.ReportTemplateDialog_Export}"
 					Margin="0, 0,2,0"
 					HorizontalAlignment="Stretch"
 					Command="{Binding ExportCommand}"
 					Style="{DynamicResource AccentButtonStyle}" />
 			<Button Grid.Column="1"
-					Content="ReportTemplateDialog_Cancel"
+					Content="{x:Static localization:Strings.ReportTemplateDialog_Cancel}"
 					Margin="2, 0,0,0"
 					IsCancel="True"
 					Command="{Binding CancelCommand}"

@@ -25,6 +25,7 @@ builder.Services.AddMllpServerConfigs();
 builder.Services.AddUseCaseConfigs();
 builder.Services.AddMediatrConfigs();
 builder.Services.AddPresentationConfigs();
+builder.Services.AddLocalizationConfigs();
 
 var app = builder.Build();
 app.EnsureDatabaseCreated();

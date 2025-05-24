@@ -9,6 +9,8 @@ using MediatR;
 
 namespace LabTestBrowser.Desktop.LabResult.ReportExportDialog;
 
+using Localizations = UI.Resources.Strings;
+
 public partial class ReportExportDialogViewModel : ObservableObject,
 	IDialogContentViewModel<ReportExportDialogInput, ReportExportDialogOutput>
 {
@@ -52,7 +54,7 @@ public partial class ReportExportDialogViewModel : ObservableObject,
 		var result = await _mediator.Send(query);
 		if (!result.IsSuccess)
 		{
-			await _notificationService.PublishAsync(result.ToNotification("LabReport_ExportFailed"));
+			await _notificationService.PublishAsync(result.ToNotification(Localizations.LabReport_ExportFailed));
 			var dialogOutput = new ReportExportDialogOutput(ReportExportDialogResult.Error);
 			_tcs?.SetResult(dialogOutput);
 			return [];
@@ -84,7 +86,7 @@ public partial class ReportExportDialogViewModel : ObservableObject,
 
 		if (result.IsSuccess)
 		{
-			notification = result.ToNotification("LabReport_ReportExported");
+			notification = result.ToNotification(Localizations.LabReport_ReportExported);
 			dialogOutput = new ReportExportDialogOutput(ReportExportDialogResult.Ok);
 		}
 

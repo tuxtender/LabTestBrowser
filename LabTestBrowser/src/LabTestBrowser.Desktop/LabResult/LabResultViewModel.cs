@@ -15,6 +15,8 @@ using MediatR;
 
 namespace LabTestBrowser.Desktop.LabResult;
 
+using Localizations = UI.Resources.Strings;
+
 public partial class LabResultViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
@@ -86,12 +88,12 @@ public partial class LabResultViewModel : ObservableObject
 		};
 
 		var result = await _mediator.Send(saveLabTestReportCommand);
-		var notification = result.ToNotification("LabReport_ReportSavingFailed");
+		var notification = result.ToNotification(Localizations.LabReport_ReportSavingFailed);
 
 		if (result.IsSuccess)
 		{
 			LabRequisition.SetLabRequisition(result);
-			notification = result.ToNotification("LabReport_ReportSaved");
+			notification = result.ToNotification(Localizations.LabReport_ReportSaved);
 		}
 
 		await _notificationService.PublishAsync(notification);
@@ -138,7 +140,7 @@ public partial class LabResultViewModel : ObservableObject
 	{
 		var notification = new NotificationMessage
 		{
-			Title = "LabReport_Loading"
+			Title = Localizations.LabReport_Loading
 		};
 		await _notificationService.PublishAsync(notification);
 
@@ -147,7 +149,7 @@ public partial class LabResultViewModel : ObservableObject
 
 		notification = new NotificationMessage
 		{
-			Title = "LabReport_Idle"
+			Title = Localizations.LabReport_Idle
 		};
 		await _notificationService.PublishAsync(notification);
 	}

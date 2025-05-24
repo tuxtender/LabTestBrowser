@@ -48,4 +48,19 @@
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Strings.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Messages.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\ValidationErrors.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Errors.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+
 </Project>

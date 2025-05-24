@@ -10,9 +10,11 @@
 		xmlns:notification="clr-namespace:LabTestBrowser.Desktop.Notification"
 		xmlns:searchLabResult="clr-namespace:LabTestBrowser.Desktop.SearchLabResult"
 		xmlns:dialogs="clr-namespace:LabTestBrowser.Desktop.Dialogs"
+		xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 		Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 		d:DataContext="{d:DesignInstance {x:Type navigation:MainWindowViewModel}}"
 		mc:Ignorable="d"
+		Title="{x:Static localization:Strings.ApplicationTitle}"
 		ui:ThemeManager.RequestedTheme="{Binding StatusBar.ApplicationMode, Converter={StaticResource ApplicationThemeConverter}}"
 		MinHeight="640"
 		MinWidth="480"
@@ -56,11 +58,11 @@
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 				<ui:NavigationView.MenuItems>
-					<ui:NavigationViewItem Content="MainWindow_Tests"
+					<ui:NavigationViewItem Content="{x:Static localization:Strings.MainWindow_Tests}"
 										   Tag="{x:Type labResult:LabResultViewModel}"
 										   Icon="Home">
 					</ui:NavigationViewItem>
-					<ui:NavigationViewItem Content="MainWindow_Search"
+					<ui:NavigationViewItem Content="{x:Static localization:Strings.MainWindow_Search}"
 										   Tag="{x:Type searchLabResult:SearchLabResultViewModel}"
 										   Icon="Find">
 					</ui:NavigationViewItem>
