@@ -1,11 +1,14 @@
 ﻿using LabTestBrowser.Core.Interfaces;
 using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
+using LabTestBrowser.Infrastructure.Export;
+using LabTestBrowser.Infrastructure.Export.PathSanitizer;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.Mllp;
 using LabTestBrowser.Infrastructure.Templating.Engines;
 using LabTestBrowser.Infrastructure.Templating.Tokens;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
+using LabTestBrowser.UseCases.Export;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
 
@@ -25,6 +28,20 @@ public static class InfrastructureServiceExtensions
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
 			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
+
+		services.AddScoped<IExportService, ExportService>();
+		services.AddSingleton<IExportFileNamingService, ExportFileNamingService>();
+		services.AddSingleton<IBasePathProvider, BasePathProvider>();
+
+		if (OperatingSystem.IsWindows())
+		{
+			services.AddSingleton<IPathSanitizer, WindowsPathSanitizer>();
+		}
+		else
+		{
+			throw new PlatformNotSupportedException(
+				"Path sanitization not implemented for this OS. Please provide an IPathSanitizer implementation");
+		}
 
 		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
 		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();
