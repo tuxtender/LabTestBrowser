@@ -1,0 +1,49 @@
+﻿{
+  "AnimalSettings": {
+    "Animals": [
+      {
+        "Id": 0,
+        "Title": "Cat",
+        "Genders": [
+          "Tomcat",
+          "Queen",
+          "Kitten"
+        ],
+        "Breeds": [
+          "Cat breed A",
+          "Cat breed B"
+        ]
+      },
+      {
+        "Id": 1,
+        "Title": "Dog",
+        "Genders": [
+          "Dog",
+          "Bitch",
+          "Pup"
+        ],
+        "Breeds": [
+          "Dog breed A",
+          "Dog breed B"
+        ]
+      },
+      {
+        "Id": 2,
+        "Title": "Horse",
+        "Genders": [
+          "Stallion",
+          "Filly",
+          "Mare",
+          "Foal ",
+          "Colt",
+          "Gelding"
+        ],
+        "Breeds": [
+          "Horse breed A",
+          "Horse breed B",
+          "Horse breed C"
+        ]
+      }
+    ]
+  }
+}

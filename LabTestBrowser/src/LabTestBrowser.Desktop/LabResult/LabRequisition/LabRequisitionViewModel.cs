@@ -2,9 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using LabTestBrowser.Desktop.LabResult.Messages;
+using LabTestBrowser.UseCases.AnimalSpecies.List;
 using LabTestBrowser.UseCases.LabTestReports;
 using LabTestBrowser.UseCases.LabTestReports.Get;
 using LabTestBrowser.UseCases.LabTestReports.GetLast;
+using LabTestBrowser.UseCases.SpecimenCollectionCenters.List;
 using MediatR;
 
 namespace LabTestBrowser.Desktop.LabResult.LabRequisition;
@@ -29,6 +31,8 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 	private int? _ageInYears;
 	private int? _ageInMonths;
 	private int? _ageInDays;
+	private IReadOnlyCollection<CollectionCenterViewModel> _collectionCenters = [];
+	private IReadOnlyCollection<AnimalSpeciesViewModel> _animalSpecies = [];
 	private bool _isExternalUpdate;
 
 	public LabRequisitionViewModel(IMediator mediator, ILogger<LabRequisitionViewModel> logger)
@@ -55,6 +59,12 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 		set => SetProperty(ref _labOrderNumber, value);
 	}
 
+	public IReadOnlyCollection<CollectionCenterViewModel> CollectionCenters
+	{
+		get => _collectionCenters;
+		private set => SetProperty(ref _collectionCenters, value);
+	}
+
 	public string? Facility
 	{
 		get => _facility;
@@ -65,6 +75,12 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 	{
 		get => _tradeName;
 		set => SetProperty(ref _tradeName, value);
+	}
+
+	public IReadOnlyCollection<AnimalSpeciesViewModel> AnimalSpecies
+	{
+		get => _animalSpecies;
+		private set => SetProperty(ref _animalSpecies, value);
 	}
 
 	public string? Animal
@@ -131,6 +147,19 @@ public partial class LabRequisitionViewModel : ObservableObject, IRecipient<LabO
 
 	public async Task LoadAsync()
 	{
+		var centers = await _mediator.Send(new ListSpecimenCollectionCentersQuery(null, null));
+		CollectionCenters = centers.Value.Select(center => new CollectionCenterViewModel
+			{
+				Facility = center.Facility!,
+				TradeNames = center.TradeNames
+			})
+			.ToList();
+
+		var animals = await _mediator.Send(new ListAnimalSpeciesQuery(null, null));
+		AnimalSpecies = animals.Value
+			.Select(a => new AnimalSpeciesViewModel(a.Name, a.Breeds.ToList(), a.Categories.ToList()))
+			.ToList();
+
 		await RestoreSessionAsync(LabOrderDate);
 
 		Notify();

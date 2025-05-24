@@ -58,21 +58,38 @@
 			<ComboBox Grid.Row="2"
 					  IsEditable="True"
 					  HorizontalAlignment="Stretch"
+					  Name="FacilityComboBox"
+					  ItemsSource="{Binding CollectionCenters}"
 					  Text="{Binding Facility, Mode=TwoWay}"
+					  TextSearch.TextPath="Facility"
 					  ui:ControlHelper.Header="LabRequisition_HealthcareFacility">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Facility}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
 			</ComboBox>
 
 			<ComboBox Grid.Row="3"
 					  HorizontalAlignment="Stretch"
 					  IsEditable="True"
+					  ItemsSource="{Binding ElementName=FacilityComboBox, Path=SelectedItem.TradeNames}"
 					  Text="{Binding  TradeName}"
 					  ui:ControlHelper.Header="LabRequisition_SatelliteFacility" />
 
 			<ComboBox Grid.Row="4"
 					  IsEditable="True"
 					  HorizontalAlignment="Stretch"
+					  Name="AnimalSpeciesComboBox"
+					  ItemsSource="{Binding AnimalSpecies}"
 					  Text="{Binding Animal}"
-					  ui:ControlHelper.Header="LabRequisition_Animal">
+					  TextSearch.TextPath="Name"
+					  ui:ControlHelper.Header="Strings.LabRequisition_Animal">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
 			</ComboBox>
 
 			<ui:AutoSuggestBox Grid.Row="5"
@@ -87,13 +104,22 @@
 
 			<ui:AutoSuggestBox Grid.Row="7"
 							   HorizontalAlignment="Stretch"
+							   Name="BreedSuggestionBox"
 							   Text="{Binding Breed, Mode=TwoWay}"
+							   ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.SuggestedBreeds}"
 							   ui:ControlHelper.Header="LabRequisition_Breed">
+				<b:Interaction.Triggers>
+					<b:EventTrigger EventName="TextChanged">
+						<b:InvokeCommandAction Command="{Binding ElementName=AnimalSpeciesComboBox, Path= SelectedItem.SuggestBreedCommand}"
+											   CommandParameter="{Binding ElementName=BreedSuggestionBox, Path=Text}" />
+					</b:EventTrigger>
+				</b:Interaction.Triggers>
 			</ui:AutoSuggestBox>
 
 			<ComboBox Grid.Row="8"
 					  HorizontalAlignment="Stretch"
 					  IsEditable="True"
+					  ItemsSource="{Binding ElementName=AnimalSpeciesComboBox, Path=SelectedItem.Categories}"
 					  Text="{Binding Category}"
 					  ui:ControlHelper.Header="LabRequisition_CategoryAndSex" />
 
