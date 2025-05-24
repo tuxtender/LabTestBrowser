@@ -1,6 +1,8 @@
-﻿using LabTestBrowser.Desktop.LabResult;
+﻿using LabTestBrowser.Desktop.Dialogs;
+using LabTestBrowser.Desktop.LabResult;
 using LabTestBrowser.Desktop.LabResult.CompleteBloodCount;
 using LabTestBrowser.Desktop.LabResult.LabRequisition;
+using LabTestBrowser.Desktop.LabResult.ReportExportDialog;
 using LabTestBrowser.Desktop.Navigation;
 using LabTestBrowser.Desktop.Notification;
 using LabTestBrowser.Desktop.SearchLabResult;
@@ -12,6 +14,8 @@ public static class PresentationConfigs
 	public static IServiceCollection AddPresentationConfigs(this IServiceCollection services)
 	{
 		services.AddSingleton<MainWindowViewModel>();
+		services.AddSingleton<DialogViewModel>();
+		services.AddSingleton<ReportExportDialogViewModel>();
 		services.AddSingleton<LabRequisitionViewModel>();
 		services.AddSingleton<CompleteBloodCountViewModel>();
 		services.AddSingleton<StatusBarViewModel>();

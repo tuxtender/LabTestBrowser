@@ -6,7 +6,6 @@ namespace LabTestBrowser.UseCases.LabTestReportTemplates.ListRegistered;
 public class ListRegisteredLabTestReportTemplatesHandler(
 	ILabTestReportTemplateQueryService _queryService,
 	IRepository<LabTestReport> _repository,
-	IErrorLocalizationService _errorLocalizer,
 	ILogger<ListRegisteredLabTestReportTemplatesHandler> _logger)
 	: IQueryHandler<ListRegisteredLabTestReportTemplatesQuery, Result<IEnumerable<LabTestReportTemplateDto>>>
 {
@@ -14,13 +13,13 @@ public class ListRegisteredLabTestReportTemplatesHandler(
 		CancellationToken cancellationToken)
 	{
 		if (!query.LabTestReportId.HasValue)
-			return Result.Invalid(new ValidationError(_errorLocalizer.LabTestReportNotSaved));
+			return Result.Invalid(new ValidationError("LabTestReportNotSaved"));
 
 		var report = await _repository.GetByIdAsync(query.LabTestReportId.Value, cancellationToken);
 		if (report == null)
 		{
 			_logger.LogWarning("LabTestReport id: {LabTestReportId} not found", query.LabTestReportId);
-			return Result.CriticalError(_errorLocalizer.ApplicationFault);
+			return Result.CriticalError("ApplicationFault");
 		}
 
 		var facility = report.SpecimenCollectionCenter.Facility;

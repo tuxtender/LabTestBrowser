@@ -9,6 +9,7 @@
 		xmlns:navigation="clr-namespace:LabTestBrowser.Desktop.Navigation"
 		xmlns:notification="clr-namespace:LabTestBrowser.Desktop.Notification"
 		xmlns:searchLabResult="clr-namespace:LabTestBrowser.Desktop.SearchLabResult"
+		xmlns:dialogs="clr-namespace:LabTestBrowser.Desktop.Dialogs"
 		Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
 		d:DataContext="{d:DesignInstance {x:Type navigation:MainWindowViewModel}}"
 		mc:Ignorable="d"
@@ -70,6 +71,8 @@
 			<notification:StatusBarControl Grid.Row="1"
 										   DataContext="{Binding StatusBar}" />
 		</Grid>
+
+		<dialogs:DialogView DataContext="{Binding Dialog}" />
 
 	</Grid>
 </Window>

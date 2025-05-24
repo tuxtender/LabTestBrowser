@@ -1,8 +1,10 @@
 ﻿using Ardalis.Result;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LabTestBrowser.Desktop.Dialogs;
 using LabTestBrowser.Desktop.LabResult.CompleteBloodCount;
 using LabTestBrowser.Desktop.LabResult.LabRequisition;
+using LabTestBrowser.Desktop.LabResult.ReportExportDialog;
 using LabTestBrowser.Desktop.Notification;
 using LabTestBrowser.UseCases.LabTestReports.GetEmpty;
 using LabTestBrowser.UseCases.LabTestReports.GetNext;
@@ -16,14 +18,20 @@ namespace LabTestBrowser.Desktop.LabResult;
 public partial class LabResultViewModel : ObservableObject
 {
 	private readonly IMediator _mediator;
+	private readonly ReportExportDialogViewModel _reportExportDialog;
 	private readonly INotificationService _notificationService;
+	private readonly DialogViewModel _dialog;
 
 	public LabResultViewModel(IMediator mediator,
 		INotificationService notificationService,
+		ReportExportDialogViewModel reportExportDialog,
 		LabRequisitionViewModel labRequisition,
-		CompleteBloodCountViewModel completeBloodCountViewModel)
+		CompleteBloodCountViewModel completeBloodCountViewModel,
+		DialogViewModel dialogViewModel)
 	{
 		_mediator = mediator;
+		_reportExportDialog = reportExportDialog;
+		_dialog = dialogViewModel;
 		LabRequisition = labRequisition;
 		CompleteBloodCount = completeBloodCountViewModel;
 		_notificationService = notificationService;
@@ -85,6 +93,42 @@ public partial class LabResultViewModel : ObservableObject
 			LabRequisition.SetLabRequisition(result);
 			notification = result.ToNotification("LabReport_ReportSaved");
 		}
+
+		await _notificationService.PublishAsync(notification);
+	}
+
+	[RelayCommand]
+	private async Task ExportAsync()
+	{
+		var matchCommand = new MatchLabTestReportCommand
+		{
+			Id = LabRequisition.Id,
+			OrderNumber = LabRequisition.LabOrderNumber,
+			OrderDate = LabRequisition.LabOrderDate,
+			Facility = LabRequisition.Facility,
+			TradeName = LabRequisition.TradeName,
+			PetOwner = LabRequisition.PetOwner,
+			Nickname = LabRequisition.Nickname,
+			Animal = LabRequisition.Animal,
+			Category = LabRequisition.Category,
+			Breed = LabRequisition.Breed,
+			AgeInYears = LabRequisition.AgeInYears,
+			AgeInMonths = LabRequisition.AgeInMonths,
+			AgeInDays = LabRequisition.AgeInDays,
+		};
+
+		var result = await _mediator.Send(matchCommand);
+		if (result.IsSuccess)
+		{
+			var dialogInput = new ReportExportDialogInput(LabRequisition.Id);
+			await _dialog.ShowAsync(_reportExportDialog, dialogInput);
+			return;
+		}
+
+		var notification = result.ToNotification();
+
+		if (result.IsError())
+			notification.Level = NotificationLevel.Warning;
 
 		await _notificationService.PublishAsync(notification);
 	}
