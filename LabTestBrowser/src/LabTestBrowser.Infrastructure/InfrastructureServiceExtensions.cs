@@ -3,6 +3,8 @@ using LabTestBrowser.Infrastructure.Data;
 using LabTestBrowser.Infrastructure.Data.Queries;
 using LabTestBrowser.Infrastructure.Hl7;
 using LabTestBrowser.Infrastructure.Mllp;
+using LabTestBrowser.Infrastructure.Templating.Engines;
+using LabTestBrowser.Infrastructure.Templating.Tokens;
 using LabTestBrowser.UseCases.CompleteBloodCounts.GetUpdatedStream;
 using LabTestBrowser.UseCases.Hl7;
 using LabTestBrowser.UseCases.LabTestReports;
@@ -23,6 +25,14 @@ public static class InfrastructureServiceExtensions
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
 			.AddScoped<ILabTestReportQueryService, LabTestReportQueryService>();
+
+		services.AddSingleton<IFileTemplateEngine, ExcelTemplateEngine>();
+		services.AddSingleton<ITextTemplateEngine, TextTemplateEngine>();
+		services.AddSingleton<IExcelTemplateEngine, ExcelTemplateEngine>();
+		services.AddSingleton<IWordTemplateEngine, WordTemplateEngine>();
+		services.AddSingleton<ITemplateEngineResolver, TemplateEngineResolver>();
+		services.AddSingleton<LabTestReportTokensFactory>();
+		services.AddSingleton<ITokenDictionaryFactory, TokenDictionaryFactory>();
 
 		services.AddSingleton<IMllpServerFactory, MllpServerFactory>();
 		services.AddHostedService<MllpHostedService>();
