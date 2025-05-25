@@ -447,6 +447,24 @@ namespace LabTestBrowser.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поиск.
+        /// </summary>
+        public static string MainWindow_Search {
+            get {
+                return ResourceManager.GetString("MainWindow_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Анализы.
+        /// </summary>
+        public static string MainWindow_Tests {
+            get {
+                return ResourceManager.GetString("MainWindow_Tests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to м.
         /// </summary>
         public static string Month_Short {

@@ -58,11 +58,11 @@
 					</b:EventTrigger>
 				</b:Interaction.Triggers>
 				<ui:NavigationView.MenuItems>
-					<ui:NavigationViewItem Content="Анализы"
+					<ui:NavigationViewItem Content="{x:Static localization:Strings.MainWindow_Tests}"
 										   Tag="{x:Type labResult:LabResultViewModel}"
 										   Icon="Home">
 					</ui:NavigationViewItem>
-					<ui:NavigationViewItem Content="Поиск"
+					<ui:NavigationViewItem Content="{x:Static localization:Strings.MainWindow_Search}"
 										   Tag="{x:Type searchLabResult:SearchLabResultViewModel}"
 										   Icon="Find">
 					</ui:NavigationViewItem>

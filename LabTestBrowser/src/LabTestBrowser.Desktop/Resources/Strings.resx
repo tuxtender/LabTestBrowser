@@ -171,4 +171,10 @@
     <data name="LabReport_DataNotSaved" xml:space="preserve">
         <value>Данные не сохранены</value>
     </data>
+    <data name="MainWindow_Tests" xml:space="preserve">
+        <value>Анализы</value>
+    </data>
+    <data name="MainWindow_Search" xml:space="preserve">
+        <value>Поиск</value>
+    </data>
 </root>
