@@ -6,6 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+		<ApplicationIcon>test_tube.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
