@@ -8,7 +8,9 @@
 			 xmlns:reportExportDialog="clr-namespace:LabTestBrowser.Desktop.LabResult.ReportExportDialog"
 			 xmlns:localization="clr-namespace:LabTestBrowser.UI.Resources"
 			 mc:Ignorable="d"
-			 d:DataContext="{d:DesignInstance {x:Type reportExportDialog:ReportExportDialogViewModel}}">
+			 d:DataContext="{d:DesignInstance {x:Type reportExportDialog:ReportExportDialogViewModel}}"
+			 Width="{Binding MinWidth, RelativeSource={RelativeSource AncestorType=Window}}"
+			 MaxHeight="{Binding MinHeight, RelativeSource={RelativeSource AncestorType=Window}}">
 
 	<UserControl.Resources>
 
@@ -40,17 +42,23 @@
 
 	</UserControl.Resources>
 
-	<ui:SimpleStackPanel Spacing="12">
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-		<ui:ListView Visibility="Visible"
+		<ui:ListView Grid.Row="0"
+					 Visibility="Visible"
 					 SelectionMode="Multiple"
 					 IsManipulationEnabled="True"
 					 ItemTemplate="{StaticResource ExportListViewTemplate}"
 					 ItemsSource="{Binding LabTestReportTemplates}"
 					 BorderThickness="1"
 					 BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
-					 Height="300"
-					 HorizontalAlignment="Left">
+					 MinHeight="320"
+					 HorizontalAlignment="Stretch">
 
 			<ui:ListView.Resources>
 				<Style TargetType="{x:Type ui:ListViewItem}">
@@ -61,7 +69,8 @@
 
 		</ui:ListView>
 
-		<ui:ToggleSwitch Header="{x:Static localization:Strings.ReportTemplateDialog_RegisteredTemplates}"
+		<ui:ToggleSwitch Grid.Row="1"
+						 Header="{x:Static localization:Strings.ReportTemplateDialog_RegisteredTemplates}"
 						 OnContent="{x:Static localization:Strings.ReportTemplateDialog_Hide}"
 						 OffContent="{x:Static localization:Strings.ReportTemplateDialog_Show}"
 						 IsOn="{Binding IsFilterEnabled, Converter={StaticResource BooleanInverterConverter}}">
@@ -72,7 +81,7 @@
 			</b:Interaction.Triggers>
 		</ui:ToggleSwitch>
 
-		<Grid>
+		<Grid Grid.Row="2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition></ColumnDefinition>
 				<ColumnDefinition></ColumnDefinition>
@@ -92,5 +101,6 @@
 					HorizontalAlignment="Stretch" />
 		</Grid>
 
-	</ui:SimpleStackPanel>
+	</Grid>
+
 </UserControl>
