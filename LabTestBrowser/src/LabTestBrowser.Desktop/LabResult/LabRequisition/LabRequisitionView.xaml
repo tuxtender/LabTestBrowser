@@ -57,6 +57,7 @@
 			</ui:NumberBox>
 
 			<ComboBox Grid.Row="2"
+					  IsEditable="True"
 					  HorizontalAlignment="Stretch"
 					  Name="FacilityComboBox"
 					  ItemsSource="{Binding CollectionCenters}"
@@ -78,6 +79,7 @@
 					  ui:ControlHelper.Header="{x:Static localization:Strings.LabRequisition_SatelliteFacility}" />
 
 			<ComboBox Grid.Row="4"
+					  IsEditable="True"
 					  HorizontalAlignment="Stretch"
 					  Name="AnimalSpeciesComboBox"
 					  ItemsSource="{Binding AnimalSpecies}"
